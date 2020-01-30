@@ -15,6 +15,7 @@ psycopg2-binary = "*"
 daphne = "*"
 channels-redis = "*"
 djangorestframework = "*"
+django-cors-headers = "*"
 
 [requires]
 python_version = "3.8"
