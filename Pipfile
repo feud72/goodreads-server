@@ -13,6 +13,7 @@ django = "*"
 psycopg2-binary = "*"
 daphne = "*"
 channels-redis = "*"
+djangorestframework = "*"
 
 [requires]
 python_version = "3.8"

@@ -11,21 +11,21 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import json
-from django.core.exceptions import ImproperlyConfigured
 
+# import json
+# from django.core.exceptions import ImproperlyConfigured
 
-with open("secrets.json") as f:
-    secrets = json.loads(f.read())
-
-
-def get_secret(setting, secrets=secrets):
-    try:
-        return secrets[setting]
-    except KeyError:
-        error_msg = "Set the {0} environment variable".format(setting)
-        raise ImproperlyConfigured(error_msg)
-
+# with open("secrets.json") as f:
+#     secrets = json.loads(f.read())
+#
+# def get_secret(setting, secrets=secrets):
+#     try:
+#         return secrets[setting]
+#     except KeyError:
+#         error_msg = "Set the {0} environment variable".format(setting)
+#         raise ImproperlyConfigured(error_msg)
+#
+# SECRET_KEY = get_secret("DJANGO_WEBSERVER_SECRET_KEY")
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -35,8 +35,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'q+-@=yk7acx3ejihx2p8!o)wl633n*8z@%0hid&9wuhaqi16$y'
-SECRET_KEY = get_secret("DJANGO_WEBSERVER_SECRET_KEY")
+SECRET_KEY = "q+-@=yk7acx3ejihx2p8!o)wl633n*8z@%0hid&9wuhaqi16$y"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -58,7 +57,11 @@ DJANGO_APPS = [
 PROJECT_APPS = ["books"]
 
 
-INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
+THIRD_PARTY_APPS = [
+    "rest_framework",
+]
+
+INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -95,17 +98,23 @@ ASGI_APPLICATION = "config.asgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": get_secret("DJANGO_WEBSERVER_DB_ENGINE"),
+#         "NAME": get_secret("DJANGO_WEBSERVER_DB_NAME"),
+#         "USER": get_secret("DJANGO_WEBSERVER_DB_USER"),
+#         "PASSWORD": get_secret("DJANGO_WEBSERVER_DB_PASSWORD"),
+#         "HOST": get_secret("DJANGO_WEBSERVER_DB_HOST"),
+#         "PORT": get_secret("DJANGO_WEBSERVER_DB_PORT"),
+#     }
+# }
+
 DATABASES = {
     "default": {
-        "ENGINE": get_secret("DJANGO_WEBSERVER_DB_ENGINE"),
-        "NAME": get_secret("DJANGO_WEBSERVER_DB_NAME"),
-        "USER": get_secret("DJANGO_WEBSERVER_DB_USER"),
-        "PASSWORD": get_secret("DJANGO_WEBSERVER_DB_PASSWORD"),
-        "HOST": get_secret("DJANGO_WEBSERVER_DB_HOST"),
-        "PORT": get_secret("DJANGO_WEBSERVER_DB_PORT"),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -139,3 +148,16 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
+MEDIA_URL = "/media/"
+
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
+}
+
+if not DEBUG:
+    REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = [
+        "rest_framework.renderers.JSONRenderer",
+    ]
