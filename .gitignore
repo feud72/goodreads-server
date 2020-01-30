@@ -90,4 +90,6 @@ db.sqlite3
 
 *.sock
 *.sock.lock
+*.rdb
 secrets.json
+static/
