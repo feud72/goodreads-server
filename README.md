@@ -3,7 +3,7 @@
 ```bash
 python3 -m pip install pipenv
 
-pipenv install --python $(which python) --dev
+pipenv install --python $(which python3) --dev
 ```
 
 ## Setting
