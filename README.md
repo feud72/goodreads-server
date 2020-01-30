@@ -18,8 +18,6 @@ python manage.py seed_books
 ```bash
 pipenv shell
 python manage.py runserver 
-or 
-daphne -u daphne.sock -p 8000 config.asgi:application
 ```
 
 ## API
