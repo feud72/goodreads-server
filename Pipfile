@@ -7,13 +7,9 @@ verify_ssl = true
 black = "*"
 ipython = "*"
 flake8 = "*"
-zappa = "*"
 
 [packages]
 django = "*"
-psycopg2-binary = "*"
-daphne = "*"
-channels-redis = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 
