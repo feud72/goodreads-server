@@ -54,7 +54,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-PROJECT_APPS = ["books"]
+PROJECT_APPS = ["books", "users"]
 
 
 THIRD_PARTY_APPS = [
@@ -154,9 +154,20 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
 MEDIA_URL = "/media/"
 
+
+# Auth
+
+AUTH_USER_MODEL = "users.User"
+
+# Django Rest Framework
+
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 25,
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "config.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ],
 }
 
 if not DEBUG:

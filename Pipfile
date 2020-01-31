@@ -12,6 +12,8 @@ flake8 = "*"
 django = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
+pyjwt = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.8"
