@@ -6,8 +6,8 @@ from . import models
 @admin.register(models.User)
 class UserAdmin(UserAdmin):
 
-    fieldsets = UserAdmin.fieldsets + (
-        ("Custom Profile", {"fields": ("avatar", "created")},),
-    )
+    #     fieldsets = UserAdmin.fieldsets + (
+    #         ("Custom Profile", {"fields": ("avatar", "created")},),
+    #     )
 
     list_display = UserAdmin.list_display
