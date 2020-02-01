@@ -1,0 +1,6 @@
+{
+    "python.pythonPath": "/home/ksh/.local/share/virtualenvs/goodreads-server-N6brGDYg/bin/python",
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true
+}

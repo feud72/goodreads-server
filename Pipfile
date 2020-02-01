@@ -14,6 +14,10 @@ djangorestframework = "*"
 django-cors-headers = "*"
 pyjwt = "*"
 pillow = "*"
+drf-yasg = "*"
+flex = "*"
+django-rest-auth = "*"
+django-allauth = "*"
 
 [requires]
 python_version = "3.8"
