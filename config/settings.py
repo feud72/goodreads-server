@@ -55,7 +55,7 @@ DJANGO_APPS = [
     "django.contrib.sites",
 ]
 
-PROJECT_APPS = ["books", "users"]
+PROJECT_APPS = ["books", "users", "authentications"]
 
 
 THIRD_PARTY_APPS = [

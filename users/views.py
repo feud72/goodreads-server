@@ -5,7 +5,7 @@
 # from rest_framework.decorators import action
 # from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAdminUser, AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from .models import User
 from .serializers import UserSerializer
@@ -20,7 +20,8 @@ class UsersViewSet(ModelViewSet):
     def get_permissions(self):
 
         if self.action == "list":
-            permission_classes = [IsAdminUser]
+            # permission_classes = [IsAdminUser]
+            permission_classes = [IsAuthenticated]
         elif self.action == "create" or self.action == "retrieve":
             permission_classes = [AllowAny]
         else:
