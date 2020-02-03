@@ -21,9 +21,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/books/", include("books.urls")),
     path("api/v1/users/", include("users.urls")),
-    path("api/v1/accounts/", include("rest_auth.urls")),
-    path("api/v1/accounts/signup/", include("rest_auth.registration.urls")),
-    path("api/v1/auth/", include("authentications.urls")),
+    path("api/v1/accounts/", include("accounts.urls")),
 ]
 
 urlpatterns += [
