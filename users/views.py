@@ -22,5 +22,5 @@ class UsersViewSet(ModelViewSet):
         return [permission() for permission in permission_classes]
 
     def get_queryset(self):
-        queryset = self.querysett.all().order_by("id")
+        queryset = self.queryset.all().order_by("id")
         return queryset
