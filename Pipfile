@@ -16,9 +16,7 @@ pyjwt = "*"
 pillow = "*"
 drf-yasg = "*"
 flex = "*"
-django-rest-auth = "*"
-django-allauth = "*"
-djangorestframework-jwt = "*"
+django-dotenv = "*"
 
 [requires]
 python_version = "3.8"

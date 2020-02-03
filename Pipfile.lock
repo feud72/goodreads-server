@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e32e82ecb85bdfa23e9a6978606f5cf366e6826247691b605a22292b9111e8a7"
+            "sha256": "d1f1612679484a48e83a9f338ea29d8a83590dd77f79942798f227a71a769431"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -58,27 +58,13 @@
             ],
             "version": "==0.0.4"
         },
-        "defusedxml": {
-            "hashes": [
-                "sha256:6687150770438374ab581bb7a1b327a847dd9c5749e396102de3fad4e8a3ef93",
-                "sha256:f684034d135af4c6cbb949b8a4d2ed61634515257a67299e5f940fbaa34377f5"
-            ],
-            "version": "==0.6.0"
-        },
         "django": {
             "hashes": [
-                "sha256:4f2c913303be4f874015993420bf0bd8fd2097a9c88e6b49c6a92f9bdd3fb13a",
-                "sha256:8c3575f81e11390893860d97e1e0154c47512f180ea55bd84ce8fa69ba8051ca"
+                "sha256:2f1ba1db8648484dd5c238fb62504777b7ad090c81c5f1fd8d5eb5ec21b5f283",
+                "sha256:c91c91a7ad6ef67a874a4f76f58ba534f9208412692a840e1d125eb5c279cb0a"
             ],
             "index": "pypi",
-            "version": "==3.0.2"
-        },
-        "django-allauth": {
-            "hashes": [
-                "sha256:7ab91485b80d231da191d5c7999ba93170ef1bf14ab6487d886598a1ad03e1d8"
-            ],
-            "index": "pypi",
-            "version": "==0.41.0"
+            "version": "==3.0.3"
         },
         "django-cors-headers": {
             "hashes": [
@@ -88,12 +74,13 @@
             "index": "pypi",
             "version": "==3.2.1"
         },
-        "django-rest-auth": {
+        "django-dotenv": {
             "hashes": [
-                "sha256:f11e12175dafeed772f50d740d22caeab27e99a3caca24ec65e66a8d6de16571"
+                "sha256:3812bb0f4876cf31f902aad140f0645e120e51ee30eb7c40c22050f58a0e4adb",
+                "sha256:a9b1b40a70bd321acd231926acedb9bd2c5e873e33a1873b34a7276d196a765e"
             ],
             "index": "pypi",
-            "version": "==0.9.5"
+            "version": "==1.4.2"
         },
         "djangorestframework": {
             "hashes": [
@@ -102,14 +89,6 @@
             ],
             "index": "pypi",
             "version": "==3.11.0"
-        },
-        "djangorestframework-jwt": {
-            "hashes": [
-                "sha256:5efe33032f3a4518a300dc51a51c92145ad95fb6f4b272e5aa24701db67936a7",
-                "sha256:ab15dfbbe535eede8e2e53adaf52ef0cf018ee27dbfad10cbc4cbec2ab63d38c"
-            ],
-            "index": "pypi",
-            "version": "==1.11.0"
         },
         "drf-yasg": {
             "hashes": [
@@ -197,13 +176,6 @@
             ],
             "version": "==1.1.1"
         },
-        "oauthlib": {
-            "hashes": [
-                "sha256:bee41cc35fcca6e988463cacc3bcb8a96224f470ca547e697b604cc697b2f889",
-                "sha256:df884cd6cbe20e32633f1db1072e9356f53638e4361bef4e8b03c9127c9328ea"
-            ],
-            "version": "==3.1.0"
-        },
         "packaging": {
             "hashes": [
                 "sha256:170748228214b70b672c581a3dd610ee51f733018650740e98c7df862a583f73",
@@ -254,13 +226,6 @@
             ],
             "version": "==2.4.6"
         },
-        "python3-openid": {
-            "hashes": [
-                "sha256:0086da6b6ef3161cfe50fb1ee5cceaf2cda1700019fda03c2c5c440ca6abe4fa",
-                "sha256:628d365d687e12da12d02c6691170f4451db28d6d68d050007e4a40065868502"
-            ],
-            "version": "==3.1.0"
-        },
         "pytz": {
             "hashes": [
                 "sha256:1c557d7d0e871de1f5ccd5833f60fb2550652da6be2693c1e02300743d21500d",
@@ -290,13 +255,6 @@
                 "sha256:9cf5292fcd0f598c671cfc1e0d7d1a7f13bb8085e9a590f48c010551dc6c4b31"
             ],
             "version": "==2.22.0"
-        },
-        "requests-oauthlib": {
-            "hashes": [
-                "sha256:7f71572defaecd16372f9006f33c2ec8c077c3cfa6f5911a9a90202beb513f3d",
-                "sha256:b4261601a71fd721a8bd6d7aa1cc1d6a8a93b4a9f5e96626f8e4d91e8beeaa6a"
-            ],
-            "version": "==1.3.0"
         },
         "rfc3987": {
             "hashes": [
