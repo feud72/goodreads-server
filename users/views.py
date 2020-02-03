@@ -20,3 +20,7 @@ class UsersViewSet(ModelViewSet):
         else:
             permission_classes = [IsSelf]
         return [permission() for permission in permission_classes]
+
+    def get_queryset(self):
+        queryset = self.querysett.all().order_by("id")
+        return queryset
