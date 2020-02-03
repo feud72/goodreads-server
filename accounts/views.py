@@ -43,6 +43,7 @@ class SignupView(APIView):
             data["message"] = "Successfully registered a new user."
             data["username"] = user.username
             data["email"] = user.email
+            return Response(status=status.HTTP_201_CREATED, data=data)
         else:
             data = serializer.errors
-        return Response(status=status.HTTP_201_CREATED, data=data)
+            return Response(status=status.HTTP_400_BAD_REQUEST, data=data)
