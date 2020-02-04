@@ -39,7 +39,7 @@ class SocialLoginUsers(models.Model):
 
 
 class KakaoUser(SocialLoginUsers):
-    user = models.ForeignKey(User, related_name="kakao", on_delete=models.SET_NULL)
+    user = models.ForeignKey(User, related_name="kakao", on_delete=models.CASCADE)
     id_kakao = models.CharField(max_length=30)
     kaccount_email = models.EmailField(
         verbose_name="Kakao Login ID", null=True, blank=True

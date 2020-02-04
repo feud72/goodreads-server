@@ -1,4 +1,4 @@
-import jwt
+import datetime
 
 from django.conf import settings
 from django.contrib.auth import authenticate
@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+import jwt
 
 from .serializers import RegistrationSerializer
 
@@ -27,7 +29,12 @@ class LoginView(APIView):
         user = authenticate(username=username, password=password)
         if user is not None:
             encoded_jwt = jwt.encode(
-                {"pk": user.pk}, settings.SECRET_KEY, algorithm="HS256"
+                {
+                    "pk": user.pk,
+                    "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=3),
+                },
+                settings.SECRET_KEY,
+                algorithm="HS256",
             )
             return Response(data={"token": encoded_jwt, "id": user.pk})
         else:
