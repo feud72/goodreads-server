@@ -29,7 +29,13 @@ def kakao_callback(request):
         base_uri = os.environ.get("BASE_URI")
         redirect_uri = base_uri + "api/v1/accounts/login/kakao/callback"
         token_request = requests.get(
-            f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={client_id}&redirect_uri={redirect_uri}&code={code}"
+            "https://kauth.kakao.com/oauth/token",
+            params={
+                "grant_type": "authorization_code",
+                "client_id": client_id,
+                "redirect_uri": redirect_uri,
+                "code": code,
+            },
         )
         token_json = token_request.json()
         print(token_json)
