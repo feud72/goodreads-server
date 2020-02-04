@@ -11,7 +11,8 @@ from users.models import User
 
 def kakao_login(request):
     client_id = os.environ.get("KAKAO_ID")
-    redirect_uri = "http://127.0.0.1:8000/api/v1/accounts/login/kakao/callback"
+    base_uri = os.environ.get("BASE_URI")
+    redirect_uri = base_uri + "api/v1/accounts/login/kakao/callback"
     return redirect(
         f"https://kauth.kakao.com/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code"
     )
@@ -25,7 +26,8 @@ def kakao_callback(request):
     try:
         client_id = os.environ.get("KAKAO_ID")
         code = request.GET.get("code")
-        redirect_uri = "http://127.0.0.1:8000/api/v1/accounts/login/kakao/callback"
+        base_uri = os.environ.get("BASE_URI")
+        redirect_uri = base_uri + "api/v1/accounts/login/kakao/callback"
         token_request = requests.get(
             f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={client_id}&redirect_uri={redirect_uri}&code={code}"
         )
