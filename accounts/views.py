@@ -31,12 +31,14 @@ class LoginView(APIView):
             encoded_jwt = jwt.encode(
                 {
                     "pk": user.pk,
-                    "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=3),
+                    "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1),
                 },
                 settings.SECRET_KEY,
                 algorithm="HS256",
             )
-            return Response(data={"token": encoded_jwt, "id": user.pk})
+            return Response(
+                status=status.HTTP_200_OK, data={"token": encoded_jwt, "id": user.pk}
+            )
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
