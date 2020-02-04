@@ -15,7 +15,7 @@ class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            "username",
+            "email",
             "password",
         )
 
@@ -28,14 +28,12 @@ class RegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            "id",
-            "username",
+            # "id",
             "email",
-            "avatar",
             "password1",
             "password2",
         )
-        read_only_fields = ("id", "avatar")
+        # read_only_fields = ("id")
 
     def validate_email(self, value):
         email = value
@@ -61,8 +59,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return user
 
     def save(self):
-        username = self.validated_data["username"]
         email = self.validated_data["email"]
+        username = email
         password = self.validated_data["password1"]
         user = create_user_account(username, email, password)
         user.set_password(password)
