@@ -54,7 +54,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-PROJECT_APPS = ["books", "users", "accounts"]
+PROJECT_APPS = ["books", "users", "accounts", "shelves"]
 
 
 THIRD_PARTY_APPS = [

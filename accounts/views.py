@@ -1,15 +1,12 @@
-import datetime
-
-from django.conf import settings
 from django.contrib.auth import authenticate
 
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-import jwt
-
 from .serializers import RegistrationSerializer
+
+from utils.jwt import encode_jwt
 
 
 class LoginView(APIView):
@@ -34,15 +31,9 @@ class LoginView(APIView):
                 data={"error": "Password is required."},
             )
         user = authenticate(username=username, password=password)
+        print(username, password)
         if user is not None:
-            encoded_jwt = jwt.encode(
-                {
-                    "pk": user.pk,
-                    "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1),
-                },
-                settings.SECRET_KEY,
-                algorithm="HS256",
-            )
+            encoded_jwt = encode_jwt("pk", user.pk)
             return Response(
                 status=status.HTTP_200_OK,
                 data={"message": "success", "token": encoded_jwt, "id": user.pk},

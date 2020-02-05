@@ -1,34 +1,24 @@
 from rest_framework.response import Response
-from rest_framework.decorators import permission_classes, api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
-from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
 from .serializers import BookShelfSerializer, MyBookSerializer, MemoSerializer
 from .models import BookShelf, MyBook, Memo
 
 
-class BookShelfViewSet(viewsets.ModelViewSet):
-    """
-    BookShelfViewSet
-
-    ---
-    """
-
+@api_view(["GET", "POST"])
+@permission_classes([IsAuthenticated])
+def bookShelfView(request):
     queryset = BookShelf.objects.all()
-    serializer_class = BookShelfSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer = BookShelfSerializer
 
-    def get_queryset(self):
-        return BookShelf.objects.all()
-
-    def list(self, request, *args, **kwargs):
-        permission = self.get_permissions()
-        queryset = self.get_queryset()
-        if permission is IsAuthenticated:
-            queryset = self.request.user.bookshelf_set.all()
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(status=status.HTTP_200_OK, data=serializer.data)
+    if request.method == "GET":
+        queryset = queryset.filter(owner__username=request.user)
+        data = serializer(queryset, many=True)
+        return Response(status=status.HTTP_200_OK, data=data.data)
+    if request.method == "POST":
+        pass
 
 
 @api_view(["GET", "POST"])

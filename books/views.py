@@ -24,7 +24,7 @@ class BookViewSet(ModelViewSet):
             if v is not None:
                 filter_kwargs["{}__icontains".format(k)] = v
         try:
-            books = Book.objects.filter(**filter_kwargs).order_by("isbn")
+            books = Book.objects.filter(**filter_kwargs)
         except ValueError:
             books = Book.objects.all()
         return books
