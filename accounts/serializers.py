@@ -6,6 +6,7 @@ from rest_framework import serializers
 from .utils import create_user_account
 
 from users.models import User
+from shelves.models import BookShelf
 
 
 class LoginSerializer(serializers.ModelSerializer):
@@ -63,6 +64,8 @@ class RegistrationSerializer(serializers.ModelSerializer):
         username = email
         password = self.validated_data["password1"]
         user = create_user_account(username, email, password)
+        bookshelf = BookShelf.objects.create(owner=user)
+        user.current_bookshelf = bookshelf
         user.set_password(password)
         user.save()
         return user

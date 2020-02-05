@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 
 from .serializers import RegistrationSerializer
 
+from shelves.serializers import BookShelfSerializer
 from utils.jwt import encode_jwt
 
 
@@ -47,12 +48,15 @@ class LoginView(APIView):
 class SignupView(APIView):
     def post(self, request):
         serializer = RegistrationSerializer(data=request.data)
-        data = {}
+        message = {}
         if serializer.is_valid():
             user = serializer.save()
-            data["message"] = "success"
-            data["email"] = user.email
-            return Response(status=status.HTTP_201_CREATED, data=data)
+            message["message"] = "success"
+            message["email"] = user.email
+            message["current_bookshelf"] = BookShelfSerializer(
+                user.current_bookshelf
+            ).data
+            return Response(status=status.HTTP_201_CREATED, data=message)
         else:
             return Response(
                 status=status.HTTP_400_BAD_REQUEST, data={"error": serializer.errors}

@@ -35,9 +35,32 @@ class BookShelfViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         """
-        Create Bookshelf
+        POST: 책장을 만든다.
+
+        ---
+        key
+
+        owner   |   필수    | pk 값 (id)
+        name    |   옵션    | 책장의 이름. 기본값은 My Bookshelf
+        gender  |   옵션    | 성별. M(남성), F(여성), N(제공하지 않음), 기본값은 N
+        age     |   옵션    | 나이. integer
+
+        ---
+        id, created_at, name,
         """
-        super.create()
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        owner = serializer.validated_data["owner"]
+        if request.user == owner:
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(
+                serializer.data, status=status.HTTP_201_CREATED, headers=headers
+            )
+        else:
+            return Response(
+                status=status.HTTP_401_UNAUTHORIZED, data={"error": "Anauthorized."}
+            )
 
 
 @api_view(["GET", "POST"])

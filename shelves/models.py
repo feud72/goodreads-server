@@ -9,11 +9,11 @@ class Item(models.Model):
 
 
 class BookShelf(Item):
-    GENDER_CHOICES = (("M", "Male"), ("F", "Female"), ("N", "Not provided"))
+    GENDER_CHOICES = (("M", "남성"), ("F", "여성"), ("N", "공개하지 않음"))
     owner = models.ForeignKey("users.User", on_delete=models.CASCADE)
-    name = models.CharField(max_length=30, default="My Bookshelf")
-    gender = models.CharField(max_length=1, default="N")
-    age = models.IntegerField(blank=True)
+    name = models.CharField(max_length=30, default="내 책장")
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default="N")
+    age = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return "{} # {}".format(self.name, self.owner.email)
