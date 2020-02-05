@@ -4,7 +4,7 @@ import requests
 
 # from rest_framework.decorators import api_view
 
-API_BASEURL = os.environ("LIB_BASEURL")
+API_BASE_URL = os.environ("LIB_BASE_URL")
 
 API_ENDPOINT = {
     "popular": "loanItemSrch",
@@ -18,7 +18,7 @@ AUTH_KEY = os.environ("LIB_KEY")
 
 # @api_view(["GET"])
 def popular():
-    url = API_BASEURL + API_ENDPOINT["popular"]
+    url = API_BASE_URL + API_ENDPOINT["popular"]
     params = {
         "authKey": AUTH_KEY,
         "startDt": str(datetime.date.today() - datetime.timedelta(days=30)),
