@@ -9,7 +9,7 @@ def encode_jwt(keyword, value):
     encoded_jwt = jwt.encode(
         {
             keyword: value,
-            "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1),
+            # "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1),
         },
         settings.SECRET_KEY,
         algorithm="HS256",

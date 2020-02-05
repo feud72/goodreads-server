@@ -27,8 +27,17 @@ class BookShelfViewSet(viewsets.ModelViewSet):
         queryset = self.get_queryset()
         if permission is IsAuthenticated:
             queryset = self.request.user.bookshelf_set.all()
+        else:
+            owner = self.request.query_params.get("owner", None)
+            queryset = self.get_queryset().filter(owner__pk=owner)
         serializer = self.get_serializer(queryset, many=True)
         return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        """
+        Create Bookshelf
+        """
+        super.create()
 
 
 @api_view(["GET", "POST"])

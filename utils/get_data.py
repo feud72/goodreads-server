@@ -4,7 +4,7 @@ import requests
 
 # from rest_framework.decorators import api_view
 
-API_BASE_URL = os.environ("LIB_BASE_URL")
+API_BASE_URL = os.environ.get("LIB_BASE_URL")
 
 API_ENDPOINT = {
     "popular": "loanItemSrch",
@@ -13,7 +13,7 @@ API_ENDPOINT = {
     "keyword": "keywordList",
 }
 
-AUTH_KEY = os.environ("LIB_KEY")
+AUTH_KEY = os.environ.get("LIB_KEY")
 
 
 # @api_view(["GET"])
@@ -27,4 +27,5 @@ def popular():
         "pageSize": 10,
     }
     req = requests.get(url=url, params=params)
-    print(req.json())
+    req_json = req.json()
+    return req_json
