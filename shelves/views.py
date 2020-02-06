@@ -10,7 +10,7 @@ from .models import BookShelf, MyBook, Memo
 
 class BookShelfViewSet(viewsets.ModelViewSet):
     """
-    BookShelfViewSet
+    책장 뷰셋
 
     ---
     """
@@ -23,30 +23,37 @@ class BookShelfViewSet(viewsets.ModelViewSet):
         return BookShelf.objects.all()
 
     def list(self, request, *args, **kwargs):
-        # permission = self.get_permissions()
-        queryset = self.get_queryset()
-        #        if permission is IsAuthenticated:
-        #            queryset = self.request.user.bookshelf_set.all()
-        #        else:
-        #            owner = self.request.query_params.get("owner", None)
-        #            queryset = self.get_queryset().filter(owner__pk=owner)
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(status=status.HTTP_200_OK, data=serializer.data)
+        """
+책장의 전체 리스트
+
+## Specification
+- **Method** :  GET
+- **URL** : /api/v1/shelves/
+- **Content-Type** : application/json; charset=utf-8
+- **Parameters**
+
+| 필드명 | 타입 | 필수여부 | 설명 |
+| ---- | ---- | -------- | ----------- |
+        """
+        return super().list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         """
-        POST: 책장을 만든다.
+책장 생성
 
-        ---
-        key
+## Specification
+- **Method** :  POST
+- **URL** : /api/v1/shelves/
+- **Content-Type** : application/json; charset=utf-8
+- **Parameters**
 
-        owner   |   필수    | pk 값 (id)
-        name    |   옵션    | 책장의 이름. 기본값은 My Bookshelf
-        gender  |   옵션    | 성별. M(남성), F(여성), N(제공하지 않음), 기본값은 N
-        age     |   옵션    | 나이. integer
+| 필드명 | 타입 | 필수여부 | 설명 |
+| ---- | ---- | -------- | ----------- |
+| owner | string |   필수    | pk 값 (id)
+| name | string |   옵션    | 책장의 이름. 기본값은 My Bookshelf
+| gender | string|   옵션    | 성별. M(남성), F(여성), N(제공하지 않음), 기본값은 N
+| age   | string |   옵션    | 나이. integer
 
-        ---
-        id, created_at, name,
         """
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)

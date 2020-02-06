@@ -14,7 +14,7 @@ import requests
 
 def kakao_login(request):
     """
-    Kakao login
+    카카오 로그인
     """
     client_id = os.environ.get("KAKAO_ID")
     base_uri = os.environ.get("BASE_URI")
@@ -66,7 +66,7 @@ def kakao_get_profile(access_token):
 @api_view(["GET"])
 def kakao_callback(request):
     """
-    Kakao callback
+    카카오 콜백
     """
     try:
         access_token = kakao_get_token(request)
