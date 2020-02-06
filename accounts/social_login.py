@@ -14,6 +14,9 @@ from users.models import User
 
 
 def kakao_login(request):
+    """
+    Kakao login
+    """
     client_id = os.environ.get("KAKAO_ID")
     base_uri = os.environ.get("BASE_URI")
     redirect_uri = base_uri + "/api/v1/accounts/login/kakao/callback"
@@ -63,6 +66,9 @@ def kakao_get_profile(access_token):
 
 @api_view(["GET"])
 def kakao_callback(request):
+    """
+    Kakao callback
+    """
     try:
         access_token = kakao_get_token(request)
         profile_json = kakao_get_profile(access_token)

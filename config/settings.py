@@ -168,7 +168,6 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "config.authentication.JWTAuthentication",
         "rest_framework.authentication.TokenAuthentication",
-        # "rest_framework.authentication.SessionAuthentication",
     ],
 }
 
