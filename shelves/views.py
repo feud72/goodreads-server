@@ -23,13 +23,13 @@ class BookShelfViewSet(viewsets.ModelViewSet):
         return BookShelf.objects.all()
 
     def list(self, request, *args, **kwargs):
-        permission = self.get_permissions()
+        # permission = self.get_permissions()
         queryset = self.get_queryset()
-        if permission is IsAuthenticated:
-            queryset = self.request.user.bookshelf_set.all()
-        else:
-            owner = self.request.query_params.get("owner", None)
-            queryset = self.get_queryset().filter(owner__pk=owner)
+        #        if permission is IsAuthenticated:
+        #            queryset = self.request.user.bookshelf_set.all()
+        #        else:
+        #            owner = self.request.query_params.get("owner", None)
+        #            queryset = self.get_queryset().filter(owner__pk=owner)
         serializer = self.get_serializer(queryset, many=True)
         return Response(status=status.HTTP_200_OK, data=serializer.data)
 
