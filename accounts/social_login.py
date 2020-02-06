@@ -1,5 +1,6 @@
 import os
 
+from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.shortcuts import redirect
 
@@ -9,8 +10,6 @@ from rest_framework.response import Response
 
 import jwt
 import requests
-
-from users.models import User
 
 
 def kakao_login(request):
@@ -77,15 +76,9 @@ def kakao_callback(request):
             raise KakaoException()
         properties = profile_json.get("properties")
         nickname = properties.get("nickname")
-        # profile_image_url = properties.get("profile_image")
-        # profile_image = requests.get(profile_image_url)
 
-        user, created = User.objects.get_or_create(
-            email=email,
-            username=email,
-            first_name=nickname,
-            # avatar=profile_image,
-            login_method=User.LOGIN_KAKAO,
+        user, created = get_user_model().objects.get_or_create(
+            email=email, username=email, first_name=nickname, login_method="kakao",
         )
         if created:
             user.set_unusable_password()
@@ -97,7 +90,7 @@ def kakao_callback(request):
             return Response(status=status.HTTP_201_CREATED, data=data)
 
         else:
-            if user.login_method == User.LOGIN_KAKAO:
+            if user.login_method == "kakao":
                 encoded_jwt = jwt.encode(
                     {"pk": user.pk}, settings.SECRET_KEY, algorithm="HS256"
                 )

@@ -26,32 +26,18 @@ class LoginView(GenericAPIView):
             email = serializer.validated_data["email"]
             user = get_user_model().objects.get(email=email)
             if user is not None:
-                encoded_jwt = encode_jwt("pk", user.pk)
+                token = encode_jwt("pk", user.pk)
                 return Response(
                     status=status.HTTP_200_OK,
-                    data={"message": "success", "token": encoded_jwt, "id": user.pk},
+                    data={"message": "success", "token": token, "id": user.pk},
                 )
             else:
                 return Response(
-                    status=status.HTTP_401_UNAUTHORIZED, data={"error": "Unauthorized."}
+                    status=status.HTTP_401_UNAUTHORIZED,
+                    data={"detail": "Unauthorized."},
                 )
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST, data=serializer.errors)
-
-
-#            username = request.data.get("email", None)
-#            password = request.data.get("password", None)
-#
-#            if not username:
-#                return Response(
-#                    status=status.HTTP_400_BAD_REQUEST,
-#                    data={"error": "Email is required."},
-#                )
-#            elif not password:
-#                return Response(
-#                    status=status.HTTP_400_BAD_REQUEST,
-#                    data={"error": "Password is required."},
-#                )
 
 
 class SignupView(GenericAPIView):
@@ -79,5 +65,5 @@ class SignupView(GenericAPIView):
             return Response(status=status.HTTP_201_CREATED, data=message)
         else:
             return Response(
-                status=status.HTTP_400_BAD_REQUEST, data={"error": serializer.errors}
+                status=status.HTTP_400_BAD_REQUEST, data={"detail": serializer.errors}
             )

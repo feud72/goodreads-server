@@ -1,6 +1,7 @@
 from rest_framework import filters, status
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.decorators import action
 
 from .models import Book
 from .serializers import BookSerializer
@@ -29,7 +30,7 @@ class BookViewSet(ModelViewSet):
     http_method_names = [u"get"]
 
     def retrieve(self, request, *args, **kwargs):
-        isbn = self.kwargs["isbn"]
+        isbn = request.data.get("isbn", None)
         if isbn is not None:
             try:
                 data = getDetail(isbn)

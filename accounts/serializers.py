@@ -9,7 +9,8 @@ from shelves.models import BookShelf
 
 class LoginSerializer(serializers.ModelSerializer):
 
-    password = serializers.CharField(write_only=True)
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = User
@@ -21,33 +22,26 @@ class LoginSerializer(serializers.ModelSerializer):
     def validate(self, value):
         username = self.initial_data["email"]
         password = self.initial_data["password"]
-        if not username:
-            raise serializers.ValidationError({"error": "Username field is required."})
-        if not password:
-            raise serializers.ValidationError({"error": "Password field is required."})
         user = authenticate(username=username, password=password)
         if user is None:
-            raise serializers.ValidationError(
-                {"error": "Email and Password don't match."}
-            )
+            raise serializers.ValidationError("Invalid Email / Password.")
         else:
             return value
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
 
-    password1 = serializers.CharField(write_only=True)
-    password2 = serializers.CharField(write_only=True)
+    email = serializers.EmailField(required=True)
+    password1 = serializers.CharField(write_only=True, required=True)
+    password2 = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = User
         fields = (
-            # "id",
             "email",
             "password1",
             "password2",
         )
-        # read_only_fields = ("id")
 
     def validate_email(self, value):
         email = value

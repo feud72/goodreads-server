@@ -7,7 +7,7 @@ from . import models
 class UserAdmin(UserAdmin):
 
     fieldsets = UserAdmin.fieldsets + (
-        ("Custom Profile", {"fields": ("avatar", "current_bookshelf",)},),
+        ("Custom Profile", {"fields": ("current_bookshelf",)},),
     )
 
     list_display = UserAdmin.list_display

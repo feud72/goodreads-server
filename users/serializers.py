@@ -8,6 +8,5 @@ class UserSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "email",
-            "avatar",
         )
-        read_only_fields = ("id", "avatar")
+        read_only_fields = "id"
