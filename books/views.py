@@ -55,7 +55,12 @@ Create a book.
 | ---- | ---- | -------- | ----------- |
 | isbn | string | Required | ISBN 13자리를 입력한다.|
         """
-        return super().create(request, *args, **kwargs)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        data = {"message": "success", "isbn": serializer.initial_data["isbn"]}
+        return Response(data=data, status=status.HTTP_201_CREATED, headers=headers,)
 
     def retrieve(self, request, *args, **kwargs):
         """
@@ -94,7 +99,10 @@ Create a book.
     @action(detail=False, methods=["GET"])
     def search(self, request, *args, **kwargs):
         query = self.request.query_params["search"]
-        data = kakaoSearch(query)
+        page = 1
+        if "page" in self.request.query_params:
+            page = self.request.query_params["page"]
+        data = kakaoSearch(query, page)
         return Response(status=status.HTTP_200_OK, data=data)
 
     @action(

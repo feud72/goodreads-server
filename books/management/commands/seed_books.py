@@ -17,7 +17,7 @@ class Command(BaseCommand):
                 row = r
                 try:
                     Book.objects.create(
-                        data=row[1],
+                        title=row[1],
                         author=row[2],
                         publisher=row[3],
                         pub_year=row[4],
@@ -35,7 +35,7 @@ class Command(BaseCommand):
                 row = r
                 try:
                     Book.objects.create(
-                        data=row[1],
+                        title=row[1],
                         author=row[2],
                         publisher=row[3],
                         pub_year=row[4],
