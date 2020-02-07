@@ -30,7 +30,11 @@ class BookViewSet(ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         """
-책의 전체 리스트, search 쿼리로 부분적인 검색 결과를 얻을 수 있다.
+책의 전체 리스트
+
+---
+search 쿼리를 옵션 인자로 갖는다.
+search 쿼리로 부분적인 검색 결과를 얻을 수 있다.
 
 ## Specification
 - **Method** :  GET
@@ -46,7 +50,10 @@ class BookViewSet(ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         """
-Create a book.
+책을 생성한다. isbn을 필수 인자로 갖는다.
+
+---
+isbn으로 국립중앙도서관 API에서 서지 정보를 불러와 내부 DB에 저장한다.
 
 ## Specification
 - **Parameters**
@@ -64,7 +71,10 @@ Create a book.
 
     def retrieve(self, request, *args, **kwargs):
         """
-책의 상세 정보
+책의 상세 정보를 출력한다.
+
+---
+isbn을 path의 인자로 가진다.
 
 ## Specification
 - **Method** :  GET
@@ -88,16 +98,64 @@ Create a book.
 
     @action(detail=True, methods=["GET"])
     def recommend(self, request, isbn, *args, **kwargs):
+        """
+현재의 책과 관련된 추천 도서를 리스트로 출력한다.
+
+---
+isbn을 path의 인자로 가진다.
+
+## Specification
+- **Method** :  GET
+- **URL** : /api/v1/books/{isbn}/recommend/
+- **Content-Type** : application/json; charset=utf-8
+- **Parameters**
+
+| 필드명 | 타입 | 필수여부 | 설명 |
+| ---- | ---- | -------- | ----------- |
+| isbn | string | Required | (path) isbn 13자리를 입력합니다. |
+        """
         data = getRecommendByISBN(isbn=isbn)
         return Response(status=status.HTTP_200_OK, data=data)
 
     @action(detail=True, methods=["GET"])
     def keyword(self, request, isbn, *args, **kwargs):
+        """
+현재의 책의 연관된 단어(word)와 가중치(weight)를 리스트로 출력한다.
+
+---
+isbn을 path의 인자로 가진다.
+
+## Specification
+- **Method** :  GET
+- **URL** : /api/v1/books/{isbn}/recommend/
+- **Content-Type** : application/json; charset=utf-8
+- **Parameters**
+
+| 필드명 | 타입 | 필수여부 | 설명 |
+| ---- | ---- | -------- | ----------- |
+| isbn | string | Required | (path) isbn 13자리를 입력합니다. |
+        """
         data = getKeywordList(isbn=isbn)
         return Response(status=status.HTTP_200_OK, data=data)
 
     @action(detail=False, methods=["GET"])
     def search(self, request, *args, **kwargs):
+        """
+카카오 책 검색 API를 사용하여 도서 리스트를 검색한다.
+
+---
+isbn, title, author, description을 가진 dictionary item의 list를 응답한다.
+
+## Specification
+- **Method** :  GET
+- **URL** : /api/v1/books/{isbn}/recommend/
+- **Content-Type** : application/json; charset=utf-8
+- **Parameters**
+
+| 필드명 | 타입 | 필수여부 | 설명 |
+| ---- | ---- | -------- | ----------- |
+| isbn | string | Required | (path) isbn 13자리를 입력합니다. |
+        """
         query = self.request.query_params["search"]
         page = 1
         if "page" in self.request.query_params:
@@ -109,5 +167,21 @@ Create a book.
         detail=False, url_path="recommend", methods=["GET"],
     )
     def recommendByUserInfo(self, request, *args, **kwargs):
+        """
+유저의 책장에 입력된 정보를 활용하여 책을 추천받는다.
+
+---
+isbn, title, author, description을 가진 dictionary item의 list를 응답한다.
+
+## Specification
+- **Method** :  GET
+- **URL** : /api/v1/books/{isbn}/recommend/
+- **Content-Type** : application/json; charset=utf-8
+- **Parameters**
+
+| 필드명 | 타입 | 필수여부 | 설명 |
+| ---- | ---- | -------- | ----------- |
+| isbn | string | Required | (path) isbn 13자리를 입력합니다. |
+        """
         data = getPopular()
         return Response(status=status.HTTP_200_OK, data=data)

@@ -153,6 +153,14 @@ def kakaoSearch(query, page=1):
         isbn = data["isbn"].split(" ")[1]
         title = data["title"]
         author = ", ".join(data["authors"])
-        item = {"item": {"isbn": isbn, "title": title, "author": author}}
+        description = data["contents"]
+        item = {
+            "item": {
+                "isbn": isbn,
+                "title": title,
+                "author": author,
+                "description": description,
+            }
+        }
         result.append(item)
     return result
