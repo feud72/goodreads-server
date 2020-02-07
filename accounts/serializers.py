@@ -1,3 +1,5 @@
+import random
+
 from django.contrib.auth import password_validation, authenticate, get_user_model
 from django.contrib.auth.models import BaseUserManager
 
@@ -70,8 +72,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
         email = self.validated_data["email"]
         username = email
         password = self.validated_data["password1"]
+        nickname = "User" + str(random.randint(1000, 9999))
         user = get_user_model().objects.create_user(
-            username=username, email=email, password=password,
+            username=username, email=email, password=password, nickname=nickname
         )
         bookshelf = BookShelf.objects.create(owner=user)
         user.current_bookshelf = bookshelf
