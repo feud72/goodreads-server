@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% for item in items %}
+<section class="pt-105 pb-95 bg-light content_2">
+	<div class="container px-xl-0 text-center">
+		<div class="row justify-content-center">
+			<div class="col-xl-8 col-lg-10" data-aos-duration="500" data-aos="fade-down" data-aos-delay="0">
+				<h2>{{ item.title }}</h2>
+			</div>
+			<div class="col-xl-7 col-lg-9 col-md-10" data-aos-duration="500" data-aos="fade-down" data-aos-delay="250">
+				<div class="mt-35 f-18 medium color-heading op-7 text-adaptive">
+				{{ item.description }}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endfor %}
+
+{% endblock content %}

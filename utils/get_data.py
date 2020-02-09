@@ -1,5 +1,7 @@
 import os
 import datetime
+import html
+
 import requests
 
 LIB_BASE_URL = os.environ.get("LIB_BASE_URL")
@@ -27,6 +29,7 @@ def getPopular():
     }
     raw = requests.get(url=url, params=params)
     raw_json = raw.json()
+    raw_json = html.unescape(raw_json)
     data = raw_json["response"]["docs"][:10]
     return data
 
@@ -60,6 +63,8 @@ def processingData(data):
         pub_year = data["publication_date"]
         kdc = data["class_no"]
         description = data["description"]
+        description = html.unescape(description)
+
         if "vol" in data:
             volume = data["vol"]
         else:
@@ -90,6 +95,8 @@ def getRecommendByISBN(isbn=None):
     }
     raw = requests.get(url=url, params=params)
     raw_json = raw.json()
+    raw_json = html.unescape(raw_json)
+
     data_list = raw_json["response"]["docs"][:10]
     result = list()
     for data in data_list:
@@ -110,6 +117,7 @@ def getAnalysis(isbn="9788954655972"):
     }
     raw = requests.get(url=url, params=params)
     raw_json = raw.json()
+    raw_json = html.unescape(raw_json)
     return raw_json
 
 
@@ -124,9 +132,11 @@ def getKeywordList(isbn=None):
     }
     raw = requests.get(url=url, params=params)
     raw_json = raw.json()
+    raw_json = html.unescape(raw_json)
     print(raw_json["response"])
     if "items" in raw_json["response"]:
         data = raw_json["response"]["items"][:10]
+
         return data
     else:
         return []
@@ -147,6 +157,7 @@ def kakaoSearch(query, page=1):
     headers = {"Authorization": f"KakaoAK {KAKAO_KEY}"}
     raw = requests.get(url=url, params=params, headers=headers)
     raw_json = raw.json()
+    raw_json = html.unescape(raw_json)
     data_list = raw_json["documents"]
     result = list()
     for data in data_list:
