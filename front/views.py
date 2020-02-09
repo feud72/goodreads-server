@@ -12,3 +12,11 @@ def homeView(request):
     book_list = raw_json["results"]
 
     return render(request, "front/home.html", {"items": book_list})
+
+
+def loginView(request):
+    return render(request, "front/login.html")
+
+
+def signupView(request):
+    return render(request, "front/signup.html")
