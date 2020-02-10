@@ -1,7 +1,9 @@
 from django.db import models
 
+from core.models import CoreModel
 
-class Book(models.Model):
+
+class Book(CoreModel):
     title = models.CharField(max_length=500, default="", blank=True)
     author = models.CharField(max_length=200, default="", blank=True)
     publisher = models.CharField(max_length=100, default="", blank=True)

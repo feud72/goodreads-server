@@ -89,7 +89,6 @@ def getRecommendByISBN(isbn=None):
     sample_size = 10 if len(data_list) >= 10 else len(data_list)
     data_list = random.sample(data_list, sample_size)
     result = list()
-    print(data_list)
     for data in data_list:
         data = data["book"]
         isbn = data["isbn13"]
