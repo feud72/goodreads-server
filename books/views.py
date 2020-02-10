@@ -93,6 +93,7 @@ isbn을 path의 인자로 가진다.
         """
         try:
             instance = self.get_object()
+            serializer = self.get_serializer(instance)
         except Exception:
             isbn = self.kwargs["isbn"]
             data = getDetail(isbn)
@@ -100,8 +101,9 @@ isbn을 path의 인자로 가진다.
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
             instance = self.get_object()
-        finally:
             serializer = self.get_serializer(instance)
+            serializer.save()
+        finally:
             return Response(serializer.data)
 
     @action(detail=True, methods=["GET"])
