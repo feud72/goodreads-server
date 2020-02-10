@@ -1,4 +1,7 @@
+from django.core.files.base import ContentFile
+
 from rest_framework import serializers
+import requests
 
 from .models import Book
 
@@ -7,13 +10,6 @@ from utils.get_data import getDetail
 
 class BookSerializer(serializers.ModelSerializer):
     isbn = serializers.CharField(max_length=13, required=True)
-    #    title = serializers.CharField(required=False, max_length=500, default="")
-    #    author = serializers.CharField(required=False, max_length=200, default="")
-    #    publisher = serializers.CharField(required=False, max_length=100, default="")
-    #    pub_year = serializers.CharField(required=False, max_length=20, default="")
-    #    volume = serializers.CharField(required=False, max_length=10, default="")
-    #    kdc = serializers.CharField(required=False, max_length=10, default="")
-    #    description = serializers.CharField(required=False, max_length=1000, default="")
 
     class Meta:
         model = Book
@@ -26,6 +22,7 @@ class BookSerializer(serializers.ModelSerializer):
             "isbn",
             "kdc",
             "description",
+            "bookImage",
         )
         read_only_fields = (
             "title",
@@ -34,6 +31,7 @@ class BookSerializer(serializers.ModelSerializer):
             "pub_year",
             "volume",
             "kdc",
+            "description",
             "description",
         )
 
@@ -49,8 +47,12 @@ class BookSerializer(serializers.ModelSerializer):
 
     def save(self):
         isbn = self.initial_data["isbn"]
-        print(isbn)
         data = getDetail(isbn)
-        print(data)
+        bookImageURL = data.pop("bookImageURL")
         obj = Book.objects.create(**data)
+        if bookImageURL:
+            print(bookImageURL)
+            bookImage_raw = requests.get(bookImageURL)
+            bookImage = ContentFile(bookImage_raw.content)
+            obj.bookImage.save(f"{isbn}.jpg", bookImage)
         return obj

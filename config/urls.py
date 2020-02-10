@@ -15,6 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path, include
+from django.conf import settings
+from django.conf.urls.static import static
+
 from .yasg import schema_view_v1
 
 urlpatterns = [
@@ -44,3 +47,6 @@ urlpatterns += [
         name="schema-redoc-v1",
     ),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

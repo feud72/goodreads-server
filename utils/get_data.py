@@ -35,18 +35,7 @@ def getPopular():
 
 
 def getDetail(isbn=None):
-    if isbn is None:
-        raise ValueError("ISBN is required")
-    url = LIB_BASE_URL + LIB_API_ENDPOINT["detail"]
-    params = {
-        "authKey": LIB_AUTH_KEY,
-        "isbn13": isbn,
-        "format": "json",
-    }
-    raw = requests.get(url=url, params=params)
-    raw_json = raw.json()
-    data = raw_json["response"]["detail"][0]
-    data = processingData(data)
+    data = kakaoSearch(isbn)[0]["item"]
     return data
 
 
@@ -64,6 +53,7 @@ def processingData(data):
         kdc = data["class_no"]
         description = data["description"]
         description = html.unescape(description)
+        bookImageURL = data["bookImageURL"]
 
         if "vol" in data:
             volume = data["vol"]
@@ -78,6 +68,7 @@ def processingData(data):
             "kdc": kdc,
             "description": description,
             "volume": volume,
+            "bookImageURL": bookImageURL,
         }
         return dic
     else:
@@ -164,13 +155,19 @@ def kakaoSearch(query, page=1):
         isbn = data["isbn"].split(" ")[1]
         title = data["title"]
         author = ", ".join(data["authors"])
-        description = data["contents"]
+        publisher = data["publisher"]
+        pub_year = data["datetime"][0:4]
+        description = data["contents"] if data["contents"] else ""
+        bookImageURL = data["thumbnail"] if data["thumbnail"] else ""
         item = {
             "item": {
                 "isbn": isbn,
                 "title": title,
                 "author": author,
+                "publisher": publisher,
+                "pub_year": pub_year,
                 "description": description,
+                "bookImageURL": bookImageURL,
             }
         }
         result.append(item)
