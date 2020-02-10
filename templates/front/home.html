@@ -1,10 +1,10 @@
 {% extends "base.html" %} {% block content %}
 
-<div class="pt-105 pb-95 row justify-content-center">
-  <h3>Recent books</h3>
+<div class="pt-50 row justify-content-center">
+  <h3>최근 등록된 책</h3>
 </div>
 {% for item in items %}
-<section class="pt-105 pb-95 bg-light content_2">
+<section class="pt-50 pb-50 bg-light content_2">
   <div class="container px-xl-0 text-center">
     <div class="row justify-content-center">
       <a href="{% url 'front:detail' item.isbn %}">

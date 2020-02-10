@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
+from .forms import LoginForm
 import requests
 
 
@@ -28,7 +29,25 @@ def detailView(request, isbn):
 
 
 def loginView(request):
-    return render(request, "front/login.html")
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            password = form.cleaned_data["password"]
+            url = "http://feud72.hopto.org/api/v1/accounts/login/"
+            req = requests.post(url, {"email": email, "password": password})
+            res = req.json()
+            if "message" in res:
+                if res["message"] == "success":
+                    token = res["token"]
+                    print(token)
+                    return redirect("front:home")
+            return render(request, "front/login.html")
+        else:
+            return redirect("front:login")
+    else:
+        form = LoginForm()
+        return render(request, "front/login.html", {"form": form})
 
 
 def signupView(request):
