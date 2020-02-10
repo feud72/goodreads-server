@@ -1,46 +1,60 @@
-{% extends "base.html" %}
-{% block content %}
-
-{% load static %}
+{% extends "base.html" %} {% block content %} {% load static %}
 
 <!-- Application 2 -->
 
 <section class="pt-65 pb-65 bg-light application_2">
-	<div class="container px-xl-0">
-		<div class="row justify-content-center justify-content-md-between align-items-center">
-			<div class="mb-15 mb-md-0 col-12 col-md-5 col-xl-6 d-flex justify-content-center">
-				<img srcset="i/application_2_img_1@2x.png 2x" src="i/application_2_img_1.png" alt="" class="img-fluid application_2_left_img" data-aos-duration="500" data-aos="fade-down" data-aos-delay="650" />
-			</div>
-			<div class="col-md-7 col-xl-6">
-				<h2 class="col-lg-11 color-main" data-aos-duration="500" data-aos="fade-down" data-aos-delay="0">{{ item.title }}</h2>
-				<div class="mt-25 col-lg-9 color-heading f-18 text-adaptive" data-aos-duration="500" data-aos="fade-down" data-aos-delay="150">
-				{{ item.description }}
-				</div>
-				<div class="mt-95 row">
-					<div class="col-12 col-lg-4 pb-25 with_borders" data-aos-duration="500" data-aos="fade-down" data-aos-delay="250"> 
-						<div class="mt-15 col-xl-8 color-main f-14 bold sp-20 text-uppercase">{{ item.author }}</div>
-					</div>
-					<div class="col-12 col-lg-4 pb-25 with_borders" data-aos-duration="500" data-aos="fade-down" data-aos-delay="400">
-						<div class="mt-15 col-xl-11 color-main f-14 bold sp-20 text-uppercase">{{ item.pub_year }}</div>
-					</div>						
-				</div>
-			</div>
-		</div>
-	</div>
-</section><!-- forms alerts -->
-<div class="alert alert-success alert-dismissible fixed-top alert-form-success" role="alert">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	Thanks for your message!
-</div>
-<div class="alert alert-warning alert-dismissible fixed-top alert-form-check-fields" role="alert">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	Please, fill in required fields.
-</div>
-<div class="alert alert-danger alert-dismissible fixed-top alert-form-error" role="alert">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	An error occurred while sending data :(
-</div>
-
-
+  <div class="container px-xl-0">
+    <div
+      class="row justify-content-center justify-content-content-center align-items-center"
+    >
+      <div
+        class="mb-15 mb-md-0 col-12 col-md-2 col-xl-2 d-flex justify-content-center"
+      >
+        <img
+          srcset="{{ item.bookImage }}"
+          src="{{ item.bookImage }}"
+          alt=""
+          class="img-fluid application_2_left_img"
+          data-aos-duration="500"
+          data-aos="fade-down"
+          data-aos-delay="650"
+        />
+      </div>
+      <div class="col-md-7 col-xl-7">
+        <h3
+          class="col-lg-11 color-main"
+          data-aos-duration="500"
+          data-aos="fade-down"
+          data-aos-delay="0"
+        >
+          {{ item.title }}
+        </h3>
+      </div>
+      <div
+        class="col-12 col-md-9 mt-25 col-lg-9 color-heading f-18 text-adaptive
+				d-flex justify-content-center"
+        data-aos-duration="500"
+        data-aos="fade-down"
+        data-aos-delay="150"
+      >
+        {{ item.description }}
+      </div>
+      <div
+        class="col-12 col-md-9 mt-95 row
+				d-flex justify-content-flex-start"
+      >
+        <div
+          class="col-12 col-md-12 col-lg-4 pb-25 with_borders"
+          data-aos-duration="500"
+          data-aos="fade-down"
+          data-aos-delay="250"
+        >
+          {{ item.author }} | {{ item.pub_year }} | {{ item.publisher }} | ISBN
+          {{ item.isbn }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 {% endblock content %}
