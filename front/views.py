@@ -14,13 +14,17 @@ def homeView(request):
 
 
 def detailView(request, isbn):
-    api_url = "http://feud72.hopto.org/api/v1/"
-    api_endpoint = "books/"
-    url = api_url + api_endpoint + isbn
-    raw = requests.get(url)
-    raw_json = raw.json()
-    book_detail = raw_json
-    return render(request, "front/detail.html", {"item": book_detail})
+    api_url = "http://feud72.hopto.org/api/v1"
+    detail_endpoint = "books"
+    detail_url = f"{api_url}/{detail_endpoint}/{isbn}/"
+    raw = requests.get(detail_url)
+    book_detail = raw.json()
+    recommend_url = detail_url + "recommend/"
+    raw = requests.get(recommend_url)
+    recommend_data = raw.json()
+    return render(
+        request, "front/detail.html", {"item": book_detail, "recommend": recommend_data}
+    )
 
 
 def loginView(request):

@@ -21,14 +21,14 @@
         />
       </div>
       <div class="col-md-7 col-xl-7">
-        <h3
+        <h4
           class="col-lg-11 color-main"
           data-aos-duration="500"
           data-aos="fade-down"
           data-aos-delay="0"
         >
           {{ item.title }}
-        </h3>
+        </h4>
       </div>
       <div
         class="col-12 col-md-9 mt-25 col-lg-9 color-heading f-18 text-adaptive
@@ -57,4 +57,37 @@
   </div>
 </section>
 
-{% endblock content %}
+<div class="row justify-content-center">
+  <h3>Recommend</h3>
+</div>
+{% for item in recommend %}
+
+<section class="pt-65 pb-65 bg-light application_2">
+  <div class="container px-xl-0">
+    <div
+      class="row justify-content-center justify-content-content-center align-items-center"
+    >
+      <div class="col-md-5 col-xl-5 col-lg-4">
+        <h4
+          class="col-lg-11 color-main"
+          data-aos-duration="500"
+          data-aos="fade-down"
+          data-aos-delay="0"
+        >
+          {{ item.item.title }}
+        </h4>
+      </div>
+      <div
+        class="col-md-4 col-xl-4 mt-25 col-lg-4 color-heading f-18 text-adaptive
+          pb-25 with_borders"
+        data-aos-duration="500"
+        data-aos="fade-down"
+        data-aos-delay="250"
+      >
+        {{ item.item.author }} | {{ item.item.pub_year }}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endfor %} {% endblock content %}

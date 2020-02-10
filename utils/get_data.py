@@ -1,6 +1,7 @@
 import os
 import datetime
 import html
+import random
 
 import requests
 
@@ -30,7 +31,8 @@ def getPopular():
     raw = requests.get(url=url, params=params)
     raw_json = raw.json()
     raw_json = html.unescape(raw_json)
-    data_list = raw_json["response"]["docs"][:25]
+    data_list = raw_json["response"]["docs"][:100]
+    data_list = random.sample(data_list, 10)
     result = list()
     for data in data_list:
         result.append({"item": processingData(data)})
@@ -84,13 +86,24 @@ def getRecommendByISBN(isbn=None):
     raw_json = html.unescape(raw_json)
 
     data_list = raw_json["response"]["docs"][:25]
+    sample_size = 10 if len(data_list) >= 10 else len(data_list)
+    data_list = random.sample(data_list, sample_size)
     result = list()
+    print(data_list)
     for data in data_list:
         data = data["book"]
         isbn = data["isbn13"]
         title = data["bookname"]
         author = data["authors"]
-        item = {"item": {"isbn": isbn, "title": title, "author": author,}}
+        pub_year = data["publication_year"]
+        item = {
+            "item": {
+                "isbn": isbn,
+                "title": title,
+                "author": author,
+                "pub_year": pub_year,
+            }
+        }
         result.append(item)
     return result
 
