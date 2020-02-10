@@ -23,7 +23,7 @@ class BookViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ["title", "pub_year", "author"]
 
-    queryset = Book.objects.all().order_by("created_at")
+    queryset = Book.objects.all().order_by("-created_at")
     serializer_class = BookSerializer
     lookup_field = "isbn"
     http_method_names = [u"get", u"post"]
