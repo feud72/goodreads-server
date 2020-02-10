@@ -26,7 +26,6 @@ urlpatterns = [
     path("api/v1/users/", include("users.urls")),
     path("api/v1/accounts/", include("accounts.urls")),
     path("api/v1/shelves/", include("shelves.urls")),
-    path("api/v1/recommendations/", include("recommendations.urls")),
     path("", include("front.urls")),
 ]
 

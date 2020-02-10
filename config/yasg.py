@@ -8,7 +8,6 @@ schema_url_v1_patterns = [
     path("api/v1/users/", include("users.urls")),
     path("api/v1/shelves/", include("shelves.urls")),
     path("api/v1/accounts/", include("accounts.urls")),
-    path("api/v1/recommendations/", include("recommendations.urls")),
 ]
 
 schema_view_v1 = get_schema_view(

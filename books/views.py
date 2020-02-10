@@ -66,8 +66,13 @@ isbn으로 국립중앙도서관 API에서 서지 정보를 불러와 내부 DB�
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        data = {"message": "success", "isbn": serializer.initial_data["isbn"]}
-        return Response(data=data, status=status.HTTP_201_CREATED, headers=headers,)
+        instance = Book.objects.get(isbn=serializer.initial_data["isbn"])
+        serializer = self.get_serializer(instance)
+        return Response(
+            data=serializer.data, status=status.HTTP_201_CREATED, headers=headers,
+        )
+        #        data = {"message": "success", "isbn": serializer.initial_data["isbn"]}
+        #        return Response(data=data, status=status.HTTP_201_CREATED, headers=headers,)
 
     def retrieve(self, request, *args, **kwargs):
         """
@@ -86,15 +91,18 @@ isbn을 path의 인자로 가진다.
 | ---- | ---- | -------- | ----------- |
 | isbn | string | Required | (path) isbn 13자리를 입력합니다. |
         """
-        isbn = self.kwargs["isbn"]
-        if isbn is not None:
-            try:
-                data = getDetail(isbn)
-                return Response(status=status.HTTP_200_OK, data=data)
-            except Exception:
-                pass
-        else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+        try:
+            instance = self.get_object()
+        except Exception:
+            isbn = self.kwargs["isbn"]
+            data = getDetail(isbn)
+            serializer = self.get_serializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            instance = self.get_object()
+        finally:
+            serializer = self.get_serializer(instance)
+            return Response(serializer.data)
 
     @action(detail=True, methods=["GET"])
     def recommend(self, request, isbn, *args, **kwargs):

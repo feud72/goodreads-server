@@ -25,13 +25,16 @@ def getPopular():
         "startDt": str(datetime.date.today() - datetime.timedelta(days=30)),
         "endDt": str(datetime.date.today()),
         "format": "json",
-        "pageSize": 10,
+        "pageSize": 25,
     }
     raw = requests.get(url=url, params=params)
     raw_json = raw.json()
     raw_json = html.unescape(raw_json)
-    data = raw_json["response"]["docs"][:10]
-    return data
+    data_list = raw_json["response"]["docs"][:25]
+    result = list()
+    for data in data_list:
+        result.append({"item": processingData(data)})
+    return result
 
 
 def getDetail(isbn=None):
@@ -49,25 +52,17 @@ def processingData(data):
         isbn = data["isbn13"]
         author = data["authors"]
         publisher = data["publisher"]
-        pub_year = data["publication_date"]
-        kdc = data["class_no"]
-        description = data["description"]
+        pub_year = data["publication_year"]
+        description = data["description"] if "description" in data else ""
         description = html.unescape(description)
-        bookImageURL = data["bookImageURL"]
-
-        if "vol" in data:
-            volume = data["vol"]
-        else:
-            volume = ""
+        bookImageURL = data["bookImageURL"] if "bookImageURL" in data else ""
         dic = {
             "title": title,
             "isbn": isbn,
             "author": author,
             "publisher": publisher,
             "pub_year": pub_year,
-            "kdc": kdc,
             "description": description,
-            "volume": volume,
             "bookImageURL": bookImageURL,
         }
         return dic
@@ -88,28 +83,16 @@ def getRecommendByISBN(isbn=None):
     raw_json = raw.json()
     raw_json = html.unescape(raw_json)
 
-    data_list = raw_json["response"]["docs"][:10]
+    data_list = raw_json["response"]["docs"][:25]
     result = list()
     for data in data_list:
-        isbn = data["book"]["isbn13"]
-        title = data["book"]["bookname"]
-        author = data["book"]["authors"]
-        item = {"item": {"isbn": isbn, "title": title, "author": author}}
+        data = data["book"]
+        isbn = data["isbn13"]
+        title = data["bookname"]
+        author = data["authors"]
+        item = {"item": {"isbn": isbn, "title": title, "author": author,}}
         result.append(item)
     return result
-
-
-def getAnalysis(isbn="9788954655972"):
-    url = LIB_BASE_URL + LIB_API_ENDPOINT["analysis"]
-    params = {
-        "authKey": LIB_AUTH_KEY,
-        "isbn13": isbn,
-        "format": "json",
-    }
-    raw = requests.get(url=url, params=params)
-    raw_json = raw.json()
-    raw_json = html.unescape(raw_json)
-    return raw_json
 
 
 def getKeywordList(isbn=None):

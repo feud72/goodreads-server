@@ -18,9 +18,7 @@ class BookSerializer(serializers.ModelSerializer):
             "author",
             "publisher",
             "pub_year",
-            "volume",
             "isbn",
-            "kdc",
             "description",
             "bookImage",
         )
@@ -29,10 +27,8 @@ class BookSerializer(serializers.ModelSerializer):
             "author",
             "publisher",
             "pub_year",
-            "volume",
-            "kdc",
             "description",
-            "description",
+            "bookImage",
         )
 
     def validate_isbn(self, value):
@@ -47,12 +43,15 @@ class BookSerializer(serializers.ModelSerializer):
 
     def save(self):
         isbn = self.initial_data["isbn"]
-        data = getDetail(isbn)
-        bookImageURL = data.pop("bookImageURL")
-        obj = Book.objects.create(**data)
-        if bookImageURL:
-            print(bookImageURL)
-            bookImage_raw = requests.get(bookImageURL)
-            bookImage = ContentFile(bookImage_raw.content)
-            obj.bookImage.save(f"{isbn}.jpg", bookImage)
-        return obj
+        try:
+            data = getDetail(isbn)
+            bookImageURL = data.pop("bookImageURL")
+            obj = Book.objects.create(**data)
+            if bookImageURL:
+                print(bookImageURL)
+                bookImage_raw = requests.get(bookImageURL)
+                bookImage = ContentFile(bookImage_raw.content)
+                obj.bookImage.save(f"{isbn}.jpg", bookImage)
+            return obj
+        except Exception:
+            raise serializers.ValidationError({"isbn": "Invalid ISBN number."})
