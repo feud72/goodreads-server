@@ -11,6 +11,17 @@ def homeView(request):
     raw = requests.get(url)
     raw_json = raw.json()
     book_list = raw_json["results"]
+    print(book_list)
+    return render(request, "front/home.html", {"items": book_list})
+
+
+def popularView(request):
+    api_url = "http://feud72.hopto.org/api/v1/"
+    api_endpoint = "books/recommend/"
+    url = api_url + api_endpoint
+    raw = requests.get(url)
+    book_list = raw.json()
+    print(book_list)
     return render(request, "front/home.html", {"items": book_list})
 
 
@@ -20,6 +31,7 @@ def detailView(request, isbn):
     detail_url = f"{api_url}/{detail_endpoint}/{isbn}/"
     raw = requests.get(detail_url)
     book_detail = raw.json()
+    print(book_detail)
     recommend_url = detail_url + "recommend/"
     raw = requests.get(recommend_url)
     recommend_data = raw.json()

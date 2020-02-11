@@ -5,7 +5,8 @@ app_name = "front"
 
 urlpatterns = [
     path("", views.homeView, name="home"),
+    path("popular/", views.popularView, name="popular"),
     path("login/", views.loginView, name="login"),
     path("signup/", views.signupView, name="signup"),
-    path("<str:isbn>/", views.detailView, name="detail"),
+    path("detail/<str:isbn>/", views.detailView, name="detail"),
 ]

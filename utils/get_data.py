@@ -35,7 +35,7 @@ def getPopular():
     data_list = random.sample(data_list, 10)
     result = list()
     for data in data_list:
-        result.append({"item": processingData(data)})
+        result.append(processingData(data))
     return result
 
 
