@@ -1,7 +1,7 @@
 from rest_framework.response import Response
-from rest_framework.decorators import permission_classes, api_view
+from rest_framework.decorators import action
 from rest_framework import status
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework import viewsets
 
 from .serializers import MyBookSerializer, MemoSerializer
@@ -51,9 +51,8 @@ My 책 생성
 
 | 필드명 | 타입 | 필수여부 | 설명 |
 | ---- | ---- | -------- | ----------- |
-| owner | string |   필수    | user pk (id)
-| book | string |   필수    | book pk (isbn)
-
+| owner | string |   필수    | username (email)
+| isbn | string |   필수    | isbn (13 length integer)
         """
         isbn = request.data["isbn"]
         username = request.user
@@ -67,32 +66,21 @@ My 책 생성
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )
 
-    # return Response(
-    #            status=status.HTTP_401_UNAUTHORIZED, data={"error": "Anauthorized."}
-    #       )
-
-
-@api_view(["GET", "POST"])
-@permission_classes([IsAuthenticated])
-def myBookView(request):
-    queryset = MyBook.objects.filter(bookshelf__owner__username=request.user)
-    serializer = MyBookSerializer
-
-    if request.method == "GET":
-        data = serializer(queryset, many=True)
-        return Response(status=status.HTTP_200_OK, data=data.data)
-    if request.method == "POST":
-        pass
-
-
-@api_view(["GET", "POST"])
-@permission_classes([IsAuthenticated])
-def memoView(request):
-    queryset = Memo.objects.filter(book__bookshelf__owner__username=request.user)
-    serializer = MemoSerializer
-
-    if request.method == "GET":
-        data = serializer(queryset, many=True)
-        return Response(status=status.HTTP_200_OK, data=data.data)
-    if request.method == "POST":
-        pass
+    @action(detail=True, methods=["get", "post", "put", "delete"])
+    def memo(self, request, pk, *args, **kwargs):
+        queryset = Memo.objects.filter(book__owner__username=request.user)
+        serializer = MemoSerializer
+        if request.method == "GET":
+            data = serializer(queryset, many=True)
+            return Response(status=status.HTTP_200_OK, data=data.data)
+        if request.method == "POST":
+            data = serializer(data={"book": pk, **request.data.dict()})
+            if data.is_valid():
+                data.save()
+                message = {"message": "success"}
+                return Response(status=status.HTTP_200_OK, data={"message": message})
+            else:
+                message = data.errors
+                return Response(status=status.HTTP_200_OK, data={"message": message})
+        else:
+            return Response(status=status.HTTP_200_OK, data={"message": "OK"})

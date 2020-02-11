@@ -15,9 +15,9 @@ class MyBook(CoreModel):
 
 class Memo(CoreModel):
     book = models.ForeignKey(MyBook, on_delete=models.CASCADE)
-    page = models.IntegerField(default=0)
+    page = models.IntegerField(default=0, null=True, blank=True)
     subject = models.CharField(max_length=100)
-    description = models.TextField(max_length=1000, default="")
+    description = models.TextField(max_length=1000, default="", null=True, blank=True)
 
     def __str__(self):
         return self.subject

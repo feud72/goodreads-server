@@ -120,7 +120,6 @@ def getKeywordList(isbn=None):
     raw = requests.get(url=url, params=params)
     raw_json = raw.json()
     raw_json = html.unescape(raw_json)
-    print(raw_json["response"])
     if "items" in raw_json["response"]:
         data = raw_json["response"]["items"][:10]
 
