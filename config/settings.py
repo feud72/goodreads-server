@@ -187,3 +187,5 @@ CORS_ORIGIN_WHITELIST = ["http://*", "https://*"]
 
 # DEFAULT_FROM_EMAIL = "feud72@gmail.com"
 ACCOUNT_EMAIL_VERIFICATION = "none"
+
+COOKIE_DOMAIN = "localhost:8000"
