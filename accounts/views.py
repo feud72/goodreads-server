@@ -6,7 +6,6 @@ from rest_framework.generics import GenericAPIView
 
 from .serializers import RegistrationSerializer, LoginSerializer
 
-from shelves.serializers import BookShelfSerializer
 from utils.jwt import encode_jwt
 
 
@@ -77,7 +76,7 @@ class SignupView(GenericAPIView):
 
     - **Response**
 
-    | 성공 (201 Created) | 
+    | 성공 (201 Created) |
     | ---- |
 
     | 필드명 | 타입 | 필수여부 | 설명 |
@@ -86,7 +85,7 @@ class SignupView(GenericAPIView):
     | email | string | | 유저의 email |
     | current_bookshelf | object | | 회원 가입시 책장이 자동으로 생성됩니다. |
 
-    | 실패 (400 Bad Request) | 
+    | 실패 (400 Bad Request) |
     | ---- |
 
     | 필드명 | 타입 | 필수여부 | 설명 |
@@ -130,9 +129,6 @@ class SignupView(GenericAPIView):
             user = serializer.save()
             message["message"] = "success"
             message["email"] = user.email
-            message["current_bookshelf"] = BookShelfSerializer(
-                user.current_bookshelf
-            ).data
             return Response(status=status.HTTP_201_CREATED, data=message)
         else:
             return Response(

@@ -18,9 +18,6 @@ class User(AbstractUser):
     login_method = models.CharField(
         max_length=50, choices=LOGIN_CHOICES, default=LOGIN_EMAIL
     )
-    current_bookshelf = models.ForeignKey(
-        "shelves.BookShelf", on_delete=models.CASCADE, null=True, blank=True
-    )
 
 
 #

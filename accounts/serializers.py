@@ -6,7 +6,6 @@ from django.contrib.auth.models import BaseUserManager
 from rest_framework import serializers
 
 from users.models import User
-from shelves.models import BookShelf
 
 
 class LoginSerializer(serializers.ModelSerializer):
@@ -76,8 +75,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user = get_user_model().objects.create_user(
             username=username, email=email, password=password, nickname=nickname
         )
-        bookshelf = BookShelf.objects.create(owner=user)
-        user.current_bookshelf = bookshelf
         user.set_password(password)
         user.save()
         return user

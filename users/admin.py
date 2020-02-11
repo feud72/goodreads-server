@@ -6,8 +6,6 @@ from . import models
 @admin.register(models.User)
 class UserAdmin(UserAdmin):
 
-    fieldsets = UserAdmin.fieldsets + (
-        ("Custom Profile", {"fields": ("current_bookshelf",)},),
-    )
+    fieldsets = UserAdmin.fieldsets + (("Custom Profile", {"fields": ("",)},),)
 
     list_display = UserAdmin.list_display

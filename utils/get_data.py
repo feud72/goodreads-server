@@ -83,28 +83,29 @@ def getRecommendByISBN(isbn=None):
     }
     raw = requests.get(url=url, params=params)
     raw_json = raw.json()
-    raw_json = html.unescape(raw_json)
-
-    data_list = raw_json["response"]["docs"][:25]
-    sample_size = 10 if len(data_list) >= 10 else len(data_list)
-    data_list = random.sample(data_list, sample_size)
-    result = list()
-    for data in data_list:
-        data = data["book"]
-        isbn = data["isbn13"]
-        title = data["bookname"]
-        author = data["authors"]
-        pub_year = data["publication_year"]
-        item = {
-            "item": {
-                "isbn": isbn,
-                "title": title,
-                "author": author,
-                "pub_year": pub_year,
+    if "docs" in raw_json["response"]:
+        data_list = raw_json["response"]["docs"][:25]
+        sample_size = 10 if len(data_list) >= 10 else len(data_list)
+        data_list = random.sample(data_list, sample_size)
+        result = list()
+        for data in data_list:
+            data = data["book"]
+            isbn = data["isbn13"]
+            title = data["bookname"]
+            author = data["authors"]
+            pub_year = data["publication_year"]
+            item = {
+                "item": {
+                    "isbn": isbn,
+                    "title": title,
+                    "author": author,
+                    "pub_year": pub_year,
+                }
             }
-        }
-        result.append(item)
-    return result
+            result.append(item)
+        return result
+    else:
+        return []
 
 
 def getKeywordList(isbn=None):

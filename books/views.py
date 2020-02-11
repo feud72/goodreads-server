@@ -71,8 +71,6 @@ isbn으로 국립중앙도서관 API에서 서지 정보를 불러와 내부 DB�
         return Response(
             data=serializer.data, status=status.HTTP_201_CREATED, headers=headers,
         )
-        #        data = {"message": "success", "isbn": serializer.initial_data["isbn"]}
-        #        return Response(data=data, status=status.HTTP_201_CREATED, headers=headers,)
 
     def retrieve(self, request, *args, **kwargs):
         """

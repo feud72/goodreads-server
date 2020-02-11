@@ -3,27 +3,14 @@ from django.db import models
 from core.models import CoreModel
 
 
-class BookShelf(CoreModel):
-    GENDER_CHOICES = (("M", "남성"), ("F", "여성"), ("N", "공개하지 않음"))
-    owner = models.ForeignKey("users.User", on_delete=models.CASCADE)
-    name = models.CharField(max_length=30, default="내 책장")
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, default="N")
-    age = models.IntegerField(blank=True, null=True)
-
-    def __str__(self):
-        return "{} # {}".format(self.name, self.owner.email)
-
-
 class MyBook(CoreModel):
-    bookshelf = models.ForeignKey(BookShelf, on_delete=models.CASCADE)
+    owner = models.ForeignKey("users.User", on_delete=models.CASCADE, null=True)
     book = models.ForeignKey("books.Book", on_delete=models.CASCADE)
     finished = models.BooleanField(default=False)
-    current_page = models.IntegerField(default=0)
-    total_page = models.IntegerField(blank=True)
-    star = models.IntegerField()
+    star = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return self.book.name
+        return self.book.title
 
 
 class Memo(CoreModel):

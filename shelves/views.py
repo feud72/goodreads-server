@@ -4,8 +4,8 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from rest_framework import viewsets
 
-from .serializers import BookShelfSerializer, MyBookSerializer, MemoSerializer
-from .models import BookShelf, MyBook, Memo
+from .serializers import MyBookSerializer, MemoSerializer
+from .models import MyBook, Memo
 
 
 class BookShelfViewSet(viewsets.ModelViewSet):
@@ -15,16 +15,18 @@ class BookShelfViewSet(viewsets.ModelViewSet):
     ---
     """
 
-    queryset = BookShelf.objects.all()
-    serializer_class = BookShelfSerializer
+    queryset = MyBook.objects.all()
+    serializer_class = MyBookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        return BookShelf.objects.all()
+        queryset = self.queryset
+        queryset = queryset.filter(owner__username=self.request.user)
+        return queryset
 
     def list(self, request, *args, **kwargs):
         """
-책장의 전체 리스트
+책장의 책 리스트
 
 ## Specification
 - **Method** :  GET
@@ -39,7 +41,7 @@ class BookShelfViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         """
-책장 생성
+My 책 생성
 
 ## Specification
 - **Method** :  POST
@@ -49,25 +51,25 @@ class BookShelfViewSet(viewsets.ModelViewSet):
 
 | 필드명 | 타입 | 필수여부 | 설명 |
 | ---- | ---- | -------- | ----------- |
-| owner | string |   필수    | pk 값 (id)
-| name | string |   옵션    | 책장의 이름. 기본값은 My Bookshelf
-| gender | string|   옵션    | 성별. M(남성), F(여성), N(제공하지 않음), 기본값은 N
-| age   | string |   옵션    | 나이. integer
+| owner | string |   필수    | user pk (id)
+| book | string |   필수    | book pk (isbn)
 
         """
-        serializer = self.get_serializer(data=request.data)
+        isbn = request.data["isbn"]
+        username = request.user
+        serializer = self.get_serializer(data={"username": username, "isbn": isbn})
         serializer.is_valid(raise_exception=True)
-        owner = serializer.validated_data["owner"]
-        if request.user == owner:
-            self.perform_create(serializer)
-            headers = self.get_success_headers(serializer.data)
-            return Response(
-                serializer.data, status=status.HTTP_201_CREATED, headers=headers
-            )
-        else:
-            return Response(
-                status=status.HTTP_401_UNAUTHORIZED, data={"error": "Anauthorized."}
-            )
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        instance = MyBook.objects.get(book__pk=isbn)
+        serializer = self.get_serializer(instance)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    # return Response(
+    #            status=status.HTTP_401_UNAUTHORIZED, data={"error": "Anauthorized."}
+    #       )
 
 
 @api_view(["GET", "POST"])

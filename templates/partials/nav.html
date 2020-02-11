@@ -9,7 +9,9 @@
         data-aos="fade-down"
         data-aos-delay="0"
       >
-        <a href="/" class="mr-20 link color-main f-24 bold">개미는 뚠뚠</a>
+        <a href="{% url 'front:home' %}" class="mr-20 link color-main f-24 bold"
+          >개미는 뚠뚠</a
+        >
       </div>
       <div
         class="col-xl-10 col-lg-9 d-flex flex-wrap align-items-center justify-content-center justify-content-md-between"
@@ -20,7 +22,9 @@
           data-aos="fade-down"
           data-aos-delay="300"
         >
-          <a href="/" class="mx-15 link color-main ">Home</a>
+          <a href="{% url 'front:home' %}" class="mx-15 link color-main "
+            >Home</a
+          >
           <a href="#" class="mx-15 link color-main ">My Shelf</a>
         </div>
         <div
@@ -34,8 +38,12 @@
             class="mr-15 link color-main "
             >API</a
           >
-          <a href="login" class="mx-15 link color-main ">로그인</a>
-          <a href="signup" class="mx-15 btn sm color-main border-gray f-16"
+          <a href="{% url 'front:login' %}" class="mx-15 link color-main "
+            >로그인</a
+          >
+          <a
+            href="{% url 'front:signup' %}"
+            class="mx-15 btn sm color-main border-gray f-16"
             >회원가입</a
           >
         </div>

@@ -5,7 +5,7 @@ from rest_framework.routers import DefaultRouter
 from . import views
 
 router = DefaultRouter()
-router.register(r"bookshelf", views.BookShelfViewSet, basename="bookshelf")
+router.register(r"", views.BookShelfViewSet, basename="bookshelf")
 
 urlpatterns = router.urls
 
