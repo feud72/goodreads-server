@@ -97,4 +97,4 @@ static/
 uploads/
 *.zip
 
-config/settings.py
+config/wsgi.py
