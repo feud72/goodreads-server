@@ -96,3 +96,4 @@ static/
 *.swp
 uploads/
 *.zip
+config/settings.py
