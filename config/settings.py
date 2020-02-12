@@ -47,6 +47,7 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "drf_yasg",
+    "django_s3_storage",
 ]
 LOGIN_REDIRECT_URL = "/"
 
@@ -100,13 +101,6 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-#     }
-# }
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 # Internationalization
@@ -134,10 +128,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = "/static/"
-STATIC_DIR = os.path.join(BASE_DIR, "static")
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "bootstrap")]
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# STATIC_URL = "/static/"
+# STATIC_DIR = os.path.join(BASE_DIR, "static")
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, "bootstrap")]
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
 MEDIA_URL = "/media/"
@@ -163,6 +157,7 @@ if not DEBUG:
         "rest_framework.renderers.JSONRenderer",
     ]
 
+# CORS_HEADERS
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -173,4 +168,11 @@ CORS_ORIGIN_WHITELIST = ["http://*", "https://*"]
 # DEFAULT_FROM_EMAIL = "feud72@gmail.com"
 ACCOUNT_EMAIL_VERIFICATION = "none"
 
-COOKIE_DOMAIN = "localhost:8000"
+COOKIE_DOMAIN = "feud72.hopto.org"
+
+# AWS S3
+
+S3_BUCKET = "hackathon-static-feud72"
+STATICFILES_STORAGE = "django_s3_storage.storage.StaticS3Storage"
+AWS_S3_BUCKET_NAME_STATIC = S3_BUCKET
+STATIC_URL = "https://%s.s3.amazonaws.com/" % S3_BUCKET

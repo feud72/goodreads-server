@@ -20,6 +20,7 @@ flex = "*"
 django-dotenv = "*"
 requests = "*"
 psycopg2-binary = "<=2.8"
+django-s3-storage = "*"
 
 [requires]
 python_version = "3.8"
