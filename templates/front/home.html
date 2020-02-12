@@ -18,9 +18,10 @@
           data-aos="fade-down"
           data-aos-delay="300"
         >
-          <p>뾰로롱 꼬마 마녀.</p>
-          <p>열두살난 마법 마법의 천사</p>
-          <p>무지개빛 미소를 당신에게 살짝 뿌려드리겠어요~</p>
+          <p>뾰로롱 꼬마 마녀</p>
+          <p>즐겁게 살아요 마법의 나라에서</p>
+          <p>지금 막 따온 오로라를</p>
+          <p>당신에게로 보내드릴게요~</p>
         </div>
       </div>
       <div class="col-xl-10">
@@ -38,7 +39,7 @@
               유저들이 최근 등록한 책을 보여줍니다.
             </div>
             <a
-              href="{% url 'front:home' %}"
+              href="{% url 'front:recent' %}"
               class="mt-30 btn sm w-40 border-transparent-main"
               ><i class="fas fa-angle-right"></i
             ></a>
@@ -84,55 +85,4 @@
   </div>
 </section>
 
-<div class="pt-50 row justify-content-center">
-  <h3>최근 등록된 책</h3>
-</div>
-{% for item in items %}
-<section class="pt-50 pb-50 bg-light content_2">
-  <div class="container px-xl-0 text-center">
-    <div class="row justify-content-center">
-      <a href="{% url 'front:detail' item.isbn %}">
-        <div
-          class="col-xl-8 col-lg-10 col-md-12"
-          data-aos-duration="500"
-          data-aos="fade-down"
-          data-aos-delay="0"
-        >
-          <h4>{{ item.title }}</h4>
-        </div>
-
-        <div class="row justify-content-center item-align-middle">
-          <div
-            class="col-xl-2 col-lg-2 col-md-2"
-            data-aos-duration="500"
-            data-aos="fade-down"
-            data-aos-delay="250"
-          >
-            <img
-              srcset="{{ item.bookImage }}"
-              src="{{ item.bookImage }}"
-              alt=""
-              class="img-fluid application_2_left_img"
-              data-aos-duration="500"
-              data-aos="fade-down"
-              data-aos-delay="650"
-            />
-          </div>
-
-          <div
-            class="col-xl-5 col-lg-7 col-md-8 mt-35 f-18 medium color-heading op-7 text-adaptive"
-            data-aos-duration="500"
-            data-aos="fade-down"
-            data-aos-delay="0"
-          >
-            {{ item.description }}
-          </div>
-        </div>
-        <!--	
-</div>
--->
-      </a>
-    </div>
-  </div>
-</section>
-{% endfor %} {% endblock content %}
+{% endblock content %}

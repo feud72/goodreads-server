@@ -7,13 +7,17 @@ import requests
 
 
 def homeView(request):
+    return render(request, "front/home.html")
+
+
+def recentView(request):
     api_url = "http://feud72.hopto.org/api/v1/"
     api_endpoint = "books/"
     url = api_url + api_endpoint
     raw = requests.get(url)
     raw_json = raw.json()
     book_list = raw_json["results"]
-    return render(request, "front/home.html", {"items": book_list})
+    return render(request, "front/recent.html", {"items": book_list})
 
 
 def popularView(request):
@@ -22,7 +26,7 @@ def popularView(request):
     url = api_url + api_endpoint
     raw = requests.get(url)
     book_list = raw.json()
-    return render(request, "front/home.html", {"items": book_list})
+    return render(request, "front/popular.html", {"items": book_list})
 
 
 def detailView(request, isbn):
