@@ -6,27 +6,39 @@ from django.conf import settings
 import requests
 
 
+def loginStatus(request):
+    token = request.COOKIES.get("token", None)
+    result = {"login": False}
+    if token:
+        result["login"] = True
+    print(result)
+    return result
+
+
 def homeView(request):
-    return render(request, "front/home.html")
+    login = loginStatus(request)
+    return render(request, "front/home.html", login)
 
 
 def recentView(request):
+    login = loginStatus(request)
     api_url = "http://feud72.hopto.org/api/v1/"
     api_endpoint = "books/"
     url = api_url + api_endpoint
     raw = requests.get(url)
     raw_json = raw.json()
     book_list = raw_json["results"]
-    return render(request, "front/recent.html", {"items": book_list})
+    return render(request, "front/recent.html", {"items": book_list, **login})
 
 
 def popularView(request):
+    login = loginStatus(request)
     api_url = "http://feud72.hopto.org/api/v1/"
     api_endpoint = "books/recommend/"
     url = api_url + api_endpoint
     raw = requests.get(url)
     book_list = raw.json()
-    return render(request, "front/popular.html", {"items": book_list})
+    return render(request, "front/popular.html", {"items": book_list, **login})
 
 
 def detailView(request, isbn):
@@ -48,32 +60,12 @@ def loginView(request):
     req = requests.post(url, {"email": "user@example.com", "password": "string12"})
     res = req.json()
     token = res["token"]
-    print(token)
     response = HttpResponseRedirect(reverse("front:home"))
     response.set_cookie(key="token", value=token, domain=settings.COOKIE_DOMAIN)
     return response
 
 
-#    if request.method == "POST":
-#        form = LoginForm(request.POST)
-#        if form.is_valid():
-#            email = form.cleaned_data["email"]
-#            password = form.cleaned_data["password"]
-#            url = "http://feud72.hopto.org/api/v1/accounts/login/"
-#            req = requests.post(url, {"email": email, "password": password})
-#            res = req.json()
-#            if "message" in res:
-#                if res["message"] == "success":
-#                    token = res["token"]
-#                    print(token)
-#                    return redirect("front:home")
-#            return render(request, "front/login.html")
-#        else:
-#            return redirect("front:login")
-#    else:
-#        form = LoginForm()
-#        return render(request, "front/login.html", {"form": form})
-
-
-def signupView(request):
-    return render(request, "front/signup.html")
+def logoutView(request):
+    response = HttpResponseRedirect(reverse("front:home"))
+    response.delete_cookie("token")
+    return response

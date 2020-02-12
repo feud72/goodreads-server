@@ -65,22 +65,13 @@
 </section>
 
 <div class="row justify-content-center">
-  <h3>최근 등록된 책</h3>
+  <h3 class="pb-30">최근 등록된 책</h3>
 </div>
 {% for item in items %}
 <section class="pt-10 pb-10 bg-light content_2">
-  <div class="container px-xl-0 text-center">
+  <div class="container px-xl-0 text-left">
     <div class="row justify-content-center">
       <a href="{% url 'front:detail' item.isbn %}">
-        <div
-          class="col-xl-8 col-lg-10 col-md-12"
-          data-aos-duration="500"
-          data-aos="fade-down"
-          data-aos-delay="0"
-        >
-          <h4>{{ item.title }}</h4>
-        </div>
-
         <div class="row justify-content-center item-align-middle">
           <div
             class="col-xl-2 col-lg-2 col-md-2"
@@ -91,26 +82,34 @@
             <img
               srcset="{{ item.bookImage }}"
               src="{{ item.bookImage }}"
-              alt=""
+              alt="Image: {{ item.title }}"
               class="img-fluid application_2_left_img"
               data-aos-duration="500"
               data-aos="fade-down"
               data-aos-delay="650"
             />
           </div>
-
-          <div
-            class="col-xl-5 col-lg-7 col-md-8 mt-35 f-18 medium color-heading op-7 text-adaptive"
-            data-aos-duration="500"
-            data-aos="fade-down"
-            data-aos-delay="0"
-          >
-            {{ item.description }}
+          <div class="col-xl-8 col-lg-8 col-md-8 mb-50">
+            <div
+              class="col-11 col-xl-11 col-lg-11 col-md-11 pb-0"
+              data-aos-duration="500"
+              data-aos="fade-down"
+              data-aos-delay="0"
+            >
+              <h4 class="col-11 col-xl-11 col-lg-11 col-md-11 mb-10 pl-0 pb-0">
+                {{ item.title }}
+              </h4>
+            </div>
+            <div
+              class="col-xl-11 col-lg-11 col-md-11 mt-0 pt-0 pb-0 mb-0 f-18 medium color-heading op-7 text-adaptive"
+              data-aos-duration="500"
+              data-aos="fade-down"
+              data-aos-delay="0"
+            >
+              {{ item.description }}
+            </div>
           </div>
         </div>
-        <!--	
-</div>
--->
       </a>
     </div>
   </div>

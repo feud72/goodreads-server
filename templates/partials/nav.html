@@ -22,10 +22,10 @@
           data-aos="fade-down"
           data-aos-delay="300"
         >
-          <a href="{% url 'front:home' %}" class="mx-15 link color-main "
-            >Home</a
+          <a href="{% url 'front:home' %}" class="mx-15 link color-main ">홈</a>
+          <a href="{% url 'front:recent' %}" class="mx-15 link color-main "
+            >최근 등록한 책</a
           >
-          <a href="#" class="mx-15 link color-main ">My Shelf</a>
         </div>
         <div
           class="text-md-right"
@@ -33,19 +33,18 @@
           data-aos="fade-down"
           data-aos-delay="600"
         >
-          <a
-            href="http://feud72.hopto.org/api/v1/swagger/"
-            class="mr-15 link color-main "
+          <a href="{% url 'schema-swagger-ui' %}" class="mr-15 link color-main "
             >API</a
           >
+          {% if login is True %}
+          <a href="{% url 'front:logout' %}" class="mx-15 link color-main "
+            >로그아웃</a
+          >
+          {% else %}
           <a href="{% url 'front:login' %}" class="mx-15 link color-main "
             >로그인</a
           >
-          <a
-            href="{% url 'front:signup' %}"
-            class="mx-15 btn sm color-main border-gray f-16"
-            >회원가입</a
-          >
+          {% endif %}
         </div>
       </div>
     </div>

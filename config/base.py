@@ -169,7 +169,6 @@ CORS_ORIGIN_WHITELIST = ["http://*", "https://*"]
 # DEFAULT_FROM_EMAIL = "feud72@gmail.com"
 ACCOUNT_EMAIL_VERIFICATION = "none"
 
-COOKIE_DOMAIN = "feud72.hopto.org"
 
 # AWS
 AWS_REGION = os.environ["AWS_REGION"]
@@ -196,6 +195,3 @@ STATICFILES_DIRS = [
 STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 DEFAULT_FILE_STORAGE = "config.asset_storage.MediaStorage"
-
-# MEDIA_BUCKET = "hackathon-media-feud72"
-# MEDIA_URL = "https://%s.s3.amazonaws.com/" % MEDIA_BUCKET

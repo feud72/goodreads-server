@@ -56,6 +56,8 @@ def processingData(data):
         publisher = data["publisher"]
         pub_year = data["publication_year"]
         description = data["description"] if "description" in data else ""
+        if len(description) > 200:
+            description = description + " ..."
         description = html.unescape(description)
         bookImageURL = data["bookImageURL"] if "bookImageURL" in data else ""
         dic = {

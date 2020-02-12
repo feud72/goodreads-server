@@ -64,53 +64,24 @@
   </div>
 </section>
 
-  <div class="row justify-content-center">
-    <h3>인기 대출 도서</h3>
-  </div>
-  {% for item in items %}
-  <section class="pt-10 pb-10 bg-light content_2">
-    <div class="container px-xl-0 text-center">
-      <div class="row justify-content-center">
-        <a href="{% url 'front:detail' item.isbn %}">
-          <div
-            class="col-xl-8 col-lg-10 col-md-12"
-            data-aos-duration="500"
-            data-aos="fade-down"
-            data-aos-delay="0"
-          >
-            <h4>{{ item.title }}</h4>
-          </div>
-
-          <div class="row justify-content-center item-align-middle">
-            <div
-              class="col-xl-2 col-lg-2 col-md-2"
-              data-aos-duration="500"
-              data-aos="fade-down"
-              data-aos-delay="250"
-            >
-              <img
-                srcset="{{ item.bookImage }}"
-                src="{{ item.bookImage }}"
-                alt=""
-                class="img-fluid application_2_left_img"
-                data-aos-duration="500"
-                data-aos="fade-down"
-                data-aos-delay="650"
-              />
-            </div>
-
-            <div
-              class="col-xl-5 col-lg-7 col-md-8 mt-35 f-18 medium color-heading op-7 text-adaptive"
-              data-aos-duration="500"
-              data-aos="fade-down"
-              data-aos-delay="0"
-            >
-              {{ item.description }}
-            </div>
-          </div>
-        </a>
-      </div>
+<div class="row justify-content-center">
+  <h3>인기 대출 도서</h3>
+</div>
+{% for item in items %}
+<section class="mt-50 mb-50 bg-light content_2">
+  <div class="container px-xl-0 text-center">
+    <div class="row justify-content-center">
+      <a href="{% url 'front:detail' item.isbn %}">
+        <div
+          class="col-xl-8 col-lg-10 col-md-12"
+          data-aos-duration="500"
+          data-aos="fade-down"
+          data-aos-delay="0"
+        >
+          <h4>{{ item.title }}</h4>
+        </div>
+      </a>
     </div>
-  </section>
-  {% endfor %}
-{% endblock content %}
+  </div>
+</section>
+{% endfor %} {% endblock content %}
