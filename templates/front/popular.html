@@ -68,19 +68,23 @@
   <h3>인기 대출 도서</h3>
 </div>
 {% for item in items %}
-<section class="mt-50 mb-50 bg-light content_2">
-  <div class="container px-xl-0 text-center">
-    <div class="row justify-content-center">
-      <a href="{% url 'front:detail' item.isbn %}">
-        <div
-          class="col-xl-8 col-lg-10 col-md-12"
-          data-aos-duration="500"
-          data-aos="fade-down"
-          data-aos-delay="0"
-        >
-          <h4>{{ item.title }}</h4>
-        </div>
-      </a>
+<section class="bg-light application_2">
+  <div class="container px-xl-0">
+    <div
+      class="row justify-content-center justify-content-content-center align-items-center"
+    >
+      <div class="col-11 col-md-11 col-xl-11 col-lg-11">
+        <a href="{% url 'front:detail' item.isbn %}">
+          <h5
+            class="col-lg-11 color-main pl-0"
+            data-aos-duration="500"
+            data-aos="fade-down"
+            data-aos-delay="0"
+          >
+            {{ item.title }}
+          </h5>
+        </a>
+      </div>
     </div>
   </div>
 </section>
