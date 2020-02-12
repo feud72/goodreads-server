@@ -95,3 +95,4 @@ secrets.json
 static/
 *.swp
 uploads/
+*.zip
