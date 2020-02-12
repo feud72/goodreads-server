@@ -155,6 +155,8 @@ def kakaoSearch(query, page=1):
         publisher = data["publisher"]
         pub_year = data["datetime"][0:4]
         description = data["contents"] if data["contents"] else ""
+        if len(description) > 200:
+            description = description + " ..."
         bookImageURL = data["thumbnail"] if data["thumbnail"] else ""
         item = {
             "item": {

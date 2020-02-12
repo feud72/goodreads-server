@@ -11,7 +11,6 @@ def loginStatus(request):
     result = {"login": False}
     if token:
         result["login"] = True
-    print(result)
     return result
 
 
