@@ -40,7 +40,7 @@ def getPopular():
 
 
 def getDetail(isbn=None):
-    data = kakaoSearch(isbn)[0]["item"]
+    data = kakaoSearch(isbn)[0]
     return data
 
 
@@ -159,15 +159,13 @@ def kakaoSearch(query, page=1):
             description = description + " ..."
         bookImageURL = data["thumbnail"] if data["thumbnail"] else ""
         item = {
-            "item": {
-                "isbn": isbn,
-                "title": title,
-                "author": author,
-                "publisher": publisher,
-                "pub_year": pub_year,
-                "description": description,
-                "bookImageURL": bookImageURL,
-            }
+            "isbn": isbn,
+            "title": title,
+            "author": author,
+            "publisher": publisher,
+            "pub_year": pub_year,
+            "description": description,
+            "bookImageURL": bookImageURL,
         }
         result.append(item)
     return result
