@@ -21,6 +21,8 @@ django-dotenv = "*"
 requests = "*"
 psycopg2-binary = "<=2.8"
 django-s3-storage = "*"
+boto3 = "*"
+django-storages = "*"
 
 [requires]
 python_version = "3.8"

@@ -48,6 +48,7 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "drf_yasg",
     "django_s3_storage",
+    "storages",
 ]
 LOGIN_REDIRECT_URL = "/"
 
@@ -133,8 +134,8 @@ USE_TZ = True
 # STATICFILES_DIRS = [os.path.join(BASE_DIR, "bootstrap")]
 # STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
-MEDIA_URL = "/media/"
+# MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
+# MEDIA_URL = "/media/"
 
 
 # Auth
@@ -170,9 +171,31 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 
 COOKIE_DOMAIN = "feud72.hopto.org"
 
-# AWS S3
+# AWS
+AWS_REGION = os.environ["AWS_REGION"]
+AWS_STORAGE_BUCKET_NAME = os.environ["AWS_STORAGE_BUCKET_NAME"]
+AWS_ACCESS_KEY_ID = os.environ["AWS_ACCESS_KEY_ID"]
+AWS_SECRET_ACCESS_KEY = os.environ["AWS_SECRET_ACCESS_KEY"]
+AWS_DEFAULT_ACL = "public-read"
 
-S3_BUCKET = "hackathon-static-feud72"
-STATICFILES_STORAGE = "django_s3_storage.storage.StaticS3Storage"
-AWS_S3_BUCKET_NAME_STATIC = S3_BUCKET
-STATIC_URL = "https://%s.s3.amazonaws.com/" % S3_BUCKET
+# AWS S3
+AWS_S3_HOST = "s3.{}.amazonaws.com".format(AWS_REGION)
+AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_HOST}"
+AWS_LOCATION = "static"
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": "max-age=86400",
+}
+
+# STATIC SETTING
+STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/"
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "bootstrap"),
+]
+STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+DEFAULT_FILE_STORAGE = "config.asset_storage.MediaStorage"
+
+# MEDIA_BUCKET = "hackathon-media-feud72"
+# MEDIA_URL = "https://%s.s3.amazonaws.com/" % MEDIA_BUCKET
