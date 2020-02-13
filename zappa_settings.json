@@ -3,7 +3,7 @@
         "django_settings": "config.settings",
         "profile_name": "default",
         "project_name": "goodreads-serve",
-        "runtime": "python3.8",
+        "runtime": "python3.6",
         "s3_bucket": "hackathon-server-feud72",
 				"aws_region": "ap-northeast-2"
     }

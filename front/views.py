@@ -1,3 +1,5 @@
+import os
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -21,8 +23,8 @@ def homeView(request):
 
 def recentView(request):
     login = loginStatus(request)
-    api_url = "http://feud72.hopto.org/api/v1/"
-    api_endpoint = "books/"
+    api_url = os.environ["BASE_URI"]
+    api_endpoint = "api/v1/books/"
     url = api_url + api_endpoint
     raw = requests.get(url)
     raw_json = raw.json()
@@ -32,8 +34,8 @@ def recentView(request):
 
 def popularView(request):
     login = loginStatus(request)
-    api_url = "http://feud72.hopto.org/api/v1/"
-    api_endpoint = "books/recommend/"
+    api_url = os.environ["BASE_URI"]
+    api_endpoint = "api/v1/books/recommend/"
     url = api_url + api_endpoint
     raw = requests.get(url)
     book_list = raw.json()
@@ -41,9 +43,9 @@ def popularView(request):
 
 
 def detailView(request, isbn):
-    api_url = "http://feud72.hopto.org/api/v1"
-    detail_endpoint = "books"
-    detail_url = f"{api_url}/{detail_endpoint}/{isbn}/"
+    api_url = os.environ["BASE_URI"]
+    detail_endpoint = "api/v1/books/"
+    detail_url = f"{api_url}{detail_endpoint}{isbn}/"
     raw = requests.get(detail_url)
     book_detail = raw.json()
     recommend_url = detail_url + "recommend/"
@@ -55,7 +57,7 @@ def detailView(request, isbn):
 
 
 def loginView(request):
-    url = "http://feud72.hopto.org/api/v1/accounts/login/"
+    url = os.environ["BASE_URI"] + "api/v1/accounts/login/"
     req = requests.post(url, {"email": "user@example.com", "password": "string12"})
     res = req.json()
     token = res["token"]

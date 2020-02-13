@@ -25,7 +25,7 @@ SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "114.207.77.134", "feud72.hopto.org"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "114.207.77.134", "feud72.hopto.org", "gx993ce0b8.execute-api.ap-northeast-2.amazonaws.com"]
 
 
 # Application definition
@@ -47,7 +47,6 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "drf_yasg",
-    "django_s3_storage",
     "storages",
 ]
 LOGIN_REDIRECT_URL = "/"

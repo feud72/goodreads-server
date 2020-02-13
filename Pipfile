@@ -4,9 +4,6 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-black = "*"
-ipython = "*"
-flake8 = "*"
 zappa = "*"
 
 [packages]
@@ -14,15 +11,14 @@ django = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 pyjwt = "*"
-pillow = "*"
 drf-yasg = "*"
 flex = "*"
 django-dotenv = "*"
 requests = "*"
 psycopg2-binary = "<=2.8"
-django-s3-storage = "*"
 boto3 = "*"
 django-storages = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.8"
