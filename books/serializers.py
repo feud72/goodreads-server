@@ -48,7 +48,6 @@ class BookSerializer(serializers.ModelSerializer):
             bookImageURL = data.pop("bookImageURL")
             obj = Book.objects.create(**data)
             if bookImageURL:
-                print(bookImageURL)
                 bookImage_raw = requests.get(bookImageURL)
                 bookImage = ContentFile(bookImage_raw.content)
                 obj.bookImage.save(f"{isbn}.jpg", bookImage)
