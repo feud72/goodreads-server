@@ -7,4 +7,4 @@ RUN pip install -r requirements.txt
 COPY . /code/ 
 
 ENTRYPOINT ["python", "manage.py"] 
-CMD ["runserver", "0.0.0.0:80"]
+CMD ["runserver", "127.0.0.1:8000"]
