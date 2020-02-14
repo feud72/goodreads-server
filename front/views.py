@@ -7,15 +7,24 @@ from django.conf import settings
 
 import requests
 
-from .forms import LoginForm
+from .forms import LoginForm, SearchForm, SignupForm
+
+API_URL = os.environ["API_URI"]
 
 
 def loginStatus(request):
     token = request.COOKIES.get("token", None)
-    result = {"login": False}
+    result = {"token": token, "status": False}
     if token:
-        result["login"] = True
+        result["status"] = True
     return result
+
+
+def getAPI(base, endpoint, *args):
+    url = "".join((base, endpoint, *args))
+    raw = requests.get(url)
+    raw_json = raw.json()
+    return raw_json
 
 
 def homeView(request):
@@ -25,37 +34,77 @@ def homeView(request):
 
 def recentView(request):
     login = loginStatus(request)
-    api_url = os.environ["API_URI"]
-    api_endpoint = "api/v1/books/"
-    url = api_url + api_endpoint
-    raw = requests.get(url)
-    raw_json = raw.json()
-    book_list = raw_json["results"]
+    endpoint = "api/v1/books/"
+    raw = getAPI(API_URL, endpoint)
+    book_list = raw["results"]
     return render(request, "front/recent.html", {"items": book_list, **login})
 
 
 def popularView(request):
     login = loginStatus(request)
-    api_url = os.environ["API_URI"]
-    api_endpoint = "api/v1/books/recommend/"
-    url = api_url + api_endpoint
-    raw = requests.get(url)
-    book_list = raw.json()
+    endpoint = "api/v1/books/recommend/"
+    raw = getAPI(API_URL, endpoint)
+    book_list = raw
     return render(request, "front/popular.html", {"items": book_list, **login})
 
 
 def detailView(request, isbn):
-    api_url = os.environ["API_URI"]
-    detail_endpoint = "api/v1/books/"
-    detail_url = f"{api_url}{detail_endpoint}{isbn}/"
-    raw = requests.get(detail_url)
-    book_detail = raw.json()
-    recommend_url = detail_url + "recommend/"
-    raw = requests.get(recommend_url)
-    recommend_data = raw.json()
+    login = loginStatus(request)
+    endpoint = "api/v1/books/"
+    raw = getAPI(API_URL, endpoint, isbn)
+    book_detail = raw
+    recommend_url = "recommend/"
+    raw = getAPI(API_URL, endpoint, isbn, "/", recommend_url)
+    recommend_data = raw
     return render(
-        request, "front/detail.html", {"item": book_detail, "recommend": recommend_data}
+        request,
+        "front/detail.html",
+        {"item": book_detail, "recommend": recommend_data, **login},
     )
+
+
+def getBookView(request, isbn):
+    # login = loginStatus(request)
+    pass
+
+
+def shelfView(request):
+    login = loginStatus(request)
+    if login["status"] is True:
+        token = login["token"]
+        endpoint = "api/v1/shelves/"
+        url = API_URL + endpoint
+        headers = {"Authorization": f"Token {token}"}
+        raw = requests.get(url, headers=headers)
+        if raw.status_code == 200:
+            raw_json = raw.json()
+            print(raw_json)
+            items = raw_json["results"]
+            return render(request, "front/shelf.html", {"items": items, **login})
+    return render(request, "front/shelf.html", login)
+
+
+def searchView(request):
+    login = loginStatus(request)
+    if request.method == "POST":
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            term = form.cleaned_data["term"]
+            print(term)
+            endpoint = "api/v1/books/search/"
+            url = API_URL + endpoint
+            print(url)
+            params = {"search": term}
+            raw = requests.get(url, params=params)
+            if raw.status_code == 200:
+                raw_json = raw.json()
+                return render(
+                    request, "front/search.html", {"items": raw_json, **login}
+                )
+            else:
+                return render(request, "Not Found", login)
+    else:
+        return render(request, "Bad Request.", login)
 
 
 def loginView(request):
@@ -67,8 +116,7 @@ def loginView(request):
         if form.is_valid():
             email = form.cleaned_data["email"]
             password = form.cleaned_data["password"]
-            print(email, password)
-            url = os.environ["API_URI"] + "api/v1/accounts/login/"
+            url = API_URL + "api/v1/accounts/login/"
             req = requests.post(url, {"email": email, "password": password})
             res = req.json()
             if "message" in res:
@@ -82,6 +130,29 @@ def loginView(request):
             else:
                 return render(request, "front/login.html", {"form": form})
     return redirect(reverse("front:login"))
+
+
+def signupView(request):
+    if request.method == "GET":
+        form = SignupForm()
+        return render(request, "front/signup.html", {"form": form})
+    if request.method == "POST":
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            password1 = form.cleaned_data["password1"]
+            password2 = form.cleaned_data["password2"]
+            url = API_URL + "api/v1/accounts/signup/"
+            req = requests.post(
+                url, {"email": email, "password1": password1, "password2": password2}
+            )
+            print(req.text)
+            if req.status_code == 201:
+                res = req.json()
+                return render(request, str(res))
+            else:
+                return render(request, "front/signup.html", {"form": form})
+    return redirect(reverse("front:signup"))
 
 
 def logoutView(request):

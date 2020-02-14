@@ -1,51 +1,48 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %} {% load static %}
+<div class="container row p-2">
+  <div class="container col-8 p-4">
+    <form action="{% url 'front:signup' %}" method="post">
+      {% csrf_token %}
+      <fieldset>
+        <legend>Sign Up</legend>
+        <div class="form-group">
+          <label for="InputEmail">Email address</label>
+          <input
+            type="email"
+            class="form-control"
+            id="InputEmail"
+            aria-describedby="emailHelp"
+            placeholder="Enter email"
+            name="email"
+          />
+          <small id="emailHelp" class="form-text text-muted"
+            >We'll never share your email with anyone else.</small
+          >
+        </div>
+        <div class="form-group">
+          <label for="InputPassword1">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="InputPassword1"
+            placeholder="Password"
+            name="password1"
+          />
+        </div>
 
-{% load static %}
-
-<section class="pt-120 pb-120 bg-dark form_1">
-	<style>
-		.form_1{background-image:url({% static "i/form_1_bg.jpg"%});}
-		@media(-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 120dpi){
-			.form_1{background-image:url({% static "i/form_1_bg@2x.jpg"%});}
-		}
-	</style>
-	
-	<div class="container px-xl-0">
-		<form action="" method="post" class="bg-light mx-auto mw-430 radius10 pt-40 px-50 pb-30">
-			<h2 class="mb-40 small text-center" data-aos-duration="500" data-aos="fade-down" data-aos-delay="0">회원 가입</h2>
-			<div class="mb-20 input_holder" data-aos-duration="500" data-aos="fade-down" data-aos-delay="150">
-				<input type="email" name="email" placeholder="Your email" class="input border-gray focus-action-1 color-heading placeholder-heading w-full" />
-			</div>
-			<div class="mb-20 input_holder" data-aos-duration="500" data-aos="fade-down" data-aos-delay="250">
-				<input type="password" name="password" placeholder="Your password" class="input border-gray focus-action-1 color-heading placeholder-heading w-full" />
-			</div>
-			<div data-aos-duration="500" data-aos="fade-down" data-aos-delay="400">
-				<input type="checkbox" name="rules" class="d-none border-gray focus-action-1" id="form_1_checkbox"  checked />
-				<label for="form_1_checkbox" class="mt-25 color-heading w-full">
-					I agree to the Terms of Service				</label>
-			</div>
-			<div data-aos-duration="500" data-aos="fade-down" data-aos-delay="500">
-				<button class="mt-25 btn action-1 w-full">회원가입</button>
-			</div>
-			<div class="mt-50 hr bg-gray h-1" data-aos-duration="500" data-aos="fade-down" data-aos-delay="650"></div>
-			<div class="mt-25 f-18 medium color-heading text-center" data-aos-duration="500" data-aos="fade-down" data-aos-delay="750">
-				계정이 있습니까?<a href="#" class="link action-1">로그인</a>			</div>
-		</form>
-	</div>
-</section><!-- forms alerts -->
-<div class="alert alert-success alert-dismissible fixed-top alert-form-success" role="alert">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	Thanks for your message!
+        <div class="form-group">
+          <label for="InputPassword2">Again</label>
+          <input
+            type="password"
+            class="form-control"
+            id="InputPassword2"
+            placeholder="Password"
+            name="password2"
+          />
+        </div>
+        <button type="Submit" class="btn btn-primary">Submit</button>
+      </fieldset>
+    </form>
+  </div>
 </div>
-<div class="alert alert-warning alert-dismissible fixed-top alert-form-check-fields" role="alert">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	Please, fill in required fields.
-</div>
-<div class="alert alert-danger alert-dismissible fixed-top alert-form-error" role="alert">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	An error occurred while sending data :(
-</div>
-
-
 {% endblock content %}

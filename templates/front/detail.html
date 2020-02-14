@@ -5,23 +5,29 @@
   </h3>
   <hr class="my-4" />
   <div class="row mb-3">
-    <div class="col-2 mr-2 align-self-center">
-      <img src="{{ item.bookImage }}" alt="Book Image {{ item.title }}" />
+    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-11 m-3">
+      <img
+        style="display: block; margin: 0px auto;}"
+        src="{{ item.bookImage }}"
+        alt="Book Image {{ item.title }}"
+      />
     </div>
-    <div class="col-9 ml-2">
-      <p class="lead">
+    <div class="col-xl-9 col-lg-9 col-md-9 col-sm-11 m-2">
+      <p
+        class="lead text-dark text-sm-center text-md-left text-lg-left text-xl-left"
+      >
         {{ item.title }}
       </p>
       <p>
         {{ item.description }}
       </p>
+      <p>
+        {{ item.author }} | {{ item.pub_year }} | {{ item.publisher }} |
+        <!-- prettier-ignore -->
+        ISBN {{ item.isbn }}
+      </p>
     </div>
   </div>
-  <p>
-    {{ item.author }} | {{ item.pub_year }} | {{ item.publisher }} |
-    <!-- prettier-ignore -->
-    ISBN {{ item.isbn }}
-  </p>
 </section>
 
 <hr class="my-4" />

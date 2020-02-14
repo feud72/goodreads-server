@@ -20,10 +20,11 @@
       <li class="nav-item">
         <a href="{% url 'front:recent' %}" class="nav-link">최근 등록된 책</a>
       </li>
-      <li class="nav-item">
-        <a href="{% url 'schema-swagger-ui' %}" class="nav-link">API</a>
-      </li>
       {% if login is True %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'front:shelves' %}">내 책장</a>
+      </li>
+
       <li class="nav-item">
         <a class="nav-link" href="{% url 'front:logout' %}">로그아웃</a>
       </li>
@@ -31,10 +32,23 @@
       <li class="nav-item">
         <a class="nav-link" href="{% url 'front:login' %}">로그인</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'front:signup' %}">회원가입</a>
+      </li>
       {% endif %}
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="Search" />
+    <form
+      action="{% url 'front:search' %}"
+      class="form-inline my-2 my-lg-0"
+      method="post"
+    >
+      {% csrf_token %}
+      <input
+        class="form-control mr-sm-2"
+        type="text"
+        placeholder="Search"
+        name="term"
+      />
       <button class="btn btn-secondary my-2 my-sm-0" type="submit">
         Search
       </button>

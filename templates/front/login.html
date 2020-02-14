@@ -1,16 +1,16 @@
 {% extends "base.html" %} {% block content %} {% load static %}
-<div class="container row p-2">
-  <div class="container col-8 p-4">
+<div class="container flex-colomn justify-content-center p-2">
+  <div class="card border-primary p-4 m-3">
     <form action="{% url 'front:login' %}" method="post">
       {% csrf_token %}
       <fieldset>
         <legend>Login</legend>
         <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
+          <label for="InputEmail">Email address</label>
           <input
             type="email"
             class="form-control"
-            id="exampleInputEmail1"
+            id="InputEmail"
             aria-describedby="emailHelp"
             placeholder="Enter email"
             name="email"
@@ -20,11 +20,11 @@
           >
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
+          <label for="InputPassword">Password</label>
           <input
             type="password"
             class="form-control"
-            id="exampleInputPassword1"
+            id="InputPassword"
             placeholder="Password"
             name="password"
           />
