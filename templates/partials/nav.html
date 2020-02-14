@@ -1,52 +1,43 @@
-<!-- Navigation 2 -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="{% url 'front:home' %}">개미는 뚠뚠</a>
 
-<nav class="pt-30 pb-3 bg-light lh-40 navigation_2">
-  <div class="container px-xl-0">
-    <div class="row align-items-center justify-content-between">
-      <div
-        class="col-xl-2 col-lg-3 text-center text-lg-left"
-        data-aos-duration="600"
-        data-aos="fade-down"
-        data-aos-delay="0"
-      >
-        <a href="{% url 'front:home' %}" class="mr-20 link color-main f-24 bold"
-          >개미는 뚠뚠</a
-        >
-      </div>
-      <div
-        class="col-xl-10 col-lg-9 d-flex flex-wrap align-items-center justify-content-center justify-content-md-between"
-      >
-        <div
-          class="mb-10 mb-md-0"
-          data-aos-duration="600"
-          data-aos="fade-down"
-          data-aos-delay="300"
-        >
-          <a href="{% url 'front:home' %}" class="mx-15 link color-main ">홈</a>
-          <a href="{% url 'front:recent' %}" class="mx-15 link color-main "
-            >최근 등록한 책</a
-          >
-        </div>
-        <div
-          class="text-md-right"
-          data-aos-duration="600"
-          data-aos="fade-down"
-          data-aos-delay="600"
-        >
-          <a href="{% url 'schema-swagger-ui' %}" class="mr-15 link color-main "
-            >API</a
-          >
-          {% if login is True %}
-          <a href="{% url 'front:logout' %}" class="mx-15 link color-main "
-            >로그아웃</a
-          >
-          {% else %}
-          <a href="{% url 'front:login' %}" class="mx-15 link color-main "
-            >로그인</a
-          >
-          {% endif %}
-        </div>
-      </div>
-    </div>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarColor01"
+    aria-controls="navbarColor01"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'front:popular' %}">인기 도서</a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'front:recent' %}" class="nav-link">최근 등록된 책</a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'schema-swagger-ui' %}" class="nav-link">API</a>
+      </li>
+      {% if login is True %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'front:logout' %}">로그아웃</a>
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'front:login' %}">로그인</a>
+      </li>
+      {% endif %}
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="text" placeholder="Search" />
+      <button class="btn btn-secondary my-2 my-sm-0" type="submit">
+        Search
+      </button>
+    </form>
   </div>
 </nav>

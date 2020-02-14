@@ -1,85 +1,54 @@
 {% extends "base.html" %} {% block content %}
-
-<section class="pt-5 pb-5 bg-light text-center feature_2">
-  <div class="container px-xl-0">
-    <div class="row justify-content-center">
-      <div class="col-xl-8 col-lg-10">
-        <h2
-          class="small"
-          data-aos-duration="600"
-          data-aos="fade-down"
-          data-aos-delay="0"
-        >
-          Good Reads Clone
-        </h2>
-        <div
-          class="mt-35 mb-65 f-22 color-heading text-adaptive description"
-          data-aos-duration="600"
-          data-aos="fade-down"
-          data-aos-delay="300"
-        >
-          <p>뾰로롱 꼬마 마녀</p>
-          <p>즐겁게 살아요 마법의 나라에서</p>
-          <p>지금 막 따온 오로라를</p>
-          <p>당신에게로 보내드릴게요~</p>
-        </div>
+<section class="p-2">
+  <div class="jumbotron">
+    <h2 class="display-4 text-center">
+      Good Reads Clone
+    </h2>
+    <p class="lead p-1 text-center">
+      뾰로롱 꼬마 마녀<br />
+      즐겁게 살아요 마법의 나라에서<br />
+      지금 막 따온 오로라를<br />
+      당신에게로 보내드릴게요~
+    </p>
+    <hr class="my-4" />
+    <div class="row">
+      <div class="col">
+        <p class="lead">
+          최근 등록된 책
+        </p>
+        <p class="lead">
+          <a href="{% url 'front:recent' %}" class="btn btn-primary btn-lg">
+            Go
+          </a>
+        </p>
+        <p>유저들이 최근 등록한 책을 보여줍니다.</p>
       </div>
-      <div class="col-xl-10">
-        <div class="row justify-content-center">
-          <div
-            class="mb-50 col-md-4 col-sm-8"
-            data-aos-duration="600"
-            data-aos="fade-down"
-            data-aos-delay="600"
-          >
-            <div class="mb-20 f-18 medium title">
-              최근 등록된 책
-            </div>
-            <div class="color-heading text-adaptive">
-              유저들이 최근 등록한 책을 보여줍니다.
-            </div>
-            <a
-              href="{% url 'front:recent' %}"
-              class="mt-30 btn sm w-40 border-transparent-main"
-              ><i class="fas fa-angle-right"></i
-            ></a>
-          </div>
-          <div
-            class="mb-50 col-md-4 col-sm-8"
-            data-aos-duration="600"
-            data-aos="fade-down"
-            data-aos-delay="900"
-          >
-            <div class="mb-20 f-18 medium title">
-              인기 대출 도서
-            </div>
-            <div class="color-heading text-adaptive">
-              도서관 대출 횟수 상위권에 있는 도서들을 보여줍니다.
-            </div>
-            <a
-              href="{% url 'front:popular' %}"
-              class="mt-30 btn sm w-40 border-transparent-main"
-              ><i class="fas fa-angle-right"></i
-            ></a>
-          </div>
-          <div
-            class="mb-50 col-md-4 col-sm-8"
-            data-aos-duration="600"
-            data-aos="fade-down"
-            data-aos-delay="1200"
-          >
-            <div class="mb-20 f-18 medium title">
-              내 책장
-            </div>
-            <div class="color-heading text-adaptive">
-              내 책장에 보관된 책을 보여줍니다.<br />
-              (준비 중입니다.)
-            </div>
-            <a href="#" class="mt-30 btn sm w-40 border-transparent-main"
-              ><i class="fas fa-angle-right"></i
-            ></a>
-          </div>
-        </div>
+      <div class="col">
+        <p class="lead">
+          인기 대출 도서
+        </p>
+        <p class="lead">
+          <a href="{% url 'front:popular' %}" class="btn btn-primary btn-lg">
+            Go
+          </a>
+        </p>
+        <p>
+          도서관 대출 횟수 상위권에 있는 도서들을 보여줍니다.
+        </p>
+      </div>
+      <div class="col">
+        <p class="lead">
+          내 책장
+        </p>
+        <p class="lead">
+          <a href="#" class="btn btn-primary btn-lg">
+            Go
+          </a>
+        </p>
+        <p>
+          내 책장에 보관된 책을 보여줍니다.<br />
+          (준비 중입니다.)
+        </p>
       </div>
     </div>
   </div>

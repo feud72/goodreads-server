@@ -1,11 +1,13 @@
 import os
 
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.conf import settings
 
 import requests
+
+from .forms import LoginForm
 
 
 def loginStatus(request):
@@ -57,13 +59,29 @@ def detailView(request, isbn):
 
 
 def loginView(request):
-    url = os.environ["API_URI"] + "api/v1/accounts/login/"
-    req = requests.post(url, {"email": "user@example.com", "password": "string12"})
-    res = req.json()
-    token = res["token"]
-    response = HttpResponseRedirect(reverse("front:home"))
-    response.set_cookie(key="token", value=token, domain=settings.COOKIE_DOMAIN)
-    return response
+    if request.method == "GET":
+        form = LoginForm()
+        return render(request, "front/login.html", {"form": form})
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            password = form.cleaned_data["password"]
+            print(email, password)
+            url = os.environ["API_URI"] + "api/v1/accounts/login/"
+            req = requests.post(url, {"email": email, "password": password})
+            res = req.json()
+            if "message" in res:
+                if res["message"] == "success":
+                    token = res["token"]
+                    response = HttpResponseRedirect(reverse("front:home"))
+                    response.set_cookie(
+                        key="token", value=token, domain=settings.COOKIE_DOMAIN
+                    )
+                    return response
+            else:
+                return render(request, "front/login.html", {"form": form})
+    return redirect(reverse("front:login"))
 
 
 def logoutView(request):

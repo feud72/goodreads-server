@@ -1,91 +1,40 @@
 {% extends "base.html" %} {% block content %} {% load static %}
-
-<!-- Application 2 -->
-
-<section class="pt-50 pb-50 bg-light application_2">
-  <div class="container px-xl-0">
-    <div
-      class="row justify-content-center justify-content-content-center align-items-center"
-    >
-      <div
-        class="mb-15 mb-md-0 col-11 col-md-2 col-xl-2 d-flex justify-content-center"
-      >
-        <img
-          srcset="{{ item.bookImage }}"
-          src="{{ item.bookImage }}"
-          alt=""
-          class="img-fluid application_2_left_img"
-          data-aos-duration="500"
-          data-aos="fade-down"
-          data-aos-delay="650"
-        />
-      </div>
-      <div class="col-md-9 col-xl-9">
-        <h4
-          class="col-lg-11 color-main pl-10 pb-20"
-          data-aos-duration="500"
-          data-aos="fade-down"
-          data-aos-delay="0"
-        >
-          {{ item.title }}
-        </h4>
-        <div
-          class="col-11 col-md-11 col-xl-11 col-lg-11 text-adaptive color-heading f-18 pr-10 pl-10"
-        >
-          {{ item.description }}
-        </div>
-      </div>
-      <div
-        class="col-11 col-md-11 mt-95 row
-				d-flex justify-content-flex-start"
-      >
-        <div
-          class="col-11 col-md-11 col-lg-4 pb-25 with_borders"
-          data-aos-duration="500"
-          data-aos="fade-down"
-          data-aos-delay="250"
-        >
-          {{ item.author }} | {{ item.pub_year }} | {{ item.publisher }} | ISBN
-          {{ item.isbn }}
-        </div>
-      </div>
+<section class="p-2">
+  <h3 class="mt-3 mb-3">
+    상세 정보
+  </h3>
+  <hr class="my-4" />
+  <div class="row mb-3">
+    <div class="col-2 mr-2 align-self-center">
+      <img src="{{ item.bookImage }}" alt="Book Image {{ item.title }}" />
+    </div>
+    <div class="col-9 ml-2">
+      <p class="lead">
+        {{ item.title }}
+      </p>
+      <p>
+        {{ item.description }}
+      </p>
     </div>
   </div>
+  <p>
+    {{ item.author }} | {{ item.pub_year }} | {{ item.publisher }} |
+    <!-- prettier-ignore -->
+    ISBN {{ item.isbn }}
+  </p>
 </section>
 
-<div class="row justify-content-center pb-15">
-  <h3>연관 도서</h3>
-</div>
-{% for item in recommend %}
-
-<section class="bg-light application_2">
-  <div class="container px-xl-0">
-    <div
-      class="row justify-content-center justify-content-content-center align-items-center"
-    >
-      <div class="col-11 col-md-7 col-xl-7 col-lg-7">
-        <a href="{% url 'front:detail' item.item.isbn %}">
-          <h5
-            class="col-lg-11 color-main pl-0"
-            data-aos-duration="500"
-            data-aos="fade-down"
-            data-aos-delay="0"
-          >
-            {{ item.item.title }}
-          </h5>
-        </a>
-      </div>
-      <div
-        class="col-11 col-md-4 col-xl-4 col-lg-4 mt-25 color-heading f-18 text-adaptive
-          pb-25 with_borders"
-        data-aos-duration="500"
-        data-aos="fade-down"
-        data-aos-delay="250"
-      >
-        {{ item.item.author }} | {{ item.item.pub_year }}
-      </div>
-    </div>
-  </div>
+<hr class="my-4" />
+<section class="p-2">
+  <h3 class="mt-3">연관 도서</h3>
+  <hr class="my-4" />
+  {% for item in recommend %}
+  <a href="{% url 'front:detail' item.item.isbn %}">
+    <h5>
+      {{ item.item.title }}
+    </h5>
+  </a>
+  <p>{{ item.item.author }} | {{ item.item.pub_year }}</p>
+  {% endfor %}
 </section>
-
-{% endfor %} {% endblock content %}
+{% endblock content %}
