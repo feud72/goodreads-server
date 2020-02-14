@@ -23,7 +23,7 @@ def homeView(request):
 
 def recentView(request):
     login = loginStatus(request)
-    api_url = os.environ["BASE_URI"]
+    api_url = os.environ["API_URI"]
     api_endpoint = "api/v1/books/"
     url = api_url + api_endpoint
     raw = requests.get(url)
@@ -34,7 +34,7 @@ def recentView(request):
 
 def popularView(request):
     login = loginStatus(request)
-    api_url = os.environ["BASE_URI"]
+    api_url = os.environ["API_URI"]
     api_endpoint = "api/v1/books/recommend/"
     url = api_url + api_endpoint
     raw = requests.get(url)
@@ -43,7 +43,7 @@ def popularView(request):
 
 
 def detailView(request, isbn):
-    api_url = os.environ["BASE_URI"]
+    api_url = os.environ["API_URI"]
     detail_endpoint = "api/v1/books/"
     detail_url = f"{api_url}{detail_endpoint}{isbn}/"
     raw = requests.get(detail_url)
@@ -57,7 +57,7 @@ def detailView(request, isbn):
 
 
 def loginView(request):
-    url = os.environ["BASE_URI"] + "api/v1/accounts/login/"
+    url = os.environ["API_URI"] + "api/v1/accounts/login/"
     req = requests.post(url, {"email": "user@example.com", "password": "string12"})
     res = req.json()
     token = res["token"]
