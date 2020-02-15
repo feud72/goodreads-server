@@ -29,7 +29,7 @@ def getAPI(base, endpoint, *args):
 
 def homeView(request):
     login = loginStatus(request)
-    return render(request, "front/home.html", login)
+    return render(request, "front/home.html", {**login})
 
 
 def recentView(request):
@@ -78,7 +78,6 @@ def shelfView(request):
         raw = requests.get(url, headers=headers)
         if raw.status_code == 200:
             raw_json = raw.json()
-            print(raw_json)
             items = raw_json["results"]
             return render(request, "front/shelf.html", {"items": items, **login})
     return render(request, "front/shelf.html", login)
@@ -90,10 +89,8 @@ def searchView(request):
         form = SearchForm(request.POST)
         if form.is_valid():
             term = form.cleaned_data["term"]
-            print(term)
             endpoint = "api/v1/books/search/"
             url = API_URL + endpoint
-            print(url)
             params = {"search": term}
             raw = requests.get(url, params=params)
             if raw.status_code == 200:
@@ -146,7 +143,6 @@ def signupView(request):
             req = requests.post(
                 url, {"email": email, "password1": password1, "password2": password2}
             )
-            print(req.text)
             if req.status_code == 201:
                 res = req.json()
                 return render(request, str(res))

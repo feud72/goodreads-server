@@ -1,3 +1,3 @@
 DEBUG = False
 
-COOKIE_DOMAIN = "feud72.hopto.org"
+COOKIE_DOMAIN = "127.0.0.1"
