@@ -153,5 +153,5 @@ def signupView(request):
 
 def logoutView(request):
     response = HttpResponseRedirect(reverse("front:home"))
-    response.delete_cookie("token")
+    response.delete_cookie("token", domain=settings.COOKIE_DOMAIN)
     return response
