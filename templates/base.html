@@ -15,7 +15,8 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   </head>
   <body>
-    <div class="container">
+    <div class="container"> 
+      {% autoescape off %}
       <!-- prettier-ignore -->
       {% include "partials/nav.html" %}
       <!-- prettier-ignore -->
@@ -24,6 +25,7 @@
       {% endblock content%}
       <!-- prettier-ignore -->
       {% include "partials/footer.html" %}
+      {% endautoescape %}
     </div>
     <script
       src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"

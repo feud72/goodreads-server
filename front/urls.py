@@ -9,6 +9,7 @@ urlpatterns = [
     path("recent/", views.recentView, name="recent"),
     path("search/", views.searchView, name="search"),
     path("shelf/", views.shelfView, name="shelf"),
+    path("subscribe/", views.subscribeView, name="subscribe"),
     path("login/", views.loginView, name="login"),
     path("signup/", views.signupView, name="signup"),
     path("logout/", views.logoutView, name="logout"),

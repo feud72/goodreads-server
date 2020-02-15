@@ -18,14 +18,28 @@
       >
         {{ item.title }}
       </p>
-      <p>
+      <p>       
         {{ item.description }}
+
       </p>
       <p>
-        {{ item.author }} | {{ item.pub_year }} | {{ item.publisher }} |
+        {{ item.author }} | {{ item.pub_year }} | {{ item.publisher }}
         <!-- prettier-ignore -->
-        ISBN {{ item.isbn }}
       </p>
+          <form
+      action="{% url 'front:subscribe' %}"
+      method="post"
+    >
+      {% csrf_token %}
+      <input
+        type="hidden"
+        name="isbn"
+        value={{ item.isbn }}
+      />
+      <button class="btn btn-secondary my-2 my-sm-0" type="submit">
+        구독
+      </button>
+    </form>
     </div>
   </div>
 </section>

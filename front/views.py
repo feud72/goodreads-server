@@ -63,11 +63,6 @@ def detailView(request, isbn):
     )
 
 
-def getBookView(request, isbn):
-    # login = loginStatus(request)
-    pass
-
-
 def shelfView(request):
     login = loginStatus(request)
     if login["status"] is True:
@@ -81,6 +76,11 @@ def shelfView(request):
             items = raw_json["results"]
             return render(request, "front/shelf.html", {"items": items, **login})
     return render(request, "front/shelf.html", login)
+
+
+def subscribeView(request):
+    # login = loginStatus(request)
+    pass
 
 
 def searchView(request):
