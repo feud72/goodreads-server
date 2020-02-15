@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block content %} {% load static %}
-<div class="container row p-2">
-  <div class="container col-8 p-4">
+<div class="container flex-colomn justify-content-center p-2">
+  <div class="card border-primary p-4 m-3">
     <form action="{% url 'front:signup' %}" method="post">
       {% csrf_token %}
       <fieldset>
