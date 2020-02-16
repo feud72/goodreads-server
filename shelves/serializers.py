@@ -10,12 +10,12 @@ from books.serializers import BookSerializer
 
 class MyBookSerializer(serializers.ModelSerializer):
     isbn = serializers.CharField(max_length=13, write_only=True)
-    books = BookSerializer(many=True, read_only=True)
+    book = BookSerializer(many=True, read_only=True)
 
     class Meta:
         model = MyBook
-        fields = ("id", "owner", "books", "isbn", "finished", "star")
-        read_only_fields = ("id", "owner", "books", "finished", "star")
+        fields = ("id", "owner", "book", "isbn", "finished", "star")
+        read_only_fields = ("id", "owner", "book", "finished", "star")
 
     def validate_isbn(self, value):
         if len(value) != 13:
