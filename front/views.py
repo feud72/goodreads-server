@@ -71,11 +71,15 @@ def shelfView(request):
         url = API_URL + endpoint
         headers = {"Authorization": f"Token {token}"}
         raw = requests.get(url, headers=headers)
-        print(raw.text)
         if raw.status_code == 200:
             raw_json = raw.json()
             items = raw_json["results"]
             return render(request, "front/shelf.html", {"items": items, **login})
+        else:
+            raw_text = raw.text
+            print(raw_text)
+            return render(request, "front/shelf.html", {"errors": raw_text, **login})
+
     return render(request, "front/shelf.html", login)
 
 

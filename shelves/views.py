@@ -21,7 +21,9 @@ class BookShelfViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = self.queryset
-        queryset = queryset.filter(owner__username=self.request.user)
+        queryset = queryset.filter(owner__username=self.request.user).order_by(
+            "-created_at"
+        )
         return queryset
 
     def list(self, request, *args, **kwargs):

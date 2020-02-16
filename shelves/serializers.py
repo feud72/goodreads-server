@@ -10,7 +10,7 @@ from books.serializers import BookSerializer
 
 class MyBookSerializer(serializers.ModelSerializer):
     isbn = serializers.CharField(max_length=13, write_only=True)
-    book = BookSerializer(many=True, read_only=True)
+    book = BookSerializer(required=False)
 
     class Meta:
         model = MyBook
@@ -35,8 +35,8 @@ class MyBookSerializer(serializers.ModelSerializer):
         try:
             owner = get_user_model().objects.get(username=username)
             self.validate_isbn(isbn)
-            book = Book.objects.get(isbn=isbn)
-            obj = MyBook.objects.create(owner=owner, book=book)
+            current_book = Book.objects.get(isbn=isbn)
+            obj = MyBook.objects.create(owner=owner, book=current_book)
             return obj
         except Exception:
             raise serializers.ValidationError({"error": "Whoo."})

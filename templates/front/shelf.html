@@ -2,26 +2,30 @@
 <section class="p-2">
   <h3 class="mt-3 mb-3">내 책장</h3>
   <hr class="my-4" />
+  {% if errors %}
+  {{ errors }}
+  {% else %}
   {% for item in items %}
-  <a class="text-body" href="{% url 'front:detail' item.isbn %}">
+  <a class="text-body" href="{% url 'front:detail' item.book.isbn %}">
     <div class="row mb-3">
       <div class="col-xl-2 col-lg-2 col-md-2 col-sm-11 m-3">
         <img
           style="display: block; margin: 0px auto;}"
-          src="{{ item.bookImage }}"
-          alt="Book Image {{ item.title }}"
+          src="{{ item.book.bookImage }}"
+          alt="Book Image {{ item.book.title }}"
         />
       </div>
       <div class="col-xl-9 col-lg-9 col-md-9 col-sm-11 m-2">
         <p
           class="lead text-dark text-sm-center text-md-left text-lg-left text-xl-left "
         >
-          {{ item.title }}
+          {{ item.book.title }}
         </p>
-        <p>{{ item.description }}</p>
+        <p>{{ item.book.description }}</p>
       </div>
     </div>
   </a>
   {% endfor %}
+  {% endif %}
 </section>
 {% endblock content %}
