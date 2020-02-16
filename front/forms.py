@@ -14,3 +14,7 @@ class SignupForm(forms.Form):
 
 class SearchForm(forms.Form):
     term = forms.CharField(label="Term", max_length=100)
+
+
+class SubscribeForm(forms.Form):
+    isbn = forms.CharField(label="isbn", max_length=100)

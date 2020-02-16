@@ -7,7 +7,7 @@ from django.conf import settings
 
 import requests
 
-from .forms import LoginForm, SearchForm, SignupForm
+from .forms import LoginForm, SearchForm, SignupForm, SubscribeForm
 
 API_URL = os.environ["API_URI"]
 
@@ -71,6 +71,7 @@ def shelfView(request):
         url = API_URL + endpoint
         headers = {"Authorization": f"Token {token}"}
         raw = requests.get(url, headers=headers)
+        print(raw.text)
         if raw.status_code == 200:
             raw_json = raw.json()
             items = raw_json["results"]
@@ -79,8 +80,24 @@ def shelfView(request):
 
 
 def subscribeView(request):
-    # login = loginStatus(request)
-    pass
+    login = loginStatus(request)
+    if login["status"] is not True:
+        return redirect(reverse("front:login"))
+    else:
+        if request.method == "POST":
+            form = SubscribeForm(request.POST)
+            if form.is_valid():
+                isbn = form.cleaned_data["isbn"]
+            token = login["token"]
+            endpoint = "api/v1/shelves/"
+            url = API_URL + endpoint
+            headers = {"Authorization": f"Token {token}"}
+            raw = requests.post(url, data={"isbn": isbn}, headers=headers)
+            if raw.status_code == 200:
+                raw_json = raw.json()
+                items = raw_json["results"]
+                return render(request, "front/shelf.html", {"items": items, **login})
+    return render(request, "front/shelf.html", login)
 
 
 def searchView(request):
