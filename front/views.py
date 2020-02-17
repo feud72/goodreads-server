@@ -65,7 +65,10 @@ def detailView(request, isbn):
 
 def shelfView(request):
     login = loginStatus(request)
-    if login["status"] is True:
+    print(login)
+    if login["status"] is False:
+        return redirect(reverse("front:login"))
+    else:
         token = login["token"]
         endpoint = "api/v1/shelves/"
         url = API_URL + endpoint
@@ -123,6 +126,19 @@ def searchView(request):
                 return render(request, "Not Found", login)
     else:
         return render(request, "Bad Request.", login)
+
+
+def kakaoLoginView(request):
+    endpoint = "api/v1/accounts/login/kakao/"
+    res = requests.get(API_URL + endpoint)
+    if res.status_code == 200:
+        token = res.json()
+        print(token)
+        response = HttpResponseRedirect(reverse("front:home"))
+        response.set_cookie(key="token", value=token, domain=settings.COOKIE_DOMAIN)
+        return response
+    else:
+        return redirect(reverse("front:home"))
 
 
 def loginView(request):

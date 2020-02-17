@@ -11,43 +11,35 @@
       당신에게로 보내드릴게요~
     </p>
     <hr class="my-4" />
-    <div class="row">
-      <div class="col">
-        <p class="lead">
+    <div class="mr-auto">
+      <div class="row justify-content-between align-items-center">
+        <p class="col-6 lead text-center">
           최근 등록된 책
         </p>
-        <p class="lead">
+        <p class="col-6 text-center">
           <a href="{% url 'front:recent' %}" class="btn btn-outline-primary">
             Go
           </a>
         </p>
-        <p>유저들이 최근 등록한 책을 보여줍니다.</p>
       </div>
-      <div class="col">
-        <p class="lead">
-          인기 대출 도서
+      <div class="row justify-content-between align-items-center">
+        <p class="col-6 lead text-center ">
+          대출 인기 도서
         </p>
-        <p>
+        <p class="col-6 text-center">
           <a href="{% url 'front:popular' %}" class="btn btn-outline-primary">
             Go
           </a>
         </p>
-        <p>
-          도서관 대출 횟수 상위권에 있는 도서들을 보여줍니다.
-        </p>
       </div>
-      <div class="col">
-        <p class="lead">
+      <div class="row justify-content-between align-items-center">
+        <p class="col-6 lead text-center">
           내 책장
         </p>
-        <p class="lead">
-          <a href="#" class="btn btn-outline-primary">
+        <p class="col-6 text-center">
+          <a href="{% url 'front:shelf' %}" class="btn btn-outline-primary">
             Go
           </a>
-        </p>
-        <p>
-          내 책장에 보관된 책을 보여줍니다.<br />
-          (준비 중입니다.)
         </p>
       </div>
     </div>

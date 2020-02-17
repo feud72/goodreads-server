@@ -17,7 +17,7 @@ def kakao_login(request):
     카카오 로그인
     """
     client_id = os.environ.get("KAKAO_ID")
-    base_uri = os.environ.get("BASE_URI")
+    base_uri = os.environ.get("API_URI")
     redirect_uri = base_uri + "/api/v1/accounts/login/kakao/callback"
     return redirect(
         f"https://kauth.kakao.com/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code"
@@ -32,7 +32,7 @@ def kakao_get_token(request):
     try:
         client_id = os.environ.get("KAKAO_ID")
         code = request.GET.get("code")
-        base_uri = os.environ.get("BASE_URI")
+        base_uri = os.environ.get("API_URI")
         redirect_uri = base_uri + "/api/v1/accounts/login/kakao/callback"
         payload = f"grant_type=authorization_code&client_id={client_id}&redirect_uri={redirect_uri}&code={code}"
         url = "https://kauth.kakao.com/oauth/token"

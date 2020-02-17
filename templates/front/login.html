@@ -29,9 +29,15 @@
             name="password"
           />
         </div>
-        <button type="Submit" class="btn btn-primary">Submit</button>
+        <button type="Submit" class="btn btn-primary text-center">
+          Submit
+        </button>
       </fieldset>
     </form>
+    <p class="mt-3 mb-0">Or</p>
+    <a href="{% url 'front:kakaologin' %}">
+      <img src="{% static 'kakao_login_button.png' %}" class="mt-3"
+    /></a>
   </div>
 </div>
 {% endblock content %}
