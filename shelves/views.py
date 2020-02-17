@@ -4,8 +4,8 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework import viewsets
 
-from .serializers import MyBookSerializer, MemoSerializer
-from .models import MyBook, Memo
+from .serializers import MyBookSerializer, ReviewSerializer
+from .models import MyBook, Review
 
 
 class BookShelfViewSet(viewsets.ModelViewSet):
@@ -69,9 +69,9 @@ My 책 생성
         )
 
     @action(detail=True, methods=["get", "post", "put", "delete"])
-    def memo(self, request, pk, *args, **kwargs):
-        queryset = Memo.objects.filter(book__owner__username=request.user)
-        serializer = MemoSerializer
+    def review(self, request, pk, *args, **kwargs):
+        queryset = Review.objects.filter(book__owner__username=request.user)
+        serializer = ReviewSerializer
         if request.method == "GET":
             data = serializer(queryset, many=True)
             return Response(status=status.HTTP_200_OK, data=data.data)

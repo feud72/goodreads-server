@@ -11,38 +11,30 @@
       당신에게로 보내드릴게요~
     </p>
     <hr class="my-4" />
-    <div class="mr-auto">
-      <div class="row justify-content-between align-items-center">
-        <p class="col-6 lead text-center">
-          최근 등록된 책
-        </p>
-        <p class="col-6 text-center">
-          <a href="{% url 'front:recent' %}" class="btn btn-outline-primary">
-            Go
-          </a>
-        </p>
+  {% for item in items %}
+  <a class="text-body" href="{% url 'front:detail' item.isbn %}">
+  <div class="card border-primary mb-3">
+    <div class="row card-body justify-content-center align-items-center">
+      <div class="col-xl-2 col-lg-2 col-md-2 col-sm-11">
+        <img
+          style="height:100px; width: auto; display: block; margin: 0px auto;}"
+          src="{{ item.bookImage }}"
+          alt="Book Image {{ item.title }}"
+        />
       </div>
-      <div class="row justify-content-between align-items-center">
-        <p class="col-6 lead text-center ">
-          대출 인기 도서
+      <div class="col-xl-9 col-lg-9 col-md-9 col-sm-11">
+        <p
+          class="text-dark text-sm-center text-md-left text-lg-left text-xl-left "
+        >
+          {{ item.title }}
         </p>
-        <p class="col-6 text-center">
-          <a href="{% url 'front:popular' %}" class="btn btn-outline-primary">
-            Go
-          </a>
-        </p>
-      </div>
-      <div class="row justify-content-between align-items-center">
-        <p class="col-6 lead text-center">
-          내 책장
-        </p>
-        <p class="col-6 text-center">
-          <a href="{% url 'front:shelf' %}" class="btn btn-outline-primary">
-            Go
-          </a>
-        </p>
+        <p class="small">{{ item.author }} | {{ item.pub_year }}</p>
       </div>
     </div>
+    </div>
+  </a>
+  {% endfor %}
+<p><a class="btn btn-outline-secondary" href="{% url 'front:recent' %}">더 보기</a></p>
   </div>
 </section>
 

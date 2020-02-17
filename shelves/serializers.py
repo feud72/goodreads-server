@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 
 from rest_framework import serializers
 
-from .models import MyBook, Memo
+from .models import MyBook, Review
 
 from books.models import Book
 from books.serializers import BookSerializer
@@ -44,7 +44,7 @@ class MyBookSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"error": "Whoo."})
 
 
-class MemoSerializer(serializers.ModelSerializer):
+class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Memo
+        model = Review
         exclude = ()

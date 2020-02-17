@@ -29,7 +29,10 @@ def getAPI(base, endpoint, *args):
 
 def homeView(request):
     login = loginStatus(request)
-    return render(request, "front/home.html", {**login})
+    endpoint = "/api/v1/books/"
+    raw = getAPI(API_URL, endpoint)
+    book_list = raw["results"][:3]
+    return render(request, "front/home.html", {"items": book_list, **login})
 
 
 def recentView(request):
