@@ -14,8 +14,13 @@ class MyBookSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MyBook
-        fields = ("id", "owner", "book", "isbn", "finished", "star")
-        read_only_fields = ("id", "owner", "book", "finished", "star")
+        fields = (
+            "id",
+            "owner",
+            "book",
+            "isbn",
+        )
+        read_only_fields = ("id", "owner", "book")
 
     def validate_isbn(self, value):
         owner = self.initial_data["username"]
