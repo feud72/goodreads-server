@@ -39,13 +39,7 @@ class BookShelfViewSet(viewsets.ModelViewSet):
 | 필드명 | 타입 | 필수여부 | 설명 |
 | ---- | ---- | -------- | ----------- |
         """
-        queryset = self.filter_queryset(self.get_queryset())
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        return super().list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         """
@@ -68,7 +62,7 @@ My 책 생성
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        instance = MyBook.objects.get(book__pk=isbn)
+        instance = MyBook.objects.get(owner__username=username, book__pk=isbn)
         serializer = self.get_serializer(instance)
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers

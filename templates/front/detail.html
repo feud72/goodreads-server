@@ -18,28 +18,24 @@
       >
         {{ item.title }}
       </p>
-      <p>       
+      <p>
         {{ item.description }}
-
       </p>
       <p>
         {{ item.author }} | {{ item.pub_year }} | {{ item.publisher }}
-        <!-- prettier-ignore -->
       </p>
-          <form
-      action="{% url 'front:subscribe' %}"
-      method="post"
-    >
-      {% csrf_token %}
-      <input
-        type="hidden"
-        name="isbn"
-        value={{ item.isbn }}
-      />
-      <button class="btn btn-secondary my-2 my-sm-0" type="submit">
-        구독
-      </button>
-    </form>
+      {% if status is True %}
+      <form action="{% url 'front:subscribe' %}" method="post">
+				{% else %}
+      <form action="{% url 'front:login' %}" method="post">
+				{% endif %}
+        {% csrf_token %}
+        <input type="hidden" name="isbn" value="{{ item.isbn }}" />
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">
+					구독{% if status is False %}
+					하려면 로그인하세요.{% endif %}
+        </button>
+      </form>
     </div>
   </div>
 </section>

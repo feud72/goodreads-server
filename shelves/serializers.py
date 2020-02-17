@@ -18,9 +18,11 @@ class MyBookSerializer(serializers.ModelSerializer):
         read_only_fields = ("id", "owner", "book", "finished", "star")
 
     def validate_isbn(self, value):
+        owner = self.initial_data["username"]
+        print(owner)
         if len(value) != 13:
             raise serializers.ValidationError("ISBN must be 13 length.")
-        if MyBook.objects.filter(book__pk=value).exists():
+        if MyBook.objects.filter(book__pk=value, owner__username=owner).exists():
             raise serializers.ValidationError("책장에 이미 존재하는 책입니다.")
         if not Book.objects.filter(isbn=value).exists():
             raise serializers.ValidationError("Invalid ISBN number.")

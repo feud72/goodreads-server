@@ -11,9 +11,9 @@ urlpatterns = [
     path("shelf/", views.shelfView, name="shelf"),
     path("subscribe/", views.subscribeView, name="subscribe"),
     path("login/", views.loginView, name="login"),
-    path("login/kakao", views.kakaoLoginView, name="kakaologin"),
+    path("login/kakao/", views.kakaoLoginView, name="kakao"),
+    path("login/kakao/callback/", views.kakaoCallbackView, name="kakaocallback"),
     path("signup/", views.signupView, name="signup"),
-    path("signup/kakao", views.kakaoSignUpView, name="kakaosignup"),
     path("logout/", views.logoutView, name="logout"),
     path("detail/<str:isbn>/", views.detailView, name="detail"),
 ]
