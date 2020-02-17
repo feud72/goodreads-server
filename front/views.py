@@ -130,15 +130,22 @@ def searchView(request):
 
 def kakaoLoginView(request):
     endpoint = "api/v1/accounts/login/kakao/"
-    res = requests.get(API_URL + endpoint)
+    url = API_URL + endpoint
+    print(url)
+    res = requests.get(url)
     if res.status_code == 200:
         token = res.json()
-        print(token)
         response = HttpResponseRedirect(reverse("front:home"))
         response.set_cookie(key="token", value=token, domain=settings.COOKIE_DOMAIN)
         return response
     else:
         return redirect(reverse("front:home"))
+
+
+def kakaoSignUpView(request):
+    endpoint = "api/v1/accounts/login/kakao/"
+    url = API_URL + endpoint
+    return redirect(url)
 
 
 def loginView(request):
