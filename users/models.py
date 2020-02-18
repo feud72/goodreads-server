@@ -14,7 +14,7 @@ class User(AbstractUser):
     )
 
     created_at = models.DateField(auto_now_add=True)
-    nickname = models.CharField(max_length=20, default="User")
+    nickname = models.CharField(max_length=20, default="User", null=True, blank=True)
     login_method = models.CharField(
         max_length=50, choices=LOGIN_CHOICES, default=LOGIN_EMAIL
     )

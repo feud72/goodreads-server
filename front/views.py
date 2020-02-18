@@ -146,7 +146,7 @@ class ReviewView(FormView):
         url = API_URL + endpoint
         token = login["token"]
         headers = {"Authorization": f"Token {token}"}
-        req = requests.post(url, data=valid_data, headers=headers)
+        # req = requests.post(url, data=valid_data, headers=headers)
 
 
 def searchView(request):
@@ -165,9 +165,11 @@ def searchView(request):
                     request, "front/search.html", {"items": raw_json, **login}
                 )
             else:
-                return render(request, "Not Found", login)
+                return render(
+                    request, "front/search.html", {"message": "책을 찾을 수 없어요.", **login}
+                )
     else:
-        return render(request, "Bad Request.", login)
+        return render(request, "front/search.html", {"message": "잘못된 접근입니다.", **login})
 
 
 def loginView(request):
@@ -282,6 +284,6 @@ def kakaoCallbackView(request):
                 )
                 return response
             else:
-                return render(request, "Hing")
+                return redirect(reverse("front:home"))
     except KakaoException:
-        return render(request, "Hong")
+        return redirect(reverse("front:home"))
