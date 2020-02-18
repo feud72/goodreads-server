@@ -9,9 +9,11 @@ from books.serializers import BookSerializer
 
 
 class ReviewSerializer(serializers.ModelSerializer):
+    reviewer = serializers.SlugRelatedField(read_only=True, slug_field="owner")
+
     class Meta:
         model = Review
-        exclude = ()
+        fields = ["reviewer", "book", "star", "description"]
 
 
 class MyBookSerializer(serializers.ModelSerializer):

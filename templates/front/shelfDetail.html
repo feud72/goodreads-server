@@ -26,15 +26,17 @@
       </p>
       <hr class="my-4" />
       {% if review %}
-      <p>Star : {{ review.star }}</p>
-      <p>Review : {{ review.description }}</p>
+      <p>리뷰</p>
+      <div class="card p-3">
+      <p>작성자 : {{ review.reviewer }}</p>
+      <p>평점 : {{ review.star }} / 5</p>
+      <p>내용 : {{ review.description }}</p>
+      </div>
       {% else %}
       <form action="{% url 'front:review' %}" method="POST">
         {% csrf_token %}
         <fieldset>
-          <!-- prettier-ignore -->
-          <input type="hidden" name="book" value="{% with id|stringformat:"s" as
-          id %}" />
+          <input type="hidden" name="book" value="{{ id }}" />
           <div class="form-group">
             <label for="Star">Star</label>
             <input

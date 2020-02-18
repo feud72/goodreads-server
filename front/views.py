@@ -2,10 +2,8 @@ import os
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.conf import settings
-
-from django.views.generic import FormView
 
 import requests
 
@@ -105,6 +103,7 @@ def shelfDetailView(request, id):
     token = login["token"]
     endpoint = "/api/v1/shelves/"
     item = getAPI(API_URL, endpoint, str(id), token=token)
+    print(item)
     return render(request, "front/shelfDetail.html", {**item, **login},)
 
 
@@ -125,28 +124,23 @@ def subscribeView(request):
             return redirect(reverse("front:shelf"))
 
 
-class ReviewView(FormView):
-    form_class = ReviewForm
-    http_method_names = ["get", "post", "put", "delete"]
-    success_url = reverse_lazy("front:shelf")
-    template_name = "front/shelfDetail.html"
-
-    def form_invalid(self, form):
-        print(form)
-        print(self.get_context_data(form=form))
-
-    def form_valid(self, form):
-        print(form)
-        self.send_api(form.cleaned_data)
-        return super(ReviewView, self)
-
-    def send_api(self, valid_data):
-        login = loginStatus(self.request)
-        endpoint = f"/api/v1/shelves/{id}/"
-        url = API_URL + endpoint
+def reviewView(request):
+    if request.method == "POST":
+        login = loginStatus(request)
         token = login["token"]
-        headers = {"Authorization": f"Token {token}"}
-        # req = requests.post(url, data=valid_data, headers=headers)
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            book = form.cleaned_data["book"]
+            description = form.cleaned_data["description"]
+            star = form.cleaned_data["star"]
+            data = {"book": book, "description": description, "star": star}
+            endpoint = f"/api/v1/shelves/{book}/review/"
+            url = API_URL + endpoint
+            headers = {"Authorization": f"Token {token}"}
+            requests.post(url, data=data, headers=headers)
+        else:
+            print(form.errors)
+        return redirect(reverse("front:shelf-detail", args=[book]))
 
 
 def searchView(request):
