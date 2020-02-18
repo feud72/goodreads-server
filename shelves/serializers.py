@@ -8,9 +8,16 @@ from books.models import Book
 from books.serializers import BookSerializer
 
 
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        exclude = ()
+
+
 class MyBookSerializer(serializers.ModelSerializer):
     isbn = serializers.CharField(max_length=13, write_only=True)
     book = BookSerializer(required=False)
+    review = ReviewSerializer(required=False)
 
     class Meta:
         model = MyBook
@@ -19,6 +26,7 @@ class MyBookSerializer(serializers.ModelSerializer):
             "owner",
             "book",
             "isbn",
+            "review",
         )
         read_only_fields = ("id", "owner", "book")
 
@@ -47,9 +55,3 @@ class MyBookSerializer(serializers.ModelSerializer):
             return obj
         except Exception:
             raise serializers.ValidationError({"error": "Whoo."})
-
-
-class ReviewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Review
-        exclude = ()

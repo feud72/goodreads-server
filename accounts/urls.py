@@ -7,5 +7,6 @@ app_name = "accounts"
 urlpatterns = [
     path("signup/", views.SignupView.as_view(), name="signup"),
     path("login/", views.LoginView.as_view(), name="login"),
-    path("login/kakao/", social_login.kakao, name="kakao"),
+    path("login/kakao/", social_login.kakaoLogin, name="kakao"),
+    path("logout/kakao/", social_login.kakaoUnlink, name="kakao-unlink"),
 ]

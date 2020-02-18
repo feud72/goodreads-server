@@ -1,30 +1,27 @@
 {% extends "base.html" %} {% block content %}
-<section class="p-2">
-  <h3 class="mt-3 mb-3">최근 등록된 책</h3>
-  <hr class="my-4" />
-  {% for item in items %}
-  <a class="text-body" href="{% url 'front:detail' item.isbn %}">
-  <div class="card border-primary mb-3">
-    <div class="row card-body justify-content-center">
-      <div class="col-xl-2 col-lg-2 col-md-2 col-sm-11 m-3">
-        <img
-          style="display: block; margin: 0px auto;}"
-          src="{{ item.bookImage }}"
-          alt="Book Image {{ item.title }}"
-        />
-      </div>
-      <div class="col-xl-9 col-lg-9 col-md-9 col-sm-11 m-2">
+<h3 class="mt-3">최근 등록된 책</h3>
+<hr class="my-4" />
+{% for item in items %}
+<div class="card border-primary mb-3">
+  <div class="row card-body justify-content-center">
+    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-11 m-3">
+      <img
+        style="display: block; margin: 0px auto;}"
+        src="{{ item.bookImage }}"
+        alt="Book Image {{ item.title }}"
+      />
+    </div>
+    <div class="col-xl-9 col-lg-9 col-md-9 col-sm-11 m-2">
+      <a class="text-body" href="{% url 'front:detail' item.isbn %}">
         <p
           class="lead text-dark text-sm-center text-md-left text-lg-left text-xl-left "
         >
           {{ item.title }}
         </p>
         <p>{{ item.description }}</p>
-        <p>{{ item.author }} | {{ item.pub_year }}</p>
-      </div>
+      </a>
+      <p>{{ item.author }} | {{ item.pub_year }}</p>
     </div>
-    </div>
-  </a>
-  {% endfor %}
-</section>
-{% endblock content %}
+  </div>
+</div>
+{% endfor %} {% endblock content %}

@@ -12,11 +12,10 @@ class MyBook(CoreModel):
 
 
 class Review(CoreModel):
-    book = models.ForeignKey(MyBook, on_delete=models.CASCADE)
+    book = models.OneToOneField(MyBook, on_delete=models.CASCADE)
     finished = models.BooleanField(default=False)
     star = models.IntegerField(blank=True, null=True)
-    subject = models.CharField(max_length=100, null=True, blank=True)
     description = models.TextField(max_length=1000, default="", null=True, blank=True)
 
     def __str__(self):
-        return self.subject
+        return f': "{self.book.book.title}" # {self.book.owner.nickname}님'

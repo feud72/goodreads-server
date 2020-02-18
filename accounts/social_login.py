@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.conf import settings
+from django.shortcuts import redirect
+from django.urls import reverse
 
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -28,7 +30,22 @@ def kakao_get_profile(access_token):
 @api_view(
     ["POST",]
 )
-def kakao(request):
+def kakaoUnlink(request):
+    try:
+        access_token = request.data["token"]
+        url = "https://kapi.kakao.com/v1/user/unlink"
+        headers = {"Authorization": f"Bearer {access_token}"}
+        req = requests.post(url, headers=headers)
+        message = req.json()
+        return Response(data=message)
+    except KakaoException:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(
+    ["POST",]
+)
+def kakaoLogin(request):
     """
 카카오와 해커톤 로그인 연동
     """
@@ -37,11 +54,12 @@ def kakao(request):
         profile_json = kakao_get_profile(access_token)
         email = profile_json.get("kaccount_email", None)
         if email is None:
-            raise KakaoException()
+            redirect(reverse("accounts:kakao-unlink"))
         properties = profile_json.get("properties")
         nickname = properties.get("nickname")
+        print(nickname)
         user, created = get_user_model().objects.get_or_create(
-            email=email, username=email, first_name=nickname, login_method="kakao",
+            email=email, username=email, nickname=nickname, login_method="kakao",
         )
         if created:
             user.set_unusable_password()
@@ -49,7 +67,7 @@ def kakao(request):
             data = {}
             data["message"] = "Successfully registered a new user."
             data["username"] = user.username
-            data["email"] = user.email
+            data["nickname"] = user.nickname
             return Response(status=status.HTTP_201_CREATED, data=data)
         else:
             if user.login_method == "kakao":

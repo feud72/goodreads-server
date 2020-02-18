@@ -4,9 +4,9 @@
     <form action="{% url 'front:signup' %}" method="post">
       {% csrf_token %}
       <fieldset>
-        <legend>Sign Up</legend>
+        <legend>회원가입</legend>
         <div class="form-group">
-          <label for="InputEmail">Email address</label>
+          <label for="InputEmail">이메일</label>
           <input
             type="email"
             class="form-control"
@@ -20,7 +20,7 @@
           >
         </div>
         <div class="form-group">
-          <label for="InputPassword1">Password</label>
+          <label for="InputPassword1">비밀번호</label>
           <input
             type="password"
             class="form-control"
@@ -31,7 +31,7 @@
         </div>
 
         <div class="form-group">
-          <label for="InputPassword2">Again</label>
+          <label for="InputPassword2">비밀번호 확인</label>
           <input
             type="password"
             class="form-control"
@@ -40,13 +40,16 @@
             name="password2"
           />
         </div>
-        <button type="Submit" class="btn btn-primary">Submit</button>
+        <button type="Submit" class="btn btn-primary">제출</button>
       </fieldset>
     </form>
-    <p class="mt-3 mb-0">Or</p>
+    <p class="mt-3 mb-0">또는</p>
     <a href="{% url 'front:kakao' %}">
       <img src="{% static 'kakao_login_button.png' %}" class="mt-3"
     /></a>
+    <p class="text-danger mb-0">
+      Caution: 선택 정보 항목 "이메일"에 꼭 체크해 주세요! 로그인에 필요합니다.
+    </p>
   </div>
 </div>
 {% endblock content %}

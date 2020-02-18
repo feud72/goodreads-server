@@ -14,19 +14,20 @@
     <!-- jQuery 3.4.1 -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   </head>
-  <body>
-    <div class="container"> 
-      {% autoescape off %}
-      <!-- prettier-ignore -->
-      {% include "partials/nav.html" %}
-      <!-- prettier-ignore -->
+  <body style="background-color: #F3969A11;">
+    {% autoescape off %}
+    <!-- prettier-ignore -->
+    {% include "partials/nav.html" %}
+    <!-- prettier-ignore -->
+    <div class="container">
+      <section class="p-2">
       {% block content %}
       <!-- prettier-ignore -->
       {% endblock content%}
-      <!-- prettier-ignore -->
-      {% include "partials/footer.html" %}
-      {% endautoescape %}
+      </section>
     </div>
+    <!-- prettier-ignore -->
+    {% include "partials/footer.html" %} {% endautoescape %}
     <script
       src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"

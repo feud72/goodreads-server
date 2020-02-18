@@ -1,0 +1,43 @@
+{% extends "base.html" %} {% block content %} {% load static %}
+<h3 class="mt-3">
+  상세 정보
+</h3>
+<hr class="my-4" />
+<div class="card border-primary mb-3">
+  <div class="row card-body justify-content-center">
+    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-11 m-3">
+      <img
+        style="display: block; margin: 0px auto;}"
+        src="{{ book.bookImage }}"
+        alt="Book Image {{ book.title }}"
+      />
+    </div>
+    <div class="col-xl-9 col-lg-9 col-md-9 col-sm-11 m-2">
+      <p
+        class="lead text-dark text-sm-center text-md-left text-lg-left text-xl-left"
+      >
+        {{ book.title }}
+      </p>
+      <p>
+        {{ book.description }}
+      </p>
+      <p>
+        {{ book.author }} | {{ book.pub_year }} | {{ book.publisher }}
+      </p>
+      <hr class="my-4" />
+      {% if review %}
+      <p>Star : {{ review.star }}</p>
+      <p>Review : {{ review.description }}</p>
+      {% endif %}
+
+      <form action="{% url 'front:subscribe' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="isbn" value="{{ book.isbn }}" />
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">
+          구독 cancel
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}

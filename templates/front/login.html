@@ -4,9 +4,9 @@
     <form action="{% url 'front:login' %}" method="post">
       {% csrf_token %}
       <fieldset>
-        <legend>Login</legend>
+        <legend>로그인</legend>
         <div class="form-group">
-          <label for="InputEmail">Email address</label>
+          <label for="InputEmail">이메일</label>
           <input
             type="email"
             class="form-control"
@@ -20,7 +20,7 @@
           >
         </div>
         <div class="form-group">
-          <label for="InputPassword">Password</label>
+          <label for="InputPassword">비밀번호</label>
           <input
             type="password"
             class="form-control"
@@ -30,11 +30,12 @@
           />
         </div>
         <button type="Submit" class="btn btn-primary text-center">
-          Submit
+          제출
         </button>
       </fieldset>
     </form>
-    <p class="mt-3 mb-0">Or</p>
+    <hr class="my-4" />
+    <p class="mt-3 mb-0">또는</p>
     <a href="{% url 'front:kakao' %}">
       <img src="{% static 'kakao_login_button.png' %}" class="mt-3"
     /></a>

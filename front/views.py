@@ -14,15 +14,26 @@ API_URL = os.environ["API_URI"]
 
 def loginStatus(request):
     token = request.COOKIES.get("token", None)
-    result = {"token": token, "status": False}
+    result = {"token": token, "status": False, "nickname": None}
     if token:
         result["status"] = True
+        headers = {"Authorization": f"Token {token}"}
+        user = requests.get(API_URL + "/api/v1/users/me/", headers=headers)
+        user = user.json()
+        if "nickname" in user:
+            result["nickname"] = user["nickname"]
     return result
 
 
-def getAPI(base, endpoint, *args):
+def getAPI(base, endpoint, *args, method="GET", token=None, **kwargs):
     url = "".join((base, endpoint, *args))
-    raw = requests.get(url)
+    if not url.endswith("/"):
+        url += "/"
+    headers = ""
+    if token is not None:
+        headers = {"Authorization": f"Token {token}"}
+    if method == "GET":
+        raw = requests.get(url, headers=headers)
     raw_json = raw.json()
     return raw_json
 
@@ -79,12 +90,21 @@ def shelfView(request):
         if raw.status_code == 200:
             raw_json = raw.json()
             items = raw_json["results"]
-            return render(request, "front/shelf.html", {"items": items, **login})
+            return render(request, "front/shelf.html", {"items": items, **login},)
         else:
             raw_text = raw.text
             return render(request, "front/shelf.html", {"errors": raw_text, **login})
 
     return render(request, "front/shelf.html", login)
+
+
+def shelfDetailView(request, id):
+    login = loginStatus(request)
+    token = login["token"]
+    endpoint = "/api/v1/shelves/"
+    item = getAPI(API_URL, endpoint, str(id), token=token)
+    print(item)
+    return render(request, "front/shelfDetail.html", {**item, **login},)
 
 
 def subscribeView(request):
@@ -224,6 +244,7 @@ def kakaoCallbackView(request):
             raise KakaoException()
         else:
             endpoint = reverse("accounts:kakao")
+            # endpoint = reverse("accounts:kakao-unlink")
             url = API_URL + endpoint
             data = {"token": access_token}
             req = requests.post(url, data=data)

@@ -53,8 +53,7 @@ My 책 생성
 
 | 필드명 | 타입 | 필수여부 | 설명 |
 | ---- | ---- | -------- | ----------- |
-| owner | string |   필수    | username (email)
-| isbn | string |   필수    | isbn (13 length integer)
+| isbn | string |   필수    | isbn (13 length)
         """
         isbn = request.data["isbn"]
         username = request.user
@@ -76,6 +75,7 @@ My 책 생성
             data = serializer(queryset, many=True)
             return Response(status=status.HTTP_200_OK, data=data.data)
         if request.method == "POST":
+            queryset = Review.objects.filter(book__owner__username=request.user)
             data = serializer(data={"book": pk, **request.data.dict()})
             if data.is_valid():
                 data.save()
