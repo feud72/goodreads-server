@@ -28,15 +28,42 @@
       {% if review %}
       <p>Star : {{ review.star }}</p>
       <p>Review : {{ review.description }}</p>
-      {% endif %}
-
-      <form action="{% url 'front:subscribe' %}" method="post">
+      {% else %}
+      <form action="{% url 'front:review' %}" method="POST">
         {% csrf_token %}
-        <input type="hidden" name="isbn" value="{{ book.isbn }}" />
-        <button class="btn btn-secondary my-2 my-sm-0" type="submit">
-          구독 cancel
-        </button>
+        <fieldset>
+          <!-- prettier-ignore -->
+          <input type="hidden" name="book" value="{% with id|stringformat:"s" as
+          id %}" />
+          <div class="form-group">
+            <label for="Star">Star</label>
+            <input
+              type="number"
+              min="1"
+              max="5"
+              class="form-control"
+              id="InputStar"
+              aria-describedby="starHelp"
+              name="star"
+            />
+          </div>
+          <div class="form-group">
+            <label for="InputDescription">Description</label>
+            <input
+              type="textarea"
+              class="form-control"
+              id="InputDescription"
+              placeholder="Description"
+              name="description"
+            />
+          </div>
+
+          <button type="Submit" class="btn btn-primary text-center">
+            제출
+          </button>
+        </fieldset>
       </form>
+      {% endif %}
     </div>
   </div>
 </div>

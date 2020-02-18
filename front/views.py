@@ -2,12 +2,14 @@ import os
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.conf import settings
+
+from django.views.generic import FormView
 
 import requests
 
-from .forms import LoginForm, SearchForm, SignupForm, SubscribeForm
+from .forms import LoginForm, SearchForm, SignupForm, SubscribeForm, ReviewForm
 
 API_URL = os.environ["API_URI"]
 
@@ -103,7 +105,6 @@ def shelfDetailView(request, id):
     token = login["token"]
     endpoint = "/api/v1/shelves/"
     item = getAPI(API_URL, endpoint, str(id), token=token)
-    print(item)
     return render(request, "front/shelfDetail.html", {**item, **login},)
 
 
@@ -122,6 +123,30 @@ def subscribeView(request):
             headers = {"Authorization": f"Token {token}"}
             requests.post(url, data={"isbn": isbn}, headers=headers)
             return redirect(reverse("front:shelf"))
+
+
+class ReviewView(FormView):
+    form_class = ReviewForm
+    http_method_names = ["get", "post", "put", "delete"]
+    success_url = reverse_lazy("front:shelf")
+    template_name = "front/shelfDetail.html"
+
+    def form_invalid(self, form):
+        print(form)
+        print(self.get_context_data(form=form))
+
+    def form_valid(self, form):
+        print(form)
+        self.send_api(form.cleaned_data)
+        return super(ReviewView, self)
+
+    def send_api(self, valid_data):
+        login = loginStatus(self.request)
+        endpoint = f"/api/v1/shelves/{id}/"
+        url = API_URL + endpoint
+        token = login["token"]
+        headers = {"Authorization": f"Token {token}"}
+        req = requests.post(url, data=valid_data, headers=headers)
 
 
 def searchView(request):
