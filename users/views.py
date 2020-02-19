@@ -31,7 +31,7 @@ class UsersViewSet(ModelViewSet):
         return queryset
 
     @action(
-        detail=False, methods=["GET"],
+        detail=False, methods=["GET", "PUT", "DELETE"],
     )
     @permission_classes([IsSelf])
     def me(self, request, *args, **kwargs):

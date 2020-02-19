@@ -9,7 +9,7 @@ from books.serializers import BookSerializer
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    reviewer = serializers.SlugRelatedField(read_only=True, slug_field="owner")
+    reviewer = serializers.SlugRelatedField(read_only=True, slug_field="mybook__owner")
 
     class Meta:
         model = Review

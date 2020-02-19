@@ -35,46 +35,57 @@ def getAPI(base, endpoint, *args, method="GET", token=None, **kwargs):
     if method == "GET":
         raw = requests.get(url, headers=headers)
     raw_json = raw.json()
-    return raw_json
+    status = raw.status_code
+    return raw_json, status
 
 
 def homeView(request):
     login = loginStatus(request)
     endpoint = "/api/v1/books/"
-    raw = getAPI(API_URL, endpoint)
-    book_list = raw["results"][:3]
-    return render(request, "front/home.html", {"items": book_list, **login})
+    raw, status = getAPI(API_URL, endpoint)
+    if status in (200, 201):
+        book_list = raw["results"][:3]
+        return render(request, "front/home.html", {"items": book_list, **login})
+    else:
+        return render(request, "front/home.html", {**login})
 
 
 def recentView(request):
     login = loginStatus(request)
     endpoint = "/api/v1/books/"
-    raw = getAPI(API_URL, endpoint)
-    book_list = raw["results"]
-    return render(request, "front/recent.html", {"items": book_list, **login})
+    raw, status = getAPI(API_URL, endpoint)
+    if status in (200, 201):
+        book_list = raw["results"]
+        return render(request, "front/recent.html", {"items": book_list, **login})
+    else:
+        return render(request, "front/recent.html", {**login})
 
 
 def popularView(request):
     login = loginStatus(request)
     endpoint = "/api/v1/books/recommend/"
-    raw = getAPI(API_URL, endpoint)
-    book_list = raw
-    return render(request, "front/popular.html", {"items": book_list, **login})
+    raw, status = getAPI(API_URL, endpoint)
+    if status in (200, 201):
+        book_list = raw
+        return render(request, "front/popular.html", {"items": book_list, **login})
+    else:
+        return render(request, "front/popular.html", {**login})
 
 
 def detailView(request, isbn):
     login = loginStatus(request)
     endpoint = "/api/v1/books/"
-    raw = getAPI(API_URL, endpoint, isbn)
-    book_detail = raw
-    recommend_url = "/recommend/"
-    raw = getAPI(API_URL, endpoint, isbn, recommend_url)
-    recommend_data = raw
-    return render(
-        request,
-        "front/detail.html",
-        {"item": book_detail, "recommend": recommend_data, **login},
-    )
+    raw, status = getAPI(API_URL, endpoint, isbn)
+    if status in (200, 201):
+        book_detail = raw
+        recommend_url = "/recommend/"
+        raw, _ = getAPI(API_URL, endpoint, isbn, recommend_url)
+        recommend_data = raw
+        return render(
+            request,
+            "front/detail.html",
+            {"item": book_detail, "recommend": recommend_data, **login},
+        )
 
 
 def shelfView(request):
@@ -84,26 +95,23 @@ def shelfView(request):
     else:
         token = login["token"]
         endpoint = "/api/v1/shelves/"
-        url = API_URL + endpoint
-        headers = {"Authorization": f"Token {token}"}
-        raw = requests.get(url, headers=headers)
-        if raw.status_code == 200:
-            raw_json = raw.json()
-            items = raw_json["results"]
+        raw, status = getAPI(API_URL, endpoint, token=token)
+        if status in (200, 201):
+            items = raw["results"]
             return render(request, "front/shelf.html", {"items": items, **login},)
         else:
-            raw_text = raw.text
-            return render(request, "front/shelf.html", {"errors": raw_text, **login})
-
-    return render(request, "front/shelf.html", login)
+            return render(request, "front/shelf.html", {"errors": raw, **login})
 
 
 def shelfDetailView(request, id):
     login = loginStatus(request)
     token = login["token"]
     endpoint = "/api/v1/shelves/"
-    item = getAPI(API_URL, endpoint, str(id), token=token)
-    return render(request, "front/shelfDetail.html", {**item, **login},)
+    item, status = getAPI(API_URL, endpoint, str(id), token=token)
+    if status in (200, 201):
+        return render(request, "front/shelfDetail.html", {**item, **login},)
+    else:
+        return redirect(reverse("front:shelf"))
 
 
 def subscribeView(request):
@@ -279,4 +287,30 @@ def kakaoCallbackView(request):
             else:
                 return redirect(reverse("front:home"))
     except KakaoException:
+        return redirect(reverse("front:home"))
+
+
+def meView(request):
+    login = loginStatus(request)
+    if login["status"]:
+        endpoint = "/api/v1/users/me/"
+        token = login["token"]
+        req, status = getAPI(API_URL, endpoint, token=token)
+        if status == 200:
+            return render(request, "front/me.html", {"me": req, **login})
+        else:
+            return render(request, "front/me.html", {"error": "Not fount.", **login})
+    else:
+        return redirect(reverse("front:home"))
+
+
+def meUpdateView(request):
+    login = loginStatus(request)
+    if login["status"]:
+        endpoint = "/api/v1/users/me/"
+        token = login["token"]
+        req = getAPI(API_URL, endpoint, token=token)
+        print(req)
+        # me = get_object_or_404(get_user_model(), username=login)
+    else:
         return redirect(reverse("front:home"))

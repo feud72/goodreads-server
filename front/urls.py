@@ -18,4 +18,5 @@ urlpatterns = [
     path("signup/", views.signupView, name="signup"),
     path("logout/", views.logoutView, name="logout"),
     path("detail/<str:isbn>/", views.detailView, name="detail"),
+    path("me/", views.meView, name="me"),
 ]
