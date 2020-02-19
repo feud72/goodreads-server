@@ -20,11 +20,13 @@
       <li class="nav-item">
         <a href="{% url 'front:recent' %}" class="nav-link">최근 등록된 책</a>
       </li>
-    </ul>
-    {% if status is True %}
+          {% if status is True %}
     <li class="navbar-nav">
       <a class="nav-link" href="{% url 'front:shelf' %}">내 책장</a>
     </li>
+    {% endif %}
+    </ul>
+    {% if status is True %}
     <li class="navbar-nav">
       <a class="nav-link" href="{% url 'front:me' %}">내 정보</a>
     </li>

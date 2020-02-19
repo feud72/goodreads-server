@@ -1,10 +1,14 @@
 {% extends "base.html" %} {% block content %} {% load static %}
-<div class="container flex-colomn justify-content-center p-2">
-  <div class="card border-primary p-4 m-3">
+  <h3 class="mt-3">
+    로그인
+  </h3>
+  <hr class="my-4" />
+  <div class="card border-primary mb-3">
+  <div class="card-body justify-content-center">
+
     <form action="{% url 'front:login' %}" method="post">
       {% csrf_token %}
       <fieldset>
-        <legend>로그인</legend>
         <div class="form-group">
           <label for="InputEmail">이메일</label>
           <input
