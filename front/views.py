@@ -103,7 +103,6 @@ def shelfDetailView(request, id):
     token = login["token"]
     endpoint = "/api/v1/shelves/"
     item = getAPI(API_URL, endpoint, str(id), token=token)
-    print(item)
     return render(request, "front/shelfDetail.html", {**item, **login},)
 
 

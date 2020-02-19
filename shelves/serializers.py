@@ -34,7 +34,6 @@ class MyBookSerializer(serializers.ModelSerializer):
 
     def validate_isbn(self, value):
         owner = self.initial_data["username"]
-        print(owner)
         if len(value) != 13:
             raise serializers.ValidationError("ISBN must be 13 length.")
         if MyBook.objects.filter(book__pk=value, owner__username=owner).exists():
