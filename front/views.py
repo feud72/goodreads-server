@@ -7,7 +7,14 @@ from django.conf import settings
 
 import requests
 
-from .forms import LoginForm, SearchForm, SignupForm, SubscribeForm, ReviewForm
+from .forms import (
+    LoginForm,
+    SearchForm,
+    SignupForm,
+    SubscribeForm,
+    ReviewForm,
+    UserEditForm,
+)
 
 API_URL = os.environ["API_URI"]
 
@@ -188,7 +195,7 @@ def loginView(request):
             if "message" in res:
                 if res["message"] == "success":
                     token = res["token"]
-                    response = HttpResponseRedirect(reverse("front:shelf"))
+                    response = HttpResponseRedirect(reverse("front:home"))
                     response.set_cookie(
                         key="token", value=token, domain=settings.COOKIE_DOMAIN
                     )
@@ -213,7 +220,17 @@ def signupView(request):
                 url, {"email": email, "password1": password1, "password2": password2}
             )
             if req.status_code == 201:
-                return redirect(reverse("front:login"))
+                url = API_URL + "/api/v1/accounts/login/"
+                req = requests.post(url, {"email": email, "password": password1})
+                res = req.json()
+                if "message" in res:
+                    if res["message"] == "success":
+                        token = res["token"]
+                        response = HttpResponseRedirect(reverse("front:home"))
+                        response.set_cookie(
+                            key="token", value=token, domain=settings.COOKIE_DOMAIN
+                        )
+                        return response
             else:
                 return render(request, "front/signup.html", {"form": form})
     return redirect(reverse("front:signup"))
@@ -279,7 +296,7 @@ def kakaoCallbackView(request):
             if req.status_code in (200, 201):
                 res = req.json()
                 token = res.get("token")
-                response = HttpResponseRedirect(reverse("front:shelf"))
+                response = HttpResponseRedirect(reverse("front:home"))
                 response.set_cookie(
                     key="token", value=token, domain=settings.COOKIE_DOMAIN
                 )
@@ -309,8 +326,41 @@ def meUpdateView(request):
     if login["status"]:
         endpoint = "/api/v1/users/me/"
         token = login["token"]
-        req = getAPI(API_URL, endpoint, token=token)
-        print(req)
-        # me = get_object_or_404(get_user_model(), username=login)
+        raw, status = getAPI(API_URL, endpoint, token=token)
+        if status == 200:
+            user = {
+                "id": raw.get("id"),
+                "username": raw.get("username"),
+                "nickname": raw.get("nickname"),
+            }
     else:
         return redirect(reverse("front:home"))
+    if request.method == "POST":
+        form = UserEditForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            nickname = form.cleaned_data["nickname"]
+            password = form.cleaned_data["password1"]
+            password2 = form.cleaned_data["password2"]
+            data = {
+                "username": username,
+                "nickname": nickname,
+            }
+            if password == password2:
+                data["password"] = password
+            endpoint = f"/api/v1/users/{user['id']}/"
+            req = requests.put(API_URL + endpoint, data)
+            if req.status_code == 200:
+                return redirect(reverse("front:me"))
+            else:
+                print(req.json())
+                return redirect(reverse("front:me"))
+        else:
+            return render(
+                request, "front/me-edit.html", {"form": form, "user": user, **login}
+            )
+    if request.method == "GET":
+        form = UserEditForm()
+        return render(
+            request, "front/me-edit.html", {"form": form, "user": user, **login}
+        )

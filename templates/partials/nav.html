@@ -20,26 +20,29 @@
       <li class="nav-item">
         <a href="{% url 'front:recent' %}" class="nav-link">최근 등록된 책</a>
       </li>
-      {% if status is True %}
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'front:shelf' %}">내 책장</a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'front:logout' %}">로그아웃</a>
-      </li>
-      {% else %}
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'front:login' %}">로그인</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'front:signup' %}">회원가입</a>
-      </li>
-      {% endif %}
     </ul>
+    {% if status is True %}
+    <li class="navbar-nav">
+      <a class="nav-link" href="{% url 'front:shelf' %}">내 책장</a>
+    </li>
+    <li class="navbar-nav">
+      <a class="nav-link" href="{% url 'front:me' %}">내 정보</a>
+    </li>
+    <li class="navbar-nav">
+      <a class="nav-link" href="{% url 'front:logout' %}">로그아웃</a>
+    </li>
+    {% else %}
+    <li class="navbar-nav">
+      <a class="nav-link" href="{% url 'front:login' %}">로그인</a>
+    </li>
+    <li class="navbar-nav">
+      <a class="nav-link" href="{% url 'front:signup' %}">회원가입</a>
+    </li>
+    {% endif %}
+
     <form
       action="{% url 'front:search' %}"
-      class="form-inline my-2 my-lg-0"
+      class="form-inline my-2 my-lg-0 ml-3"
       method="post"
     >
       {% csrf_token %}

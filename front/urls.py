@@ -19,4 +19,5 @@ urlpatterns = [
     path("logout/", views.logoutView, name="logout"),
     path("detail/<str:isbn>/", views.detailView, name="detail"),
     path("me/", views.meView, name="me"),
+    path("me/edit/", views.meUpdateView, name="me-edit"),
 ]

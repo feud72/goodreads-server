@@ -1,5 +1,8 @@
 {% extends "base.html" %} {% block content %}
 <div class="jumbotron">
+  {% if status %}
+  <p class="text-center">{{ nickname }}님, 좋은 하루 보내세요. :)</p>
+  {% endif %}
   <h2 class="display-4 text-center">
     Good Reads Clone
   </h2>

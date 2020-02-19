@@ -1,11 +1,44 @@
 {% extends "base.html" %} {% block content %} {% load static %}
 <h3 class="mt-3">
-  Me
+  내 정보
 </h3>
 <hr class="my-4" />
 <div class="card border-primary mb-3">
-  <div class="row card-body justify-content-center">
-    {{ me }}
+  <div class="card-body justify-content-center">
+    <p>별명 : {{ me.nickname }}</p>
+    <p>회원 가입일 : {{ me.created_at }}</p>
+    <a href="{% url 'front:me-edit' %}" class="btn btn-primary">정보 수정</a>
   </div>
 </div>
-{% endblock content %}
+
+<hr class="my-4" />
+<h3 class="mt-3">{{ me.nickname }} 님의 책장</h3>
+<hr class="my-4" />
+
+{% if me.mybook %} {% for item in me.mybook %}
+<div class="card border-primary mb-3">
+  <div class="row card-body justify-content-center">
+    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-11 m-3">
+      <img
+        style="display: block; margin: 0px auto;}"
+        src="{{ item.book.bookImage }}"
+        alt="Book Image {{ item.book.title }}"
+      />
+    </div>
+    <div class="col-xl-9 col-lg-9 col-md-9 col-sm-11 m-2">
+      <a class="text-body" href="{% url 'front:shelf-detail' item.id %}">
+        <p
+          class="lead text-dark text-sm-center text-md-left text-lg-left text-xl-left "
+        >
+          {{ item.book.title }}
+        </p>
+        <p>{{ item.book.description }}</p>
+      </a>
+    </div>
+  </div>
+</div>
+{% endfor %} {% else %}
+<p class="lead">책장에 책이 한 권도 없네요. 책을 구경하러 가시겠어요?</p>
+<a class="btn btn-secondary" href="{% url 'front:recent' %}">구경하러 가기</a>
+
+{% endif %} {% endblock content %}
