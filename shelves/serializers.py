@@ -6,12 +6,16 @@ from .models import MyBook
 
 from books.models import Book
 from users.models import User
+from reviews.serializers import ReviewSerializer
 
 
 class MyBookSerializer(serializers.ModelSerializer):
     isbn = serializers.CharField(max_length=13, write_only=True)
     owner = serializers.SlugRelatedField(
         slug_field="nickname", queryset=User.objects.all()
+    )
+    review = ReviewSerializer(
+        many=True, read_only=True, required=False, source="book.review_set"
     )
 
     class Meta:
@@ -21,12 +25,9 @@ class MyBookSerializer(serializers.ModelSerializer):
             "owner",
             "book",
             "isbn",
+            "review",
         )
-        read_only_fields = (
-            "id",
-            "owner",
-            "book",
-        )
+        read_only_fields = ("id", "owner", "book", "review")
         depth = 1
 
     def validate_isbn(self, value):

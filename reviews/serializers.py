@@ -2,12 +2,13 @@ from rest_framework import serializers
 
 from .models import Review
 
-from users.serializers import UserSerializer
 from books.models import Book
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    user = UserSerializer(required=False)
+    user = serializers.SlugRelatedField(
+        slug_field="nickname", read_only=True, required=False
+    )
     book = serializers.PrimaryKeyRelatedField(queryset=Book.objects.all())
 
     class Meta:

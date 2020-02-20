@@ -152,10 +152,12 @@ def reviewView(request):
             url = API_URL + endpoint
             headers = {"Authorization": f"Token {token}"}
             req = requests.post(url, data=data, headers=headers)
-            print(req.json())
+            if req.status_code == 201:
+                req_json = req.json()
+                mybook = req_json.get("id")
         else:
             print(form.errors)
-        return redirect(reverse("front:shelf-detail", args=[book]))
+        return redirect(reverse("front:shelf-detail", args=[mybook]))
 
 
 def searchView(request):
@@ -290,7 +292,6 @@ def kakaoCallbackView(request):
             raise KakaoException()
         else:
             endpoint = reverse("accounts:kakao")
-            # endpoint = reverse("accounts:kakao-unlink")
             url = API_URL + endpoint
             data = {"token": access_token}
             req = requests.post(url, data=data)
@@ -315,7 +316,6 @@ def meView(request):
         token = login["token"]
         req, status = getAPI(API_URL, endpoint, token=token)
         if status == 200:
-            print(req)
             return render(request, "front/me.html", {"me": req, **login})
         else:
             return render(request, "front/me.html", {"error": "Not fount.", **login})
@@ -355,7 +355,6 @@ def meUpdateView(request):
             if req.status_code == 200:
                 return redirect(reverse("front:me"))
             else:
-                print(req.json())
                 return redirect(reverse("front:me"))
         else:
             return render(

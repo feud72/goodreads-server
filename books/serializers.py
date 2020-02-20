@@ -6,10 +6,14 @@ import requests
 from .models import Book
 
 from utils.get_data import getDetail
+from reviews.serializers import ReviewSerializer
 
 
 class BookSerializer(serializers.ModelSerializer):
     isbn = serializers.CharField(max_length=13, required=True)
+    review = ReviewSerializer(
+        many=True, read_only=True, required=False, source="review_set"
+    )
 
     class Meta:
         model = Book
@@ -21,6 +25,7 @@ class BookSerializer(serializers.ModelSerializer):
             "isbn",
             "description",
             "bookImage",
+            "review",
         )
         read_only_fields = (
             "title",
@@ -29,6 +34,7 @@ class BookSerializer(serializers.ModelSerializer):
             "pub_year",
             "description",
             "bookImage",
+            "review",
         )
 
     def validate_isbn(self, value):

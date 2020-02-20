@@ -40,6 +40,53 @@
   </div>
 </div>
 
+      <hr class="my-4" />
+      {% if item.review %}
+      <p class="lead">리뷰</p>
+      {% for review in item.review %}
+      <div class="card p-3 mb-3">
+        <p>작성자 : {{ review.user }}</p>
+        <p>평점 : {{ review.star }} / 5</p>
+        <p>내용 : {{ review.description }}</p>
+      </div>
+      {% endfor %}
+      <hr class="my-4" />
+      {% endif %}
+      <p class="lead ">리뷰 작성</p>
+      <form action="{% url 'front:review' %}" method="POST">
+        {% csrf_token %}
+        <fieldset>
+          <input type="hidden" name="book" value="{{ item.isbn }}" />
+          <div class="form-group">
+            <label for="Star">평점 (5점 만점)</label>
+            <input
+              type="range"
+              min="1"
+              max="5"
+              class="form-control"
+              id="InputStar"
+              aria-describedby="starHelp"
+              name="star"
+            />
+          </div>
+          <div class="form-group">
+            <label for="InputDescription">리뷰</label>
+            <textarea
+              type="textarea"
+              rows="8"
+              class="form-control"
+              id="InputDescription"
+              placeholder="리뷰를 작성해 주세요."
+              name="description"
+            ></textarea>
+          </div>
+
+          <button type="Submit" class="btn btn-primary text-center">
+            제출
+          </button>
+        </fieldset>
+      </form>
+
 <hr class="my-4" />
   <h3 class="mt-3">연관 도서</h3>
   <hr class="my-4" />
