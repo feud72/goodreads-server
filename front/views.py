@@ -151,13 +151,10 @@ def reviewView(request):
             endpoint = f"/api/v1/reviews/"
             url = API_URL + endpoint
             headers = {"Authorization": f"Token {token}"}
-            req = requests.post(url, data=data, headers=headers)
-            if req.status_code == 201:
-                req_json = req.json()
-                mybook = req_json.get("id")
+            requests.post(url, data=data, headers=headers)
         else:
             print(form.errors)
-        return redirect(reverse("front:shelf-detail", args=[mybook]))
+        return redirect(reverse("front:detail", args=[book]))
 
 
 def searchView(request):
