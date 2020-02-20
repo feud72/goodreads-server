@@ -23,3 +23,4 @@ class UserSerializer(serializers.ModelSerializer):
             "created_at",
             "mybook",
         )
+        depth = 1

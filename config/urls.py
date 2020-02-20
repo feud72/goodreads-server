@@ -27,6 +27,7 @@ urlpatterns = [
     path("api/v1/users/", include("users.urls")),
     path("api/v1/accounts/", include("accounts.urls")),
     path("api/v1/shelves/", include("shelves.urls")),
+    path("api/v1/reviews/", include("reviews.urls")),
     path("", include("front.urls")),
 ]
 
@@ -47,6 +48,3 @@ urlpatterns += [
         name="schema-redoc-v1",
     ),
 ]
-
-# if settings.DEBUG:
-#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -148,10 +148,11 @@ def reviewView(request):
             description = form.cleaned_data["description"]
             star = form.cleaned_data["star"]
             data = {"book": book, "description": description, "star": star}
-            endpoint = f"/api/v1/shelves/{book}/review/"
+            endpoint = f"/api/v1/reviews/"
             url = API_URL + endpoint
             headers = {"Authorization": f"Token {token}"}
-            requests.post(url, data=data, headers=headers)
+            req = requests.post(url, data=data, headers=headers)
+            print(req.json())
         else:
             print(form.errors)
         return redirect(reverse("front:shelf-detail", args=[book]))

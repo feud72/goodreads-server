@@ -37,7 +37,7 @@
       <form action="{% url 'front:review' %}" method="POST">
         {% csrf_token %}
         <fieldset>
-          <input type="hidden" name="book" value="{{ id }}" />
+          <input type="hidden" name="book" value="{{ book.isbn }}" />
           <div class="form-group">
             <label for="Star">평점 (5점 만점)</label>
             <input

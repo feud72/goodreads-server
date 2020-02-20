@@ -1,11 +1,10 @@
 from rest_framework.response import Response
-from rest_framework.decorators import action
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework import viewsets
 
-from .serializers import MyBookSerializer, ReviewSerializer
-from .models import MyBook, Review
+from .serializers import MyBookSerializer
+from .models import MyBook
 
 
 class BookShelfViewSet(viewsets.ModelViewSet):
@@ -66,23 +65,3 @@ My 책 생성
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )
-
-    @action(detail=True, methods=["get", "post", "put", "delete"])
-    def review(self, request, pk, *args, **kwargs):
-        queryset = Review.objects.filter(book__owner__username=request.user)
-        serializer = ReviewSerializer
-        if request.method == "GET":
-            data = serializer(queryset, many=True)
-            return Response(status=status.HTTP_200_OK, data=data.data)
-        if request.method == "POST":
-            queryset = Review.objects.filter(book__owner__username=request.user)
-            data = serializer(data={"book": pk, **request.data.dict()})
-            if data.is_valid():
-                data.save()
-                message = {"message": "success"}
-                return Response(status=status.HTTP_200_OK, data={"message": message})
-            else:
-                message = data.errors
-                return Response(status=status.HTTP_200_OK, data={"message": message})
-        else:
-            return Response(status=status.HTTP_200_OK, data={"message": "OK"})

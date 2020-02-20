@@ -2,22 +2,13 @@ from django.contrib.auth import get_user_model
 
 from rest_framework import serializers
 
-from .models import MyBook, Review
+from .models import MyBook
 
 from books.models import Book
-from books.serializers import BookSerializer
-
-
-class ReviewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Review
-        fields = ["book", "star", "description"]
 
 
 class MyBookSerializer(serializers.ModelSerializer):
     isbn = serializers.CharField(max_length=13, write_only=True)
-    book = BookSerializer(required=False)
-    review = ReviewSerializer(required=False)
 
     class Meta:
         model = MyBook
@@ -26,9 +17,13 @@ class MyBookSerializer(serializers.ModelSerializer):
             "owner",
             "book",
             "isbn",
-            "review",
         )
-        read_only_fields = ("id", "owner", "book")
+        read_only_fields = (
+            "id",
+            "owner",
+            "book",
+        )
+        depth = 1
 
     def validate_isbn(self, value):
         owner = self.initial_data["username"]
