@@ -5,10 +5,14 @@ from rest_framework import serializers
 from .models import MyBook
 
 from books.models import Book
+from users.models import User
 
 
 class MyBookSerializer(serializers.ModelSerializer):
     isbn = serializers.CharField(max_length=13, write_only=True)
+    owner = serializers.SlugRelatedField(
+        slug_field="nickname", queryset=User.objects.all()
+    )
 
     class Meta:
         model = MyBook

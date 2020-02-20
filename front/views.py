@@ -315,6 +315,7 @@ def meView(request):
         token = login["token"]
         req, status = getAPI(API_URL, endpoint, token=token)
         if status == 200:
+            print(req)
             return render(request, "front/me.html", {"me": req, **login})
         else:
             return render(request, "front/me.html", {"error": "Not fount.", **login})
