@@ -20,6 +20,7 @@ psycopg2-binary = "<=2.8"
 boto3 = "*"
 django-storages = "*"
 pillow = "*"
+daphne = "*"
 
 [requires]
 python_version = "3.8"

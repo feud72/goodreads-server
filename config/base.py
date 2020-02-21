@@ -93,7 +93,7 @@ ASGI_APPLICATION = "config.asgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": os.environ["DJANGO_WEBSERVER_DB_ENGINE"],
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": os.environ["DJANGO_WEBSERVER_DB_NAME"],
         "USER": os.environ["DJANGO_WEBSERVER_DB_USER"],
         "PASSWORD": os.environ["DJANGO_WEBSERVER_DB_PASSWORD"],
