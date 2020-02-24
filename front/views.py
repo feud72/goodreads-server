@@ -203,7 +203,10 @@ def loginView(request):
                     )
                     return response
             else:
-                return render(request, "front/login.html", {"form": form})
+                errors = res
+                return render(
+                    request, "front/login.html", {"form": form, "errors": errors}
+                )
     return redirect(reverse("front:login"))
 
 
@@ -234,7 +237,12 @@ def signupView(request):
                         )
                         return response
             else:
-                return render(request, "front/signup.html", {"form": form})
+                res = req.json()
+                errors = res.get("detail")
+                print(errors)
+                return render(
+                    request, "front/signup.html", {"errors": errors, "form": form}
+                )
     return redirect(reverse("front:signup"))
 
 

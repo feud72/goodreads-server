@@ -19,12 +19,19 @@ class LoginSerializer(serializers.ModelSerializer):
             "password",
         )
 
-    def validate(self, value):
+    def validate_email(self, value):
+        email = value
+        user = get_user_model().objects.filter(email=email).exists()
+        if not user:
+            raise serializers.ValidationError("This email is not registered.")
+        return BaseUserManager.normalize_email(value)
+
+    def validate_password(self, value):
         username = self.initial_data["email"]
         password = self.initial_data["password"]
         user = authenticate(username=username, password=password)
         if user is None:
-            raise serializers.ValidationError("Invalid Email / Password.")
+            raise serializers.ValidationError("Invalid Password.")
         else:
             return value
 
