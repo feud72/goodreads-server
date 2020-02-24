@@ -1,5 +1,3 @@
-from django.contrib.auth import get_user_model
-
 from rest_framework import serializers
 
 from .models import MyBook
@@ -12,7 +10,7 @@ from reviews.serializers import ReviewSerializer
 class MyBookSerializer(serializers.ModelSerializer):
     isbn = serializers.CharField(max_length=13, write_only=True)
     owner = serializers.SlugRelatedField(
-        slug_field="nickname", queryset=User.objects.all()
+        slug_field="nickname", queryset=User.objects.all(), required=False
     )
     review = ReviewSerializer(
         many=True, read_only=True, required=False, source="book.review_set"
@@ -22,16 +20,18 @@ class MyBookSerializer(serializers.ModelSerializer):
         model = MyBook
         fields = (
             "id",
+            "created_at",
             "owner",
             "book",
             "isbn",
             "review",
         )
-        read_only_fields = ("id", "owner", "book", "review")
+        read_only_fields = ("id", "created_at", "owner", "book", "review")
         depth = 1
 
     def validate_isbn(self, value):
-        owner = self.initial_data["username"]
+        request = self.context.get("request", None)
+        owner = request.user
         if len(value) != 13:
             raise serializers.ValidationError("ISBN must be 13 length.")
         if MyBook.objects.filter(book__pk=value, owner__username=owner).exists():
@@ -43,14 +43,10 @@ class MyBookSerializer(serializers.ModelSerializer):
         except ValueError:
             raise serializers.ValidationError("Not an integer.")
 
-    def save(self):
+    def create(self, validate_data):
+        request = self.context.get("request", None)
         isbn = self.initial_data["isbn"]
-        username = self.initial_data["username"]
-        try:
-            owner = get_user_model().objects.get(username=username)
-            self.validate_isbn(isbn)
-            current_book = Book.objects.get(isbn=isbn)
-            obj = MyBook.objects.create(owner=owner, book=current_book)
-            return obj
-        except Exception:
-            raise serializers.ValidationError({"error": "Whoo."})
+        book = Book.objects.get(isbn=isbn)
+        mybook = MyBook(book=book, owner=request.user)
+        mybook.save()
+        return mybook

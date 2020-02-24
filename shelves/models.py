@@ -8,5 +8,8 @@ class MyBook(CoreModel):
     book = models.ForeignKey("books.Book", on_delete=models.CASCADE)
     # finished = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ["-created_at"]
+
     def __str__(self):
         return self.book.title

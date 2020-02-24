@@ -13,8 +13,8 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = ["id", "user", "book", "star", "description"]
-        read_only_fields = ("id",)
+        fields = ["id", "created_at", "user", "book", "star", "description"]
+        read_only_fields = ("id", "created_at")
         depth = 1
 
     def create(self, validated_data):

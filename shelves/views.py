@@ -20,9 +20,7 @@ class BookShelfViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = self.queryset
-        queryset = queryset.filter(owner__username=self.request.user).order_by(
-            "created_at"
-        )
+        queryset = queryset.filter(owner__username=self.request.user)
         return queryset
 
     def list(self, request, *args, **kwargs):
@@ -54,14 +52,13 @@ My 책 생성
 | ---- | ---- | -------- | ----------- |
 | isbn | string |   필수    | isbn (13 length)
         """
-        isbn = request.data["isbn"]
-        username = request.user
-        serializer = self.get_serializer(data={"username": username, "isbn": isbn})
+        serializer = self.get_serializer(
+            data=request.data, context={"request": request}
+        )
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
+        serializer.save()
         headers = self.get_success_headers(serializer.data)
-        instance = MyBook.objects.get(owner__username=username, book__pk=isbn)
-        serializer = self.get_serializer(instance)
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )
