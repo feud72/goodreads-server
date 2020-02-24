@@ -169,7 +169,10 @@ isbn, title, author, description을 가진 dictionary item의 list를 응답한�
         if "page" in self.request.query_params:
             page = self.request.query_params["page"]
         data = kakaoSearch(query, page)
-        return Response(status=status.HTTP_200_OK, data=data)
+        if data:
+            return Response(status=status.HTTP_200_OK, data=data)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data=data)
 
     @action(
         detail=False, url_path="recommend", methods=["GET"],

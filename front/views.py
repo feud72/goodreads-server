@@ -176,10 +176,12 @@ def searchView(request):
                 )
             else:
                 return render(
-                    request, "front/search.html", {"message": "책을 찾을 수 없어요.", **login}
+                    request, "front/search.html", {"error": "책을 찾을 수 없어요.", **login}
                 )
-    else:
-        return render(request, "front/search.html", {"message": "잘못된 접근입니다.", **login})
+        else:
+            return render(
+                request, "front/search.html", {"error": "책을 찾을 수 없어요.", **login}
+            )
 
 
 def loginView(request):
