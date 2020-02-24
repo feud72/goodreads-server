@@ -98,3 +98,4 @@ uploads/
 *.zip
 
 config/settings.py
+config/aws.py

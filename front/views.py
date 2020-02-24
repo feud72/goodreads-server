@@ -51,7 +51,7 @@ def homeView(request):
     endpoint = "/api/v1/books/"
     raw, status = getAPI(API_URL, endpoint)
     if status in (200, 201):
-        book_list = raw["results"][:3]
+        book_list = raw["results"]
         return render(request, "front/home.html", {"items": book_list, **login})
     else:
         return render(request, "front/home.html", {**login})
