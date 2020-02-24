@@ -32,7 +32,7 @@ def loginStatus(request):
     return result
 
 
-def getAPI(base, endpoint, *args, method="GET", token=None, **kwargs):
+def getAPI(base, endpoint, *args, method="GET", token=None, params=None, **kwargs):
     url = "".join((base, endpoint, *args))
     if not url.endswith("/"):
         url += "/"
@@ -40,7 +40,7 @@ def getAPI(base, endpoint, *args, method="GET", token=None, **kwargs):
     if token is not None:
         headers = {"Authorization": f"Token {token}"}
     if method == "GET":
-        raw = requests.get(url, headers=headers)
+        raw = requests.get(url, headers=headers, params=params)
     raw_json = raw.json()
     status = raw.status_code
     return raw_json, status
@@ -61,6 +61,8 @@ def recentView(request):
     login = loginStatus(request)
     endpoint = "/api/v1/books/"
     raw, status = getAPI(API_URL, endpoint)
+    # if "page" in request.params:
+    #    print(request.params["page"])
     if status in (200, 201):
         book_list = raw["results"]
         return render(request, "front/recent.html", {"items": book_list, **login})
