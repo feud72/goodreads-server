@@ -32,10 +32,8 @@ def loginStatus(request):
     return result
 
 
-def getAPI(base, endpoint, *args, method="GET", token=None, params=None, **kwargs):
-    url = "".join((base, endpoint, *args))
-    if not url.endswith("/"):
-        url += "/"
+def getAPI(*args, method="GET", token=None, params=None, **kwargs):
+    url = "".join(args)
     headers = ""
     if token is not None:
         headers = {"Authorization": f"Token {token}"}
@@ -51,21 +49,28 @@ def homeView(request):
     endpoint = "/api/v1/books/"
     raw, status = getAPI(API_URL, endpoint)
     if status in (200, 201):
-        book_list = raw["results"]
+        book_list = raw["results"][:3]
         return render(request, "front/home.html", {"items": book_list, **login})
     else:
         return render(request, "front/home.html", {**login})
 
 
-def recentView(request):
+def recentView(request, page=1):
     login = loginStatus(request)
-    endpoint = "/api/v1/books/"
+    endpoint = f"/api/v1/books/?page={page}"
     raw, status = getAPI(API_URL, endpoint)
-    # if "page" in request.params:
-    #    print(request.params["page"])
+    next = raw.get("next")
+    previous = raw.get("previous")
+    page_dic = dict()
+    if next:
+        page_dic["next"] = page + 1
+    if previous:
+        page_dic["previous"] = page - 1
     if status in (200, 201):
         book_list = raw["results"]
-        return render(request, "front/recent.html", {"items": book_list, **login})
+        return render(
+            request, "front/recent.html", {"items": book_list, **page_dic, **login}
+        )
     else:
         return render(request, "front/recent.html", {**login})
 
