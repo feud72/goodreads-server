@@ -1,0 +1,9 @@
+<div class="mt-3">
+  {% if previous %}
+  <a href="{% url 'front:recent' previous %}" class="btn btn-primary"
+    >Previous</a
+  >
+  {% endif %} {% if next %}
+  <a href="{% url 'front:recent' next %}" class="btn btn-primary">Next</a>
+  {% endif %}
+</div>

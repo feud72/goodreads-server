@@ -92,11 +92,11 @@
   <h3 class="mt-3">연관 도서</h3>
   <hr class="my-4" />
   {% for item in recommend %}
-  <a href="{% url 'front:detail' item.item.isbn %}">
+  <a href="{% url 'front:detail' item.isbn %}">
     <h5>
-      {{ item.item.title }}
+      {{ item.title }}
     </h5>
   </a>
-  <p>{{ item.item.author }} | {{ item.item.pub_year }}</p>
+  <p>{{ item.author }} | {{ item.pub_year }}</p>
   {% endfor %}
 {% endblock content %}

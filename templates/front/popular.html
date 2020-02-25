@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block content %}
 <h3 class="mt-3">인기 대출 도서</h3>
 <hr class="my-4" />
-{% for item in items %}
+{% for item in book_list %}
 <div class="card border-primary mb-3">
   <div class="card-body justify-content-center">
     <a href="{% url 'front:detail' item.isbn %}">

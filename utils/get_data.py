@@ -30,7 +30,7 @@ def getPopular():
     }
     raw = requests.get(url=url, params=params)
     raw_json = raw.json()
-    raw_json = html.unescape(raw_json)
+    # raw_json = html.unescape(raw_json)
     data_list = raw_json["response"]["docs"][:100]
     data_list = random.sample(data_list, 10)
     result = list()
@@ -58,7 +58,7 @@ def processingData(data):
         description = data["description"] if "description" in data else ""
         if len(description) > 200:
             description = description + " ..."
-        description = html.unescape(description)
+        # description = html.unescape(description)
         bookImageURL = data["bookImageURL"] if "bookImageURL" in data else ""
         dic = {
             "title": title,
@@ -97,12 +97,10 @@ def getRecommendByISBN(isbn=None):
             author = data["authors"]
             pub_year = data["publication_year"]
             item = {
-                "item": {
-                    "isbn": isbn,
-                    "title": title,
-                    "author": author,
-                    "pub_year": pub_year,
-                }
+                "isbn": isbn,
+                "title": title,
+                "author": author,
+                "pub_year": pub_year,
             }
             result.append(item)
         return result
@@ -121,7 +119,7 @@ def getKeywordList(isbn=None):
     }
     raw = requests.get(url=url, params=params)
     raw_json = raw.json()
-    raw_json = html.unescape(raw_json)
+    # raw_json = html.unescape(raw_json)
     if "items" in raw_json["response"]:
         data = raw_json["response"]["items"][:10]
 

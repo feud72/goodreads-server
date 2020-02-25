@@ -44,13 +44,24 @@ def getAPI(*args, method="GET", token=None, params=None, **kwargs):
     return raw_json, status
 
 
+def getPagination(raw, page):
+    result = dict()
+    next = raw.get("next")
+    previous = raw.get("previous")
+    if next:
+        result["next"] = page + 1
+    if previous:
+        result["previous"] = page - 1
+    return result
+
+
 def homeView(request):
     login = loginStatus(request)
     endpoint = "/api/v1/books/"
     raw, status = getAPI(API_URL, endpoint)
     if status in (200, 201):
         book_list = raw["results"][:3]
-        return render(request, "front/home.html", {"items": book_list, **login})
+        return render(request, "front/home.html", {"book_list": book_list, **login})
     else:
         return render(request, "front/home.html", {**login})
 
@@ -59,17 +70,12 @@ def recentView(request, page=1):
     login = loginStatus(request)
     endpoint = f"/api/v1/books/?page={page}"
     raw, status = getAPI(API_URL, endpoint)
-    next = raw.get("next")
-    previous = raw.get("previous")
-    page_dic = dict()
-    if next:
-        page_dic["next"] = page + 1
-    if previous:
-        page_dic["previous"] = page - 1
+    page_dic = getPagination(raw, page)
     if status in (200, 201):
         book_list = raw["results"]
+        print(book_list)
         return render(
-            request, "front/recent.html", {"items": book_list, **page_dic, **login}
+            request, "front/recent.html", {"book_list": book_list, **page_dic, **login}
         )
     else:
         return render(request, "front/recent.html", {**login})
@@ -81,7 +87,7 @@ def popularView(request):
     raw, status = getAPI(API_URL, endpoint)
     if status in (200, 201):
         book_list = raw
-        return render(request, "front/popular.html", {"items": book_list, **login})
+        return render(request, "front/popular.html", {"book_list": book_list, **login})
     else:
         return render(request, "front/popular.html", {**login})
 
@@ -98,11 +104,11 @@ def detailView(request, isbn):
         return render(
             request,
             "front/detail.html",
-            {"item": book_detail, "recommend": recommend_data, **login},
+            {"item": book_detail, "recommend": recommend_data, **login,},
         )
 
 
-def shelfView(request):
+def shelfView(request, page=1):
     login = loginStatus(request)
     if login["status"] is False:
         return redirect(reverse("front:login"))
@@ -110,9 +116,15 @@ def shelfView(request):
         token = login["token"]
         endpoint = "/api/v1/shelves/"
         raw, status = getAPI(API_URL, endpoint, token=token)
+        page_dic = getPagination(raw, page)
         if status in (200, 201):
             items = raw["results"]
-            return render(request, "front/shelf.html", {"items": items, **login},)
+            book_list = [item["book"] for item in items]
+            return render(
+                request,
+                "front/shelf.html",
+                {"book_list": book_list, **page_dic, **login},
+            )
         else:
             return render(request, "front/shelf.html", {"errors": raw, **login})
 
@@ -177,7 +189,7 @@ def searchView(request):
             if raw.status_code == 200:
                 raw_json = raw.json()
                 return render(
-                    request, "front/search.html", {"items": raw_json, **login}
+                    request, "front/search.html", {"book_list": raw_json, **login}
                 )
             else:
                 return render(
@@ -330,7 +342,11 @@ def meView(request):
         token = login["token"]
         req, status = getAPI(API_URL, endpoint, token=token)
         if status == 200:
-            return render(request, "front/me.html", {"me": req, **login})
+            items = req["mybook"]
+            book_list = [item["book"] for item in items]
+            return render(
+                request, "front/me.html", {"me": req, "book_list": book_list, **login}
+            )
         else:
             return render(request, "front/me.html", {"error": "Not fount.", **login})
     else:
