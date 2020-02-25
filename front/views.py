@@ -57,13 +57,22 @@ def getPagination(raw, page):
 
 def homeView(request):
     login = loginStatus(request)
-    endpoint = "/api/v1/books/"
-    raw, status = getAPI(API_URL, endpoint)
+    raw, status = getAPI(API_URL, "/api/v1/books/")
     if status in (200, 201):
         book_list = raw["results"][:3]
-        return render(request, "front/home.html", {"book_list": book_list, **login})
     else:
-        return render(request, "front/home.html", {**login})
+        book_list = list()
+    token = login["token"]
+    raw, status = getAPI(API_URL, "/api/v1/shelves/", token=token)
+    if status in (200, 201):
+        shelf_list = [item["book"] for item in raw["results"]][:3]
+    else:
+        shelf_list = list()
+    return render(
+        request,
+        "front/home.html",
+        {"book_list": book_list, "shelf_list": shelf_list, **login},
+    )
 
 
 def recentView(request, page=1):
@@ -73,7 +82,6 @@ def recentView(request, page=1):
     page_dic = getPagination(raw, page)
     if status in (200, 201):
         book_list = raw["results"]
-        print(book_list)
         return render(
             request, "front/recent.html", {"book_list": book_list, **page_dic, **login}
         )
