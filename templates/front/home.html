@@ -12,9 +12,12 @@
     지금 막 따온 오로라를<br />
     당신에게로 보내드릴게요~
   </p>
-  <h3 class="mt-3 mb-3">최근 등록된 책
-    <a class="btn btn-secondary ml-3" href="{% url 'front:recent' %}">더 보기</a>
-	</h3>
+  <h3 class="mt-3 mb-3">
+    최근 등록된 책
+    <a class="btn btn-secondary ml-3" href="{% url 'front:recent' %}"
+      >더 보기</a
+    >
+  </h3>
   <hr class="my-4" />
   {% for item in book_list %}
   <a class="text-body" href="{% url 'front:detail' item.isbn %}">
@@ -38,11 +41,13 @@
       </div>
     </div>
   </a>
-  {% endfor %}
-	{% if shelf_list %}
-  <h3 class="mt-3 mb-3">내 책장
-    <a class="btn btn-secondary ml-3" href="{% url 'front:recent' %}">더 보기</a>
-	</h3>
+  {% endfor %} {% if shelf_list %}
+  <h3 class="mt-5 mb-3">
+    내 책장
+    <a class="btn btn-secondary ml-3" href="{% url 'front:recent' %}"
+      >더 보기</a
+    >
+  </h3>
   <hr class="my-4" />
   {% for item in shelf_list %}
   <a class="text-body" href="{% url 'front:detail' item.isbn %}">
@@ -66,8 +71,6 @@
       </div>
     </div>
   </a>
-  {% endfor %}
-	{% endif %}
-
+  {% endfor %} {% endif %}
 </div>
 {% endblock content %}

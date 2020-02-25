@@ -1,5 +1,6 @@
 {% extends "base.html" %} {% block content %}
 <h3 class="mt-3">최근 등록된 책</h3>
 <hr class="my-4" />
-{% for item in book_list %} {% include 'partials/book.html' %} {% endfor %} {%
-include 'partials/page.html' %} {% endblock content %}
+{% for item in book_list %} {% include 'partials/book.html' %} {% endfor %} 
+<!-- prettier-ignore -->
+{% include 'partials/page.html' %} {% endblock content %}
