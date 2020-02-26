@@ -14,7 +14,6 @@ from utils.get_data import (
     getRecommendByISBN,
     getKeywordList,
     kakaoSearch,
-    getPopular,
 )
 
 
@@ -188,26 +187,3 @@ isbn, title, author, description을 가진 dictionary item의 list를 응답한�
             return Response(status=status.HTTP_200_OK, data=data)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST, data=data)
-
-    @action(
-        detail=False, url_path="recommend", methods=["GET"],
-    )
-    def recommendByUserInfo(self, request, *args, **kwargs):
-        """
-유저의 책장에 입력된 정보를 활용하여 책을 추천받는다.
-
----
-isbn, title, author, description을 가진 dictionary item의 list를 응답한다.
-
-## Specification
-- **Method** :  GET
-- **URL** : /api/v1/books/{isbn}/recommend/
-- **Content-Type** : application/json; charset=utf-8
-- **Parameters**
-
-| 필드명 | 타입 | 필수여부 | 설명 |
-| ---- | ---- | -------- | ----------- |
-| isbn | string | Required | (path) isbn 13자리를 입력합니다. |
-        """
-        data = getPopular()
-        return Response(status=status.HTTP_200_OK, data=data)
