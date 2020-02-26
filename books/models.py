@@ -10,7 +10,7 @@ class Book(CoreModel):
     pub_year = models.CharField(max_length=20, default="", blank=True)
     isbn = models.CharField(max_length=13, primary_key=True)
     description = models.TextField(max_length=1000, default="", blank=True)
-    bookImage = models.ImageField(upload_to="bookImage", blank=True)
+    bookImage = models.ImageField(upload_to="bookImage", blank=True, null=True)
 
     def __str__(self):
         return self.title

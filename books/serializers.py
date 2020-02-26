@@ -14,9 +14,9 @@ class BookSerializer(serializers.ModelSerializer):
     review = ReviewSerializer(
         many=True, read_only=True, required=False, source="review_set"
     )
-    like_count = serializers.IntegerField()
-    review_count = serializers.IntegerField()
-    avg_star = serializers.DecimalField(max_digits=3, decimal_places=2)
+    like_count = serializers.IntegerField(required=False)
+    review_count = serializers.IntegerField(required=False)
+    avg_star = serializers.DecimalField(max_digits=3, decimal_places=2, required=False)
 
     class Meta:
         model = Book
@@ -64,8 +64,12 @@ class BookSerializer(serializers.ModelSerializer):
             obj = Book.objects.create(**data)
             if bookImageURL:
                 bookImage_raw = requests.get(bookImageURL)
-                bookImage = ContentFile(bookImage_raw.content)
-                obj.bookImage.save(f"{isbn}.jpg", bookImage)
+            else:
+                bookImage_raw = requests.get(
+                    "https://hackathon-static-feud72.s3.ap-northeast-2.amazonaws.com/media/bookImage/notfound.png"
+                )
+            bookImage = ContentFile(bookImage_raw.content)
+            obj.bookImage.save(f"{isbn}.jpg", bookImage)
             return obj
         except Exception:
             raise serializers.ValidationError({"isbn": "Invalid ISBN number."})

@@ -5,4 +5,6 @@
 <h4 class="my-3">{{ error }}</h4>
 {% else %} {% for item in book_list %} {% include 'partials/book.html' %}
 <!-- prettier-ignore -->
-{% endfor %} {% endif %} {% endblock content %}
+{% endfor %} {% endif %} {% include 'partials/search-form.html' %}
+<!-- prettier-ignore -->
+{% endblock content %}

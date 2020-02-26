@@ -77,7 +77,7 @@ isbn으로 국립중앙도서관 API에서 서지 정보를 불러와 내부 DB�
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        instance = Book.objects.get(isbn=serializer.initial_data["isbn"])
+        instance = Book.objects.get(isbn=self.kwargs["isbn"])
         serializer = self.get_serializer(instance)
         return Response(
             data=serializer.data, status=status.HTTP_201_CREATED, headers=headers,

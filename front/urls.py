@@ -6,6 +6,7 @@ app_name = "front"
 urlpatterns = [
     path("", views.homeView, name="home"),
     path("popular/", views.popularView, name="popular"),
+    path("popular/<int:page>/", views.popularView, name="popular"),
     path("recent/", views.recentView, name="recent"),
     path("recent/<int:page>/", views.recentView, name="recent"),
     path("search/", views.searchView, name="search"),

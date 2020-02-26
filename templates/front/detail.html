@@ -3,6 +3,13 @@
     상세 정보
   </h3>
   <hr class="my-4" />
+		{% if error %}
+<div class="card border-primary mb-3">
+  <div class="card-body justify-content-center">
+		<h3>{{ error }}</h3>
+	</div>
+</div>
+		{% else %}
 <div class="card border-primary mb-3">
   <div class="row card-body justify-content-center">
     <div class="col-xl-2 col-lg-2 col-md-2 col-sm-11 m-3">
@@ -55,7 +62,8 @@
   </div>
 </div>
 
-      <hr class="my-4" />
+<hr class="my-4" />
+{% if item.review or status is True %}
 <div class="card border-primary mb-3">
   <div class="card-body justify-content-center">
       {% if item.review %}
@@ -107,6 +115,8 @@
 			{% endif %}
 	</div>
 </div>
+{% endif %}
+
   <h3 class="mt-5">연관 도서</h3>
   <hr class="my-4" />
 
@@ -122,4 +132,5 @@
   {% endfor %}
 	</div>
 </div>
+{% endif %}
 {% endblock content %}

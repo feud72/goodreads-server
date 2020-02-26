@@ -106,7 +106,7 @@ def popularView(request, page=1):
 def detailView(request, isbn):
     login = loginStatus(request)
     endpoint = "/api/v1/books/"
-    raw, status = getAPI(API_URL, endpoint, isbn)
+    raw, status = getAPI(API_URL, endpoint, isbn, "/")
     if status in (200, 201):
         book_detail = raw
         recommend_url = "/recommend/"
@@ -116,6 +116,10 @@ def detailView(request, isbn):
             request,
             "front/detail.html",
             {"item": book_detail, "recommend": recommend_data, **login,},
+        )
+    else:
+        return render(
+            request, "front/detail.html", {"error": "책 정보를 불러오는 데 실패했습니다.", **login}
         )
 
 
@@ -194,22 +198,29 @@ def searchView(request):
         if form.is_valid():
             term = form.cleaned_data["term"]
             endpoint = "/api/v1/books/search/"
-            url = API_URL + endpoint
             params = {"search": term}
-            raw = requests.get(url, params=params)
-            if raw.status_code == 200:
-                raw_json = raw.json()
+            raw_json, status = getAPI(API_URL, endpoint, params=params)
+            if status == 200:
                 return render(
-                    request, "front/search.html", {"book_list": raw_json, **login}
+                    request,
+                    "front/search.html",
+                    {"book_list": raw_json, "form": form, **login},
                 )
             else:
                 return render(
-                    request, "front/search.html", {"error": "책을 찾을 수 없어요.", **login}
+                    request,
+                    "front/search.html",
+                    {"error": "책을 찾을 수 없어요.", "form": form, **login},
                 )
         else:
             return render(
-                request, "front/search.html", {"error": "책을 찾을 수 없어요.", **login}
+                request,
+                "front/search.html",
+                {"error": "책을 찾을 수 없어요.", "form": form, **login},
             )
+    if request.method == "GET":
+        form = SearchForm()
+        return render(request, "front/search.html", {"form": form, **login})
 
 
 def loginView(request):
