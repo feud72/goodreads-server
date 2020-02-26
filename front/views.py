@@ -57,45 +57,48 @@ def getPagination(raw, page):
 
 def homeView(request):
     login = loginStatus(request)
-    raw, status = getAPI(API_URL, "/api/v1/books/")
+    raw, status = getAPI(API_URL, "/api/v1/books/?ordering=-created_at")
     if status in (200, 201):
-        book_list = raw["results"][:3]
+        recent = raw["results"][:3]
     else:
-        book_list = list()
+        recent = list()
     token = login["token"]
     raw, status = getAPI(API_URL, "/api/v1/shelves/", token=token)
     if status in (200, 201):
-        shelf_list = [item["book"] for item in raw["results"]][:3]
+        shelf = [item["book"] for item in raw["results"]][:3]
     else:
-        shelf_list = list()
+        shelf = list()
     return render(
-        request,
-        "front/home.html",
-        {"book_list": book_list, "shelf_list": shelf_list, **login},
+        request, "front/home.html", {"recent": recent, "shelf": shelf, **login},
     )
 
 
 def recentView(request, page=1):
     login = loginStatus(request)
-    endpoint = f"/api/v1/books/?page={page}"
+    endpoint = f"/api/v1/books/?page={page}&ordering=-created_at"
     raw, status = getAPI(API_URL, endpoint)
     page_dic = getPagination(raw, page)
     if status in (200, 201):
         book_list = raw["results"]
         return render(
-            request, "front/recent.html", {"book_list": book_list, **page_dic, **login}
+            request, "front/recent.html", {"book_list": book_list, **page_dic, **login},
         )
     else:
         return render(request, "front/recent.html", {**login})
 
 
-def popularView(request):
+def popularView(request, page=1):
     login = loginStatus(request)
-    endpoint = "/api/v1/books/recommend/"
+    endpoint = f"/api/v1/books/?page={page}&ordering=-like_count"
     raw, status = getAPI(API_URL, endpoint)
+    page_dic = getPagination(raw, page)
     if status in (200, 201):
-        book_list = raw
-        return render(request, "front/popular.html", {"book_list": book_list, **login})
+        book_list = raw["results"]
+        return render(
+            request,
+            "front/popular.html",
+            {"book_list": book_list, **page_dic, **login},
+        )
     else:
         return render(request, "front/popular.html", {**login})
 

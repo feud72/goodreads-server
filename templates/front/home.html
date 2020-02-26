@@ -12,18 +12,18 @@
     지금 막 따온 오로라를<br />
     당신에게로 보내드릴게요~
   </p>
-	<div class="mt-5 ml-1 row">
-		<h3>
-    최근 등록된 책
-  </h3>
-		<p>
-    <a class="btn btn-secondary ml-3" href="{% url 'front:recent' %}"
-      >더 보기</a
-    >
-		</p>
-	</div>
+  <div class="mt-5 ml-1 row">
+    <h3>
+      최근 등록된 책
+    </h3>
+    <p>
+      <a class="btn btn-secondary ml-3" href="{% url 'front:recent' %}"
+        >더 보기</a
+      >
+    </p>
+  </div>
   <hr class="my-4" />
-  {% for item in book_list %}
+  {% for item in recent %}
   <a class="text-body" href="{% url 'front:detail' item.isbn %}">
     <div class="card border-primary mb-3">
       <div class="row card-body justify-content-center align-items-center">
@@ -45,19 +45,19 @@
       </div>
     </div>
   </a>
-  {% endfor %} {% if shelf_list %}
-	<div class="mt-5 ml-1 row">
-		<h3>
-    내 책장
-  </h3>
-	<p>
-    <a class="btn btn-secondary ml-3" href="{% url 'front:recent' %}"
-      >더 보기</a
-    >
-		</p>
-	</div>
+  {% endfor %} {% if shelf %}
+  <div class="mt-5 ml-1 row">
+    <h3>
+      내 책장
+    </h3>
+    <p>
+      <a class="btn btn-secondary ml-3" href="{% url 'front:recent' %}"
+        >더 보기</a
+      >
+    </p>
+  </div>
   <hr class="my-4" />
-  {% for item in shelf_list %}
+  {% for item in shelf %}
   <a class="text-body" href="{% url 'front:detail' item.isbn %}">
     <div class="card border-primary mb-3">
       <div class="row card-body justify-content-center align-items-center">

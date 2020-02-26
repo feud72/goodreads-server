@@ -1,6 +1,6 @@
 import os
-import datetime
-import html
+
+# import datetime
 import random
 
 import requests
@@ -17,26 +17,6 @@ LIB_AUTH_KEY = os.environ.get("LIB_KEY")
 
 KAKAO_KEY = os.environ.get("KAKAO_ID")
 KAKAO_BOOK_URL = "https://dapi.kakao.com/v3/search/book"
-
-
-def getPopular():
-    url = LIB_BASE_URL + LIB_API_ENDPOINT["popular"]
-    params = {
-        "authKey": LIB_AUTH_KEY,
-        "startDt": str(datetime.date.today() - datetime.timedelta(days=30)),
-        "endDt": str(datetime.date.today()),
-        "format": "json",
-        "pageSize": 25,
-    }
-    raw = requests.get(url=url, params=params)
-    raw_json = raw.json()
-    # raw_json = html.unescape(raw_json)
-    data_list = raw_json["response"]["docs"][:100]
-    data_list = random.sample(data_list, 10)
-    result = list()
-    for data in data_list:
-        result.append(processingData(data))
-    return result
 
 
 def getDetail(isbn=None):
@@ -58,7 +38,6 @@ def processingData(data):
         description = data["description"] if "description" in data else ""
         if len(description) > 200:
             description = description + " ..."
-        # description = html.unescape(description)
         bookImageURL = data["bookImageURL"] if "bookImageURL" in data else ""
         dic = {
             "title": title,
@@ -119,7 +98,6 @@ def getKeywordList(isbn=None):
     }
     raw = requests.get(url=url, params=params)
     raw_json = raw.json()
-    # raw_json = html.unescape(raw_json)
     if "items" in raw_json["response"]:
         data = raw_json["response"]["items"][:10]
 
@@ -143,7 +121,6 @@ def kakaoSearch(query, page=1):
     headers = {"Authorization": f"KakaoAK {KAKAO_KEY}"}
     raw = requests.get(url=url, params=params, headers=headers)
     raw_json = raw.json()
-    raw_json = html.unescape(raw_json)
     data_list = raw_json["documents"]
     result = list()
     for data in data_list:
