@@ -14,6 +14,9 @@ class BookSerializer(serializers.ModelSerializer):
     review = ReviewSerializer(
         many=True, read_only=True, required=False, source="review_set"
     )
+    like_count = serializers.IntegerField()
+    review_count = serializers.IntegerField()
+    avg_star = serializers.FloatField()
 
     class Meta:
         model = Book
@@ -26,6 +29,9 @@ class BookSerializer(serializers.ModelSerializer):
             "description",
             "bookImage",
             "review",
+            "like_count",
+            "review_count",
+            "avg_star",
         )
         read_only_fields = (
             "title",
@@ -35,6 +41,9 @@ class BookSerializer(serializers.ModelSerializer):
             "description",
             "bookImage",
             "review",
+            "like_count",
+            "review_count",
+            "avg_star",
         )
 
     def validate_isbn(self, value):

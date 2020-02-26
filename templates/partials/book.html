@@ -16,6 +16,20 @@
         </p>
         <p>{{ item.description }}</p>
       </a>
+      <p>
+        {% if item.like_count %}
+        <span class="mr-3">
+          좋아요 : {{ item.like_count }}
+        </span>
+        {% endif %} {% if item.review_count %}
+        <span class="mr-3">
+          리뷰 : {{ item.review_count }} 개
+        </span>
+        <span class="mr-3">
+          평균 평점: {{ item.avg_star }}
+        </span>
+        {% endif %}
+      </p>
       <p>{{ item.author }} | {{ item.pub_year }}</p>
     </div>
   </div>

@@ -1,3 +1,5 @@
+from django.db.models import Count, Avg
+
 from rest_framework import filters, status
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -23,10 +25,17 @@ class BookViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ["title", "pub_year", "author"]
 
-    queryset = Book.objects.all().order_by("-created_at")
+    queryset = Book.objects.all()
     serializer_class = BookSerializer
     lookup_field = "isbn"
     http_method_names = [u"get", u"post"]
+
+    def get_queryset(self):
+        return Book.objects.annotate(
+            like_count=Count("mybook"),
+            review_count=Count("review"),
+            avg_star=Avg("review__star"),
+        ).order_by("-created_at")
 
     def list(self, request, *args, **kwargs):
         """
