@@ -80,7 +80,6 @@ def recentView(request, page=1):
     endpoint = f"/api/v1/books/?page={page}"
     raw, status = getAPI(API_URL, endpoint)
     page_dic = getPagination(raw, page)
-    print(raw)
     if status in (200, 201):
         book_list = raw["results"]
         return render(
@@ -125,7 +124,6 @@ def shelfView(request, page=1):
         token = login["token"]
         endpoint = f"/api/v1/shelves/?page={page}"
         raw, status = getAPI(API_URL, endpoint, token=token)
-        print(raw)
         page_dic = getPagination(raw, page)
         if status in (200, 201):
             items = raw["results"]
@@ -268,7 +266,6 @@ def signupView(request):
             else:
                 res = req.json()
                 errors = res.get("detail")
-                print(errors)
                 return render(
                     request, "front/signup.html", {"errors": errors, "form": form}
                 )

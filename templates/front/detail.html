@@ -22,6 +22,21 @@
         {{ item.description }}
       </p>
       <p>
+        {% if item.like_count %}
+        <span class="mr-3">
+          좋아요 : {{ item.like_count }}
+        </span>
+        {% endif %} {% if item.review_count %}
+        <span class="mr-3">
+          리뷰 : {{ item.review_count }} 개
+        </span>
+        <span class="mr-3">
+          평균 평점: {{ item.avg_star }}
+        </span>
+        {% endif %}
+      </p>
+
+      <p>
         {{ item.author }} | {{ item.pub_year }} | {{ item.publisher }}
       </p>
       {% if status is True %}
@@ -41,6 +56,8 @@
 </div>
 
       <hr class="my-4" />
+<div class="card border-primary mb-3">
+  <div class="card-body justify-content-center">
       {% if item.review %}
       <p class="lead">리뷰</p>
       {% for review in item.review %}
@@ -88,9 +105,13 @@
         </fieldset>
       </form>
 			{% endif %}
-
-  <h3 class="mt-3">연관 도서</h3>
+	</div>
+</div>
+  <h3 class="mt-5">연관 도서</h3>
   <hr class="my-4" />
+
+<div class="card border-primary mb-3">
+  <div class="card-body justify-content-center">
   {% for item in recommend %}
   <a href="{% url 'front:detail' item.isbn %}">
     <h5>
@@ -99,4 +120,6 @@
   </a>
   <p>{{ item.author }} | {{ item.pub_year }}</p>
   {% endfor %}
+	</div>
+</div>
 {% endblock content %}
