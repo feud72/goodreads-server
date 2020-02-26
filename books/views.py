@@ -1,4 +1,5 @@
-from django.db.models import Count, Avg
+from django.db.models import Count, Avg, Value
+from django.db.models.functions import Coalesce
 
 from rest_framework import filters, status
 from rest_framework.response import Response
@@ -22,20 +23,22 @@ class BookViewSet(ModelViewSet):
     책
     """
 
-    filter_backends = [filters.SearchFilter]
-    search_fields = ["title", "pub_year", "author"]
-
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     lookup_field = "isbn"
     http_method_names = [u"get", u"post"]
 
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ["title", "pub_year", "author"]
+    ordering_fields = "__all__"
+    ordering = ["-avg_star", "-like_count"]
+
     def get_queryset(self):
         return Book.objects.annotate(
-            like_count=Count("mybook"),
-            review_count=Count("review"),
-            avg_star=Avg("review__star"),
-        ).order_by("-created_at")
+            like_count=Count("mybook", distinct=True),
+            review_count=Count("review", distinct=True),
+            avg_star=Coalesce(Avg("review__star"), Value(0)),
+        )
 
     def list(self, request, *args, **kwargs):
         """
@@ -101,16 +104,19 @@ isbn을 path의 인자로 가진다.
         try:
             instance = self.get_object()
             serializer = self.get_serializer(instance)
+            return Response(serializer.data)
         except Exception:
             isbn = self.kwargs["isbn"]
-            data = getDetail(isbn)
+            try:
+                data = getDetail(isbn)
+            except Exception:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
             serializer = self.get_serializer(data=data)
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
             instance = self.get_object()
             serializer = self.get_serializer(instance)
             serializer.save()
-        finally:
             return Response(serializer.data)
 
     @action(detail=True, methods=["GET"])
