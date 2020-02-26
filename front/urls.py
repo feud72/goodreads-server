@@ -10,6 +10,7 @@ urlpatterns = [
     path("recent/<int:page>/", views.recentView, name="recent"),
     path("search/", views.searchView, name="search"),
     path("shelf/", views.shelfView, name="shelf"),
+    path("shelf/<int:page>/", views.shelfView, name="shelf"),
     path("shelf/<int:id>/", views.shelfDetailView, name="shelf-detail"),
     path("review/", views.reviewView, name="review"),
     path("subscribe/", views.subscribeView, name="subscribe"),
