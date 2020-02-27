@@ -56,20 +56,14 @@ class BookSerializer(serializers.ModelSerializer):
         except ValueError:
             raise serializers.ValidationError("Not an integer.")
 
-    def save(self):
+    def create(self, validate_data):
         isbn = self.initial_data["isbn"]
-        try:
-            data = getDetail(isbn)
-            bookImageURL = data.pop("bookImageURL")
-            obj = Book.objects.create(**data)
-            if bookImageURL:
-                bookImage_raw = requests.get(bookImageURL)
-            else:
-                bookImage_raw = requests.get(
-                    "https://hackathon-static-feud72.s3.ap-northeast-2.amazonaws.com/media/bookImage/notfound.png"
-                )
+        data = getDetail(isbn)
+        bookImageURL = data.pop("bookImageURL")
+        book = Book.objects.create(**data)
+        if bookImageURL:
+            bookImage_raw = requests.get(bookImageURL)
             bookImage = ContentFile(bookImage_raw.content)
-            obj.bookImage.save(f"{isbn}.jpg", bookImage)
-            return obj
-        except Exception:
-            raise serializers.ValidationError({"isbn": "Invalid ISBN number."})
+            book.bookImage.save(f"{isbn}.jpg", bookImage)
+            book.save()
+        return book

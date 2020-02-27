@@ -100,23 +100,19 @@ isbn을 path의 인자로 가진다.
 | ---- | ---- | -------- | ----------- |
 | isbn | string | Required | (path) isbn 13자리를 입력합니다. |
         """
-        try:
-            instance = self.get_object()
-            serializer = self.get_serializer(instance)
-            return Response(serializer.data)
-        except Exception:
-            isbn = self.kwargs["isbn"]
-            try:
-                data = getDetail(isbn)
-            except Exception:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+        isbn = self.kwargs["isbn"]
+        if not Book.objects.filter(isbn=isbn).exists():
+            data = getDetail(isbn)
             serializer = self.get_serializer(data=data)
-            serializer.is_valid(raise_exception=True)
-            self.perform_create(serializer)
-            instance = self.get_object()
-            serializer = self.get_serializer(instance)
-            serializer.save()
-            return Response(serializer.data)
+            if serializer.is_valid():
+                self.perform_create(serializer)
+            else:
+                return Response(
+                    data=serializer.errors, status=status.HTTP_400_BAD_REQUEST
+                )
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
     @action(detail=True, methods=["GET"])
     def recommend(self, request, isbn, *args, **kwargs):

@@ -68,6 +68,7 @@ def homeView(request):
         shelf = [item["book"] for item in raw["results"]][:3]
     else:
         shelf = list()
+    print(recent, shelf)
     return render(
         request, "front/home.html", {"recent": recent, "shelf": shelf, **login},
     )
