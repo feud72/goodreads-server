@@ -94,9 +94,12 @@ def recentView(request, page=1):
         return render(request, "front/recent.html", {**login})
 
 
-def popularView(request, page=1):
+def popularView(request, page=1, sort="like"):
     login = loginStatus(request)
-    endpoint = f"/api/v1/books/?page={page}&ordering=-like_count"
+    sort_dic = {"like": "-like_count", "star": "-avg_star", "hit": "-num_views"}
+    endpoint = (
+        f"/api/v1/books/?page={page}&ordering={sort_dic.get(sort, '-like_count')}"
+    )
     raw, status = getAPI(API_URL, endpoint)
     page_dic = getPagination(raw, page)
     if status in (200, 201):
