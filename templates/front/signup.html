@@ -3,8 +3,18 @@
   회원가입
 </h3>
 <hr class="my-4" />
-<div class="card border-primary mb-3">
-  <div class="card-body justify-content-center">
+<div
+  class="card border-primary mb-3"
+  data-aos="fade-up"
+  data-aos-duration="1200"
+  data-aos-delay="300"
+>
+  <div
+    class="card-body justify-content-center"
+    data-aos="fade-up"
+    data-aos-duration="1200"
+    data-aos-delay="0"
+  >
     <form action="{% url 'front:signup' %}" method="post">
       {% csrf_token %}
       <fieldset>

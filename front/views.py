@@ -59,13 +59,13 @@ def homeView(request):
     login = loginStatus(request)
     raw, status = getAPI(API_URL, "/api/v1/books/?ordering=-created_at")
     if status in (200, 201):
-        recent = raw["results"][:3]
+        recent = raw["results"]
     else:
         recent = list()
     token = login["token"]
     raw, status = getAPI(API_URL, "/api/v1/shelves/", token=token)
     if status in (200, 201):
-        shelf = [item["book"] for item in raw["results"]][:3]
+        shelf = [item["book"] for item in raw["results"]]
     else:
         shelf = list()
     print(recent, shelf)

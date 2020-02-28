@@ -5,15 +5,19 @@
     <meta charset="utf-8" />
     <title>개미는 뚠뚠: Hackathon</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="i/favicon.png" type="image/x-icon" />
     <!-- Bootstrap 4.4.1 CSS -->
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}" />
+    <!-- Slick -->
+    <link rel="stylesheet" type="text/css" href="{% static 'slick.css' %}" />
     <link
       rel="stylesheet"
-      href="https://hackathon-static-feud72.s3.ap-northeast-2.amazonaws.com/static/bootstrap.min.css"
+      type="text/css"
+      href="{% static 'slick-theme.css' %}"
     />
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <!-- Animations -->
+    <link rel="stylesheet" href="{% static 'aos.css' %}" />
     <!-- jQuery 3.4.1 -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="{% static 'jquery-3.4.1.min.js' %}"></script>
   </head>
   <body style="overflow-y:scroll; background-color: #F3969A11;">
     {% autoescape off %}
@@ -29,13 +33,39 @@
     </div>
     <!-- prettier-ignore -->
     {% include "partials/footer.html" %} {% endautoescape %}
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-      crossorigin="anonymous"
-    ></script>
+    <script src="{% static 'bootstrap.min.js' %}"></script>
     <!-- AOS 2.3.4 jQuery plugin JS (Animations) -->
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="{% static 'aos.js' %}"></script>
+    <script type="text/javascript" src="{% static 'slick.min.js' %}"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('.responsive').slick({
+          dots: true,
+          infinite: true,
+          speed: 300,
+          slidesToShow: 4,
+          slidesToScroll: 4,
+          responsive: [
+            {
+              breakpoint: 1440,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+                infinite: true,
+                dots: true,
+                arrows: true,
+              },
+            },
+            {breakpoint: 720, settings: {slidesToShow: 2, slidesToScroll: 2}},
+            {
+              breakpoint: 480,
+              settings: {arrows: false, slidesToShow: 1, slidesToScroll: 1},
+            },
+          ],
+        });
+      });
+    </script>
+
     <script>
       AOS.init();
     </script>

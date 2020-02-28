@@ -1,16 +1,16 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% load static %} {% block content %}
 <div class="jumbotron">
   {% if status %}
-  <p class="text-center">{{ nickname }}님, 좋은 하루 보내세요. :)</p>
+  <p class="lead text-center">{{ nickname }}님, 좋은 하루 보내세요. :)</p>
   {% endif %}
   <h2 class="display-4 text-center">
     Good Reads Clone
   </h2>
   <p class="lead p-1 text-center">
-    뾰로롱 꼬마 마녀<br />
-    즐겁게 살아요 마법의 나라에서<br />
-    지금 막 따온 오로라를<br />
-    당신에게로 보내드릴게요~
+    개미는 (뚠뚠) 오늘도(뚠뚠)<br />
+    열심히 일을 하네<br />
+    개미는 언제나<br />
+    열심히 일을 하네
   </p>
   <div class="mt-5 ml-1 row">
     <h3>
@@ -23,39 +23,35 @@
     </p>
   </div>
   <hr class="my-4" />
-  {% for item in recent %}
-  <a class="text-body" href="{% url 'front:detail' item.isbn %}">
+  <div
+    class="responsive
+        card border-primary mb-3"
+    data-aos="fade-up"
+    data-aos-duration="1200"
+    data-aos-delay="300"
+  >
+    {% for item in recent %}
     <div
-      class="card border-primary mb-3"
+      class="card-body text-center"
       data-aos="fade-up"
       data-aos-duration="1200"
       data-aos-delay="0"
     >
-      <div
-        class="row card-body justify-content-center align-items-center"
-        data-aos="fade-up"
-        data-aos-duration="1200"
-        data-aos-delay="300"
-      >
-        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-11">
-          <img
-            style="height:100px; width: auto; display: block; margin: 0px auto;}"
-            src="{{ item.bookImage }}"
-            alt="Book Image {{ item.title }}"
-          />
-        </div>
-        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-11">
-          <p
-            class="text-dark text-sm-center text-md-left text-lg-left text-xl-left pt-2"
-          >
-            {{ item.title }}
-          </p>
-          <p class="small">{{ item.author }} | {{ item.pub_year }}</p>
-        </div>
-      </div>
+      <a class="text-body" href="{% url 'front:detail' item.isbn %}">
+        <img
+          style="display: block; margin: 0px auto;"
+          src="{{ item.bookImage }}"
+          alt="Book Image {{ item.title }}"
+        />
+        <p class="pt-2 pb-0 mb-1">
+          {{ item.title }}
+        </p>
+        <p class="small pb-0 mb-1">{{ item.author }} | {{ item.pub_year }}</p>
+      </a>
     </div>
-  </a>
-  {% endfor %} {% if shelf %}
+    {% endfor %}
+  </div>
+  {% if shelf %}
   <div class="mt-5 ml-1 row">
     <h3>
       내 책장
@@ -67,38 +63,34 @@
     </p>
   </div>
   <hr class="my-4" />
-  {% for item in shelf %}
-  <a class="text-body" href="{% url 'front:detail' item.isbn %}">
+  <div
+    class="responsive
+        card border-primary mb-1 "
+    data-aos="fade-up"
+    data-aos-duration="1200"
+    data-aos-delay="300"
+  >
+    {% for item in shelf %}
     <div
-      class="card border-primary mb-3"
+      class="card-body text-center"
       data-aos="fade-up"
       data-aos-duration="1200"
       data-aos-delay="0"
     >
-      <div
-        class="row card-body justify-content-center align-items-center"
-        data-aos="fade-up"
-        data-aos-duration="1200"
-        data-aos-delay="300"
-      >
-        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-11">
-          <img
-            style="height:100px; width: auto; display: block; margin: 0px auto;}"
-            src="{{ item.bookImage }}"
-            alt="Book Image {{ item.title }}"
-          />
-        </div>
-        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-11">
-          <p
-            class="text-dark text-sm-center text-md-left text-lg-left text-xl-left pt-2"
-          >
-            {{ item.title }}
-          </p>
-          <p class="small">{{ item.author }} | {{ item.pub_year }}</p>
-        </div>
-      </div>
+      <a class="text-body" href="{% url 'front:detail' item.isbn %}">
+        <img
+          style="display: block; margin: 0px auto;"
+          src="{{ item.bookImage }}"
+          alt="Book Image {{ item.title }}"
+        />
+        <p class="pt-2 pb-0 mb-1">
+          {{ item.title }}
+        </p>
+        <p class="small pb-0 mb-1">{{ item.author }} | {{ item.pub_year }}</p>
+      </a>
     </div>
-  </a>
-  {% endfor %} {% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
 </div>
 {% endblock content %}
