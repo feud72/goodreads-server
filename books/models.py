@@ -11,6 +11,8 @@ class Book(CoreModel):
     isbn = models.CharField(max_length=13, primary_key=True)
     description = models.TextField(max_length=1000, default="", blank=True)
     bookImage = models.ImageField(upload_to="bookImage", blank=True, null=True)
+    num_views = models.IntegerField(default=0)
+    last_ip = models.GenericIPAddressField(blank=True, null=True)
 
     def __str__(self):
         return self.title

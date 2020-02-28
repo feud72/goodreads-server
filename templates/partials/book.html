@@ -32,6 +32,9 @@
         <p>{{ item.description }}</p>
       </a>
       <p>
+        <span class="mr-3">
+          조회수 : {{ item.num_views }}
+        </span>
         {% if item.like_count %}
         <span class="mr-3">
           좋아요 : {{ item.like_count }}

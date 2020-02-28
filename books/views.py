@@ -111,6 +111,11 @@ isbn을 path의 인자로 가진다.
                     data=serializer.errors, status=status.HTTP_400_BAD_REQUEST
                 )
         instance = self.get_object()
+        current_ip = request.META.get("REMOTE_ADDR")
+        if instance.last_ip != current_ip:
+            instance.last_ip = current_ip
+            instance.num_views += 1
+            instance.save()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
