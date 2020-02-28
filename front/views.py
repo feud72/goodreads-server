@@ -202,29 +202,20 @@ def searchView(request):
     login = loginStatus(request)
     if request.method == "POST":
         form = SearchForm(request.POST)
+        result = dict()
         if form.is_valid():
             term = form.cleaned_data["term"]
+            result["term"] = term
             endpoint = "/api/v1/books/search/"
             params = {"search": term}
             raw_json, status = getAPI(API_URL, endpoint, params=params)
             if status == 200:
-                return render(
-                    request,
-                    "front/search.html",
-                    {"book_list": raw_json, "form": form, **login},
-                )
+                result["book_list"] = raw_json
             else:
-                return render(
-                    request,
-                    "front/search.html",
-                    {"error": "책을 찾을 수 없어요.", "form": form, **login},
-                )
+                result["error"] = "책을 찾을 수 없어요."
         else:
-            return render(
-                request,
-                "front/search.html",
-                {"error": "책을 찾을 수 없어요.", "form": form, **login},
-            )
+            result["error"] = "책을 찾을 수 없어요."
+        return render(request, "front/search.html", {"form": form, **result, **login},)
     if request.method == "GET":
         form = SearchForm()
         return render(request, "front/search.html", {"form": form, **login})
@@ -376,7 +367,7 @@ def meView(request):
                 request, "front/me.html", {"me": req, "book_list": book_list, **login}
             )
         else:
-            return render(request, "front/me.html", {"error": "Not fount.", **login})
+            return render(request, "front/me.html", {"error": "Not found.", **login})
     else:
         return redirect(reverse("front:home"))
 
@@ -409,11 +400,8 @@ def meUpdateView(request):
             if password == password2:
                 data["password"] = password
             endpoint = f"/api/v1/users/{user['id']}/"
-            req = requests.put(API_URL + endpoint, data)
-            if req.status_code == 200:
-                return redirect(reverse("front:me"))
-            else:
-                return redirect(reverse("front:me"))
+            requests.put(API_URL + endpoint, data)
+            return redirect(reverse("front:me"))
         else:
             return render(
                 request, "front/me-edit.html", {"form": form, "user": user, **login}

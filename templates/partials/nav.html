@@ -20,11 +20,11 @@
       <li class="nav-item">
         <a href="{% url 'front:recent' %}" class="nav-link">최근 등록된 책</a>
       </li>
-          {% if status is True %}
-    <li class="navbar-nav">
-      <a class="nav-link" href="{% url 'front:shelf' %}">내 책장</a>
-    </li>
-    {% endif %}
+      {% if status is True %}
+      <li class="navbar-nav">
+        <a class="nav-link" href="{% url 'front:shelf' %}">내 책장</a>
+      </li>
+      {% endif %}
     </ul>
     {% if status is True %}
     <li class="navbar-nav">
@@ -40,23 +40,6 @@
     <li class="navbar-nav">
       <a class="nav-link" href="{% url 'front:signup' %}">회원가입</a>
     </li>
-    {% endif %}
-
-    <form
-      action="{% url 'front:search' %}"
-      class="form-inline my-2 my-lg-0 ml-3"
-      method="post"
-    >
-      {% csrf_token %}
-      <input
-        class="form-control mr-sm-2"
-        type="text"
-        placeholder="Search"
-        name="term"
-      />
-      <button class="btn btn-secondary my-2 my-sm-0" type="submit">
-        Search
-      </button>
-    </form>
+    {% endif %} {% include 'partials/search-form.html' %}
   </div>
 </nav>
