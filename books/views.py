@@ -30,7 +30,7 @@ class BookViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ["title", "pub_year", "author"]
     ordering_fields = "__all__"
-    ordering = ["-avg_star", "-like_count"]
+    ordering = ["-like_count", "-avg_star"]
 
     def get_queryset(self):
         return Book.objects.annotate(

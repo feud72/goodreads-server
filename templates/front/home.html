@@ -14,6 +14,46 @@
   </p>
   <div class="mt-5 ml-1 row">
     <h3>
+      인기 도서
+    </h3>
+    <p>
+      <a class="btn btn-secondary ml-3" href="{% url 'front:popular' %}"
+        >더 보기</a
+      >
+    </p>
+  </div>
+  <hr class="my-4" />
+  <div
+    class="responsive
+        card border-primary mb-3"
+    data-aos="fade-up"
+    data-aos-duration="1200"
+    data-aos-delay="300"
+  >
+    {% for item in popular %}
+    <div
+      class="card-body text-center"
+      data-aos="fade-up"
+      data-aos-duration="1200"
+      data-aos-delay="0"
+    >
+      <a class="text-body" href="{% url 'front:detail' item.isbn %}">
+        <img
+          style="display: block; margin: 0px auto;"
+          src="{{ item.bookImage }}"
+          alt="Book Image {{ item.title }}"
+        />
+        <p class="pt-2 pb-0 mb-1">
+          {{ item.title }}
+        </p>
+        <p class="small pb-0 mb-1">{{ item.author }} | {{ item.pub_year }}</p>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="mt-5 ml-1 row">
+    <h3>
       최근 등록된 책
     </h3>
     <p>
