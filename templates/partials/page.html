@@ -1,9 +1,9 @@
-<div class="mt-3">
-  {% if prev_url %}
-	<a href="{{ prev_url }}" class="btn btn-primary"
+<div class="mt-3 mb-3">
+  {% if previous %}
+	<a href="{% url 'front:popular' sort=sort page=previous %}" class="btn btn-primary"
     >Previous</a
   >
-  {% endif %} {% if next_url %}
-  <a href="{{ next_url }}" class="btn btn-primary">Next</a>
+  {% endif %} {% if next %}
+  <a href="{% url 'front:popular' sort=sort page=next %}" class="btn btn-primary">Next</a>
   {% endif %}
 </div>

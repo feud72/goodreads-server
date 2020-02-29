@@ -31,6 +31,29 @@
         </p>
         <p>{{ item.description }}</p>
       </a>
+      {% if item.avg_star > 0 %}
+            <p>
+        <span class="mr-3">
+          평균 평점 : 
+          <span>⭐</span>
+          {% if item.avg_star >= 2 %}
+          <span>⭐</span>
+          {% endif %}
+          {% if item.avg_star >= 3 %}
+          <span>⭐</span>
+          {% endif %}
+          {% if item.avg_star >= 4 %}
+          <span>⭐</span>
+          {% endif %}
+          {% if item.avg_star == 5 %}
+          <span>⭐</span>
+          {% endif %}
+          <span class="ml-1">
+          ({{ item.avg_star|floatformat:"1" }}점)
+          </span>
+        </span>
+        </p>
+        {% endif %}
       <p>
         {% if item.num_views >= 0 %}
         <span class="mr-3">
@@ -43,9 +66,6 @@
         {% endif %} {% if item.review_count %}
         <span class="mr-3">
           리뷰 : {{ item.review_count }} 개
-        </span>
-        <span class="mr-3">
-          평균 평점: {{ item.avg_star }}
         </span>
         {% endif %}
       </p>

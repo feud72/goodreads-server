@@ -44,6 +44,25 @@
         {{ item.description }}
       </p>
       <p>
+        <span class="mr-3">
+          평균 평점: 
+          <span>⭐</span>
+          {% if item.avg_star|floatformat:"0" >= "2" %}
+          <span>⭐</span>
+          {% endif %}
+          {% if item.avg_star|floatformat:"0" >= "3" %}
+          <span>⭐</span>
+          {% endif %}
+          {% if item.avg_star|floatformat:"0" >= "4" %}
+          <span>⭐</span>
+          {% endif %}
+          {% if item.avg_star|floatformat:"0" == "5" %}
+          <span>⭐</span>
+          {% endif %}
+          {{ item.avg_star }}
+        </span>
+        </p>
+      <p>
         {% if item.num_views %}
         <span class="mr-3">
           조회수 : {{ item.num_views }}
@@ -55,9 +74,6 @@
         {% endif %} {% if item.review_count %}
         <span class="mr-3">
           리뷰 : {{ item.review_count }} 개
-        </span>
-        <span class="mr-3">
-          평균 평점: {{ item.avg_star }}
         </span>
         {% endif %}
       </p>
@@ -71,8 +87,8 @@
       >
         {% csrf_token %}
         <input type="hidden" name="isbn" value="{{ item.isbn }}" />
-        <button class="btn btn-secondary my-2 my-sm-0" type="submit">
-          구독{% if status is False %} 하려면 로그인하세요.{% endif %}
+        <button class="btn btn-info my-2 my-sm-0" type="submit">
+          좋아요{% if status is False %} 를 누르려면 로그인하세요.{% endif %}
         </button>
       </form>
     </div>

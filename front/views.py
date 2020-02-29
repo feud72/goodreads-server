@@ -107,7 +107,7 @@ def popularView(request, page=1, sort="like"):
         return render(
             request,
             "front/popular.html",
-            {"book_list": book_list, **page_dic, **login},
+            {"book_list": book_list, "sort": sort, **page_dic, **login},
         )
     else:
         return render(request, "front/popular.html", {**login})

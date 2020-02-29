@@ -16,7 +16,7 @@ class BookSerializer(serializers.ModelSerializer):
     )
     like_count = serializers.IntegerField(required=False)
     review_count = serializers.IntegerField(required=False)
-    avg_star = serializers.DecimalField(max_digits=3, decimal_places=2, required=False)
+    avg_star = serializers.FloatField(required=False)
 
     class Meta:
         model = Book
