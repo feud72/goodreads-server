@@ -8,6 +8,4 @@
 <a class="btn btn-secondary" href="{% url 'front:recent' %}">구경하러 가기</a>
 
 {% endif %} 
-{% url 'front:shelf' previous as prev_url %}
-{% url 'front:shelf' next as next_url %}
-{% include 'partials/page.html' %} {% endblock content %}
+{% include 'partials/shelf_page.html' %} {% endblock content %}

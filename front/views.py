@@ -80,23 +80,14 @@ def homeView(request):
     )
 
 
-def recentView(request, page=1):
-    login = loginStatus(request)
-    endpoint = f"/api/v1/books/?page={page}&ordering=-created_at"
-    raw, status = getAPI(API_URL, endpoint)
-    page_dic = getPagination(raw, page)
-    if status in (200, 201):
-        book_list = raw["results"]
-        return render(
-            request, "front/recent.html", {"book_list": book_list, **page_dic, **login},
-        )
-    else:
-        return render(request, "front/recent.html", {**login})
-
-
 def popularView(request, page=1, sort="like"):
     login = loginStatus(request)
-    sort_dic = {"like": "-like_count", "star": "-avg_star", "hit": "-num_views"}
+    sort_dic = {
+        "recent": "-created_at",
+        "like": "-like_count",
+        "star": "-avg_star",
+        "hit": "-num_views",
+    }
     endpoint = (
         f"/api/v1/books/?page={page}&ordering={sort_dic.get(sort, '-like_count')}"
     )

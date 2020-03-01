@@ -14,7 +14,7 @@
   </p>
   <div class="mt-5 ml-1 row">
     <h3 class="mb-0">
-      인기 도서
+      인기 있는 책
     </h3>
     <p class="mb-0">
       <a class="btn btn-secondary ml-3" href="{% url 'front:popular' %}"
@@ -57,7 +57,7 @@
       최근 등록된 책
     </h3>
     <p class="mb-0">
-      <a class="btn btn-secondary ml-3" href="{% url 'front:recent' %}"
+      <a class="btn btn-secondary ml-3" href="{% url 'front:popular' sort='recent' %}"
         >더 보기</a
       >
     </p>
@@ -97,7 +97,7 @@
       내 책장
     </h3>
     <p class="mb-0">
-      <a class="btn btn-secondary ml-3" href="{% url 'front:recent' %}"
+      <a class="btn btn-secondary ml-3" href="{% url 'front:shelf' %}"
         >더 보기</a
       >
     </p>

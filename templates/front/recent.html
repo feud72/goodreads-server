@@ -3,8 +3,6 @@
 <hr class="my-4" />
 {% for item in book_list %} {% include 'partials/book.html' %} {% endfor %}
 <!-- prettier-ignore -->
-{% url 'front:recent' previous as prev_url %}
-<!-- prettier-ignore -->
-{% url 'front:recent' next as next_url %} {% include 'partials/page.html' %}
+{% include 'partials/page.html' %}
 <!-- prettier-ignore -->
 {% endblock content %}
