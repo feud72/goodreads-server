@@ -15,10 +15,11 @@
       href="{% static 'slick-theme.css' %}"
     />
     <style>
-.slick-prev:before, .slick-next:before { 
-    color:#2c3250 !important;
-}
-</style>
+      .slick-prev:before,
+      .slick-next:before {
+        color: #2c3250 !important;
+      }
+    </style>
     <!-- Animations -->
     <link rel="stylesheet" href="{% static 'aos.css' %}" />
     <!-- jQuery 3.4.1 -->
@@ -46,6 +47,7 @@
       $(document).ready(function() {
         $('.responsive').slick({
           dots: true,
+          arrows: true,
           infinite: true,
           speed: 300,
           slidesToShow: 4,
@@ -58,13 +60,12 @@
                 slidesToScroll: 3,
                 infinite: true,
                 dots: true,
-                arrows: true,
               },
             },
             {breakpoint: 720, settings: {slidesToShow: 2, slidesToScroll: 2}},
             {
               breakpoint: 480,
-              settings: {arrows: false, slidesToShow: 1, slidesToScroll: 1},
+              settings: {slidesToShow: 1, slidesToScroll: 1},
             },
           ],
         });
