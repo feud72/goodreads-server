@@ -22,7 +22,6 @@ boto3 = "*"
 django-storages = "*"
 pillow = "*"
 daphne = "*"
-celery = {extras = ["sqs"],version = "*"}
 rq = "*"
 django-rq = "*"
 

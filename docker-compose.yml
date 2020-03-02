@@ -13,14 +13,28 @@ services:
     build: 
       context: . 
       dockerfile: Dockerfile 
+    image: goodreads-server_web
     command: daphne config.asgi:application --bind 0.0.0.0 -p 8000
     volumes: 
       - .:/code 
     env_file:
       - ./.env
+    links:
+      - redis:redis
     ports:
       - "8000:8000"
     expose:
       - "8000"
+  rqworker:
+    build:
+      context: .
+    image: goodreads-server_web
+    command: python manage.py rqworker default
+    volumes: 
+      - .:/code 
+    links:
+      - redis:redis
   redis:
     image: redis:alpine
+    expose:
+      - "6379"
