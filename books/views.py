@@ -6,15 +6,20 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 
+import django_rq
+
 from .models import Book
 from .serializers import BookSerializer
+from .tasks import create_keywords
 
 from utils.get_data import (
     getDetail,
     getRecommendByISBN,
-    getKeywordList,
     kakaoSearch,
 )
+
+from keywords.serializers import KeywordSerializer
+from keywords.models import Keyword
 
 
 class BookViewSet(ModelViewSet):
@@ -31,6 +36,9 @@ class BookViewSet(ModelViewSet):
     search_fields = ["title", "pub_year", "author"]
     ordering_fields = "__all__"
     ordering = ["-like_count", "-avg_star"]
+
+    def queue(self, isbn):
+        django_rq.enqueue(create_keywords, isbn)
 
     def get_queryset(self):
         return Book.objects.annotate(
@@ -73,12 +81,14 @@ isbn으로 국립중앙도서관 API에서 서지 정보를 불러와 내부 DB�
 | ---- | ---- | -------- | ----------- |
 | isbn | string | Required | ISBN 13자리를 입력한다.|
         """
+        isbn = self.kwargs["isbn"]
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
-        instance = Book.objects.get(isbn=self.kwargs["isbn"])
+        instance = Book.objects.get(isbn=isbn)
         serializer = self.get_serializer(instance)
+        self.queue(isbn)
         return Response(
             data=serializer.data, status=status.HTTP_201_CREATED, headers=headers,
         )
@@ -110,6 +120,7 @@ isbn을 path의 인자로 가진다.
                 return Response(
                     data=serializer.errors, status=status.HTTP_400_BAD_REQUEST
                 )
+        self.queue(isbn)
         instance = self.get_object()
         current_ip = request.META.get("REMOTE_ADDR")
         if instance.last_ip != current_ip:
@@ -141,7 +152,7 @@ isbn을 path의 인자로 가진다.
         return Response(status=status.HTTP_200_OK, data=data)
 
     @action(detail=True, methods=["GET"])
-    def keyword(self, request, isbn, *args, **kwargs):
+    def keywords(self, request, isbn, *args, **kwargs):
         """
 현재의 책의 연관된 단어(word)와 가중치(weight)를 리스트로 출력한다.
 
@@ -150,7 +161,7 @@ isbn을 path의 인자로 가진다.
 
 ## Specification
 - **Method** :  GET
-- **URL** : /api/v1/books/{isbn}/recommend/
+- **URL** : /api/v1/books/{isbn}/keywords/
 - **Content-Type** : application/json; charset=utf-8
 - **Parameters**
 
@@ -158,8 +169,9 @@ isbn을 path의 인자로 가진다.
 | ---- | ---- | -------- | ----------- |
 | isbn | string | Required | (path) isbn 13자리를 입력합니다. |
         """
-        data = getKeywordList(isbn=isbn)
-        return Response(status=status.HTTP_200_OK, data=data)
+        queryset = Keyword.objects.filter(book__isbn=isbn)
+        serializer = KeywordSerializer(queryset, many=True)
+        return Response(status=status.HTTP_200_OK, data=serializer.data)
 
     @action(detail=False, methods=["GET"])
     def search(self, request, *args, **kwargs):

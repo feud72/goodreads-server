@@ -9,6 +9,7 @@ schema_url_v1_patterns = [
     path("api/v1/shelves/", include("shelves.urls")),
     path("api/v1/accounts/", include("accounts.urls")),
     path("api/v1/reviews/", include("reviews.urls")),
+    path("api/v1/keywords/", include("keywords.urls")),
 ]
 
 schema_view_v1 = get_schema_view(
@@ -18,7 +19,7 @@ schema_view_v1 = get_schema_view(
         description="""노마드코더 Goodreads 클론 해커톤 프로젝트, 톰리들 & SH Kim
 
 아래 기술은 API 명세에 대한 간략한 설명(인자, 쿼리 파라미터, 응답 등)을 제공합니다.
-실제 기능은 하단의 swagger의 Try it out을 작동시켜 확인할 수 있습니다. 
+실제 기능은 하단의 swagger의 Try it out을 작동시켜 확인할 수 있습니다.
 
 ---
 
@@ -41,7 +42,7 @@ schema_view_v1 = get_schema_view(
 
 #### /accounts/signup/ : 회원가입
 필수 인자 : email, password1, password2
-응답 
+응답
  - 성공 : 201 {"message", "email"}
  - 실패 : 400 {"detail"} 또는 {"non_field_errors"} (JSON 형태로 반환)
 
@@ -63,11 +64,11 @@ schema_view_v1 = get_schema_view(
 응답 : 리스트를 반환합니다. 각각의 원소들은 GET /books/{isbn}/과 형식이 같습니다.
 
 #### /books/search/ : 카카오 API를 통해 책을 검색하여 보여줍니다.
-(현재 버그로 search 쿼리 파라미터를 입력하지 않으면 server error 발생)  
+(현재 버그로 search 쿼리 파라미터를 입력하지 않으면 server error 발생)
 쿼리 파라미터
  - search : 검색어 (필수)
  - page : 페이지 (옵션)
-응답 
+응답
  - 성공 : 200 리스트를 반환합니다. 각각의 원소들은 GET /books/{isbn}/과 형식이 같습니다.
 
 ### POST
@@ -75,7 +76,7 @@ schema_view_v1 = get_schema_view(
 #### /books/ : 책을 생성합니다.
 필수 인자 : isbn
 응답
- - 성공 : 201 {"title", "author", "publisher", "pub_year", "isbn", "description", "bookImage"} 
+ - 성공 : 201 {"title", "author", "publisher", "pub_year", "isbn", "description", "bookImage"}
  - 실패 : 400 {"isbn"} (JSON 형태로 반환)
 
 (작성중)
@@ -89,7 +90,7 @@ schema_view_v1 = get_schema_view(
 ### GET
 
 ####/books/{isbn}/
-#### /books/{isbn}/recommend/ 
+#### /books/{isbn}/recommend/
 #### /books/{isbn}/keyword/
 
 ---
@@ -130,11 +131,11 @@ schema_view_v1 = get_schema_view(
 
 ####/shelves/{id}/memo/
 
-###POST 
+###POST
 
 ####/shelves/{id}/memo/
 
-###PUT, DELETE 
+###PUT, DELETE
 
 ####/shelves/{id}/memo/
 

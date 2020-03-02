@@ -104,19 +104,38 @@ def popularView(request, page=1, sort="like"):
         return render(request, "front/popular.html", {**login})
 
 
+def keywordView(request, keyword):
+    login = loginStatus(request)
+    endpoint = f"/api/v1/keywords/{keyword}"
+    raw, status = getAPI(API_URL, endpoint)
+    if status in (200, 201):
+        book_list = [item["book"] for item in raw]
+        return render(
+            request,
+            "front/keyword.html",
+            {"keyword": keyword, "book_list": book_list, **login},
+        )
+    else:
+        return render(request, "front/keyword.html", {**login})
+
+
 def detailView(request, isbn):
     login = loginStatus(request)
     endpoint = "/api/v1/books/"
-    raw, status = getAPI(API_URL, endpoint, isbn, "/")
+    book_detail, status = getAPI(API_URL, endpoint, isbn, "/")
     if status in (200, 201):
-        book_detail = raw
-        recommend_url = "/recommend/"
-        raw, _ = getAPI(API_URL, endpoint, isbn, recommend_url)
-        recommend_data = raw
+        keywords = book_detail["keywords"]
+        recommend, _ = getAPI(API_URL, endpoint, isbn, "/recommend/")
+        print(keywords)
         return render(
             request,
             "front/detail.html",
-            {"item": book_detail, "recommend": recommend_data, **login,},
+            {
+                "item": book_detail,
+                "keywords": keywords,
+                "recommend": recommend,
+                **login,
+            },
         )
     else:
         return render(

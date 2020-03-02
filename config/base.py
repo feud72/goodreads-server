@@ -39,7 +39,7 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-PROJECT_APPS = ["books", "users", "accounts", "shelves", "reviews", "front"]
+PROJECT_APPS = ["books", "users", "accounts", "shelves", "reviews", "keywords", "front"]
 
 
 THIRD_PARTY_APPS = [
@@ -48,6 +48,7 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "drf_yasg",
     "storages",
+    "django_rq",
 ]
 LOGIN_REDIRECT_URL = "/"
 
@@ -189,3 +190,7 @@ STATICFILES_DIRS = [
 STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 DEFAULT_FILE_STORAGE = "config.asset_storage.MediaStorage"
+
+RQ_QUEUES = {
+    "default": {"HOST": "localhost", "PORT": 6379, "DB": 0, "DEFAULT_TIMEOUT": 360,},
+}

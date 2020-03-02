@@ -28,7 +28,9 @@ urlpatterns = [
     path("api/v1/accounts/", include("accounts.urls")),
     path("api/v1/shelves/", include("shelves.urls")),
     path("api/v1/reviews/", include("reviews.urls")),
+    path("api/v1/keywords/", include("keywords.urls")),
     path("", include("front.urls")),
+    path("django-rq/", include("django_rq.urls")),
 ]
 
 urlpatterns += [

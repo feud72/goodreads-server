@@ -8,6 +8,7 @@ urlpatterns = [
     path("popular/", views.popularView, name="popular"),
     path("popular/<str:sort>/", views.popularView, name="popular"),
     path("popular/<str:sort>/<int:page>/", views.popularView, name="popular"),
+    path("keyword/<str:keyword>/", views.keywordView, name="keyword"),
     # path("recent/", views.recentView, name="recent"),
     # path("recent/<int:page>/", views.recentView, name="recent"),
     path("search/", views.searchView, name="search"),

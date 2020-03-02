@@ -7,12 +7,16 @@ from .models import Book
 
 from utils.get_data import getDetail
 from reviews.serializers import ReviewSerializer
+from keywords.serializers import KeywordSerializer
 
 
 class BookSerializer(serializers.ModelSerializer):
     isbn = serializers.CharField(max_length=13, required=True)
     review = ReviewSerializer(
         many=True, read_only=True, required=False, source="review_set"
+    )
+    keywords = KeywordSerializer(
+        many=True, read_only=True, required=False, source="keyword_set"
     )
     like_count = serializers.IntegerField(required=False)
     review_count = serializers.IntegerField(required=False)
@@ -29,6 +33,7 @@ class BookSerializer(serializers.ModelSerializer):
             "description",
             "bookImage",
             "review",
+            "keywords",
             "num_views",
             "like_count",
             "review_count",

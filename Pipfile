@@ -22,6 +22,9 @@ boto3 = "*"
 django-storages = "*"
 pillow = "*"
 daphne = "*"
+celery = {extras = ["sqs"],version = "*"}
+rq = "*"
+django-rq = "*"
 
 [requires]
 python_version = "3.8"
