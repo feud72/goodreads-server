@@ -17,7 +17,11 @@ class UsersViewSet(ModelViewSet):
 
     def get_permissions(self):
 
-        if self.action == "list" or "create" or self.action == "retrieve":
+        if (
+            self.action == "list"
+            or self.action == "retrieve"
+            or self.action == "create"
+        ):
             permission_classes = [AllowAny]
         else:
             permission_classes = [IsSelf]

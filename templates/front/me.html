@@ -16,6 +16,6 @@
 {% include 'partials/slide.html' with title="내 책장" link=shelf_link items=book_list %}
 {% else %}
 <p class="lead">책장에 책이 한 권도 없네요. 책을 구경하러 가시겠어요?</p>
-<a class="btn btn-secondary" href="{% url 'front:recent' %}">구경하러 가기</a>
+<a class="btn btn-secondary" href="{% url 'front:popular' %}">구경하러 가기</a>
 {% endif %} 
 {% endblock content %}

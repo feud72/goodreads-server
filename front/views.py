@@ -87,7 +87,9 @@ def popularView(request, page=1, sort="star"):
         "star": "-avg_star",
         "hit": "-num_views",
     }
-    endpoint = f"/api/v1/books/?page={page}&ordering={sort_dic.get(sort, '-avg_star')}"
+    endpoint = (
+        f"/api/v1/books/?page={page}&ordering={sort_dic.get(sort, '-avg_star')},title"
+    )
     raw, status = getAPI(API_URL, endpoint)
     page_dic = getPagination(raw, page)
     if status in (200, 201):
@@ -394,7 +396,7 @@ def meUpdateView(request):
                 "nickname": raw.get("nickname"),
             }
     else:
-        return redirect(reverse("front:home"))
+        return redirect(reverse("front:login"))
     if request.method == "POST":
         form = UserEditForm(request.POST)
         if form.is_valid():
@@ -409,7 +411,9 @@ def meUpdateView(request):
             if password == password2:
                 data["password"] = password
             endpoint = f"/api/v1/users/{user['id']}/"
-            requests.put(API_URL + endpoint, data)
+            token = login["token"]
+            headers = {"Authorization": f"Token {token}"}
+            requests.put(API_URL + endpoint, data, headers=headers)
             return redirect(reverse("front:me"))
         else:
             return render(
