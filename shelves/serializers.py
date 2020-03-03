@@ -1,3 +1,5 @@
+from django.db.models import Avg
+
 from rest_framework import serializers
 
 from .models import MyBook
@@ -7,7 +9,37 @@ from users.models import User
 from reviews.serializers import ReviewSerializer
 
 
+class BookSerializer(serializers.ModelSerializer):
+    avg_star = serializers.SerializerMethodField(required=False, read_only=True)
+
+    class Meta:
+        model = Book
+        fields = (
+            "isbn",
+            "title",
+            "author",
+            "pub_year",
+            "description",
+            "num_views",
+            "bookImage",
+            "like_count",
+            "review_count",
+            "avg_star",
+        )
+
+    def get_avg_star(self, obj):
+        avg = (
+            Book.objects.filter(isbn=obj.isbn)
+            .aggregate(Avg("review__star"))
+            .get("review__star__avg")
+        )
+        if avg is None:
+            return 0
+        return avg
+
+
 class MyBookSerializer(serializers.ModelSerializer):
+    book = BookSerializer(read_only=True)
     isbn = serializers.CharField(max_length=13, write_only=True)
     owner = serializers.SlugRelatedField(
         slug_field="nickname", queryset=User.objects.all(), required=False

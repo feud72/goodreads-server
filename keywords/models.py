@@ -7,7 +7,7 @@ class Keyword(models.Model):
     weight = models.IntegerField(null=True, blank=True)
 
     class Meta:
-        ordering = ["-weight"]
+        ordering = ["word"]
 
     def __str__(self):
         return f"{self.book.title} # {self.word}"

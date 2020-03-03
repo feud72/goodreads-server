@@ -12,125 +12,13 @@
     개미는 언제나<br />
     열심히 일을 하네
   </p>
-  <div class="mt-5 ml-1 row">
-    <h3 class="mb-0">
-      인기 있는 책
-    </h3>
-    <p class="mb-0">
-      <a class="btn btn-secondary ml-3" href="{% url 'front:popular' %}"
-        >더 보기</a
-      >
-    </p>
-  </div>
-  <hr class="my-4" />
-  <div
-    class="responsive
-        card border-primary mb-3"
-    data-aos="fade-up"
-    data-aos-duration="1200"
-    data-aos-delay="300"
-  >
-    {% for item in popular %}
-    <div
-      class="card-body text-center"
-      data-aos="fade-up"
-      data-aos-duration="1200"
-      data-aos-delay="0"
-    >
-      <a class="text-body" href="{% url 'front:detail' item.isbn %}">
-        <img
-          style="display: block; margin: 0px auto;"
-          src="{{ item.bookImage }}"
-          alt="Book Image {{ item.title }}"
-        />
-        <p class="pt-2 pb-0 mb-1">
-          {{ item.title }}
-        </p>
-        <p class="small pb-0 mb-1">{{ item.author }} | {{ item.pub_year }}</p>
-      </a>
-    </div>
-    {% endfor %}
-  </div>
-
-  <div class="mt-5 ml-1 row">
-    <h3 class="mb-0">
-      최근 등록된 책
-    </h3>
-    <p class="mb-0">
-      <a class="btn btn-secondary ml-3" href="{% url 'front:popular' sort='recent' %}"
-        >더 보기</a
-      >
-    </p>
-  </div>
-  <hr class="my-4" />
-  <div
-    class="responsive
-        card border-primary mb-3"
-    data-aos="fade-up"
-    data-aos-duration="1200"
-    data-aos-delay="300"
-  >
-    {% for item in recent %}
-    <div
-      class="card-body text-center"
-      data-aos="fade-up"
-      data-aos-duration="1200"
-      data-aos-delay="0"
-    >
-      <a class="text-body" href="{% url 'front:detail' item.isbn %}">
-        <img
-          style="display: block; margin: 0px auto;"
-          src="{{ item.bookImage }}"
-          alt="Book Image {{ item.title }}"
-        />
-        <p class="pt-2 pb-0 mb-1">
-          {{ item.title }}
-        </p>
-        <p class="small pb-0 mb-1">{{ item.author }} | {{ item.pub_year }}</p>
-      </a>
-    </div>
-    {% endfor %}
-  </div>
+  {% url 'front:popular' as link %}
+  {% include 'partials/slide.html' with title="인기 있는 책" link=link items=popular %}
+  {% url 'front:popular' sort="recent" as link %}
+  {% include 'partials/slide.html' with title="최근 등록된 책" link=link items=recent %}
   {% if shelf %}
-  <div class="mt-5 ml-1 row">
-    <h3 class="mb-0">
-      내 책장
-    </h3>
-    <p class="mb-0">
-      <a class="btn btn-secondary ml-3" href="{% url 'front:shelf' %}"
-        >더 보기</a
-      >
-    </p>
-  </div>
-  <hr class="my-4" />
-  <div
-    class="responsive
-        card border-primary mb-1 "
-    data-aos="fade-up"
-    data-aos-duration="1200"
-    data-aos-delay="300"
-  >
-    {% for item in shelf %}
-    <div
-      class="card-body text-center"
-      data-aos="fade-up"
-      data-aos-duration="1200"
-      data-aos-delay="0"
-    >
-      <a class="text-body" href="{% url 'front:detail' item.isbn %}">
-        <img
-          style="display: block; margin: 0px auto;"
-          src="{{ item.bookImage }}"
-          alt="Book Image {{ item.title }}"
-        />
-        <p class="pt-2 pb-0 mb-1">
-          {{ item.title }}
-        </p>
-        <p class="small pb-0 mb-1">{{ item.author }} | {{ item.pub_year }}</p>
-      </a>
-    </div>
-    {% endfor %}
-  </div>
+  {% url 'front:shelf' as link %}
+  {% include 'partials/slide.html' with title="내 책장" link=link items=shelf %}
   {% endif %}
+  {% endblock content %}
 </div>
-{% endblock content %}

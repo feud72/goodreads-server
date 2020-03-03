@@ -1,4 +1,4 @@
-from django.db.models import Count, Avg, Value
+from django.db.models import Avg, Value
 from django.db.models.functions import Coalesce
 
 from rest_framework import filters, status
@@ -35,17 +35,13 @@ class BookViewSet(ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ["title", "pub_year", "author"]
     ordering_fields = "__all__"
-    ordering = ["-like_count", "-avg_star"]
+    ordering = ["-avg_star", "-num_views"]
 
     def queue(self, isbn):
         django_rq.enqueue(create_keywords, isbn)
 
     def get_queryset(self):
-        return Book.objects.annotate(
-            like_count=Count("mybook", distinct=True),
-            review_count=Count("review", distinct=True),
-            avg_star=Coalesce(Avg("review__star"), Value(0)),
-        )
+        return Book.objects.annotate(avg_star=Coalesce(Avg("review__star"), Value(0)),)
 
     def list(self, request, *args, **kwargs):
         """

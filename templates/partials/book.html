@@ -54,6 +54,7 @@
         </span>
         </p>
         {% endif %}
+
       <p>
         {% if item.num_views >= 0 %}
         <span class="mr-3">
@@ -70,6 +71,20 @@
         {% endif %}
       </p>
       <p>{{ item.author }} | {{ item.pub_year }}</p>
+
+				{% if item.keywords %}
+				<p>
+        {% for keyword in item.keywords %}
+        <span class="mr-2"
+          >#
+          <a href="{% url 'front:keyword' keyword.word %}"
+            >{{ keyword.word }}</a
+          ></span
+        >
+        {% endfor %}
+      </p>
+					{% endif %}
+
     </div>
   </div>
 </div>

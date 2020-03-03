@@ -5,3 +5,7 @@ ALLOWED_HOSTS = [
     "hackathon.hopto.org",
 ]
 COOKIE_DOMAIN = "hackathon.hopto.org"
+
+RQ_QUEUES = {
+    "default": {"HOST": "redis", "PORT": 6379, "DB": 0, "DEFAULT_TIMEOUT": 360,},
+}

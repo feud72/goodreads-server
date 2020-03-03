@@ -16,3 +16,11 @@ class Book(CoreModel):
 
     def __str__(self):
         return self.title
+
+    @property
+    def review_count(self):
+        return self.review_set.distinct().count()
+
+    @property
+    def like_count(self):
+        return self.mybook_set.distinct().count()

@@ -1,0 +1,42 @@
+{% if title %}
+<div class="mt-5 ml-1 row">
+  <h3 class="mb-0">
+    {{ title }}
+  </h3>
+  <p class="mb-0">
+	<a class="btn btn-secondary ml-3" href="{{ link }}"
+      >더 보기</a
+    >
+  </p>
+</div>
+<hr class="my-4" />
+{% endif %}
+<div
+  class="card border-primary mb-3"
+  data-aos="fade-up"
+  data-aos-duration="1200"
+  data-aos-delay="300"
+>
+  <div class="responsive ml-5 mr-5">
+    {% for item in items %}
+    <div
+      class="card-body text-center"
+      data-aos="fade-up"
+      data-aos-duration="1200"
+      data-aos-delay="0"
+    >
+      <a class="text-body" href="{% url 'front:detail' item.isbn %}">
+        <img
+          style="display: block; margin: 0px auto;"
+          src="{{ item.bookImage }}"
+          alt="Book Image {{ item.title }}"
+        />
+        <p class="pt-2 pb-0 mb-1">
+          {{ item.title }}
+        </p>
+        <p class="small pb-0 mb-1">{{ item.author }} | {{ item.pub_year }}</p>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>

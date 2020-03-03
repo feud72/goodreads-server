@@ -45,17 +45,23 @@
       </p>
       <p>
         <span class="mr-3">
-          평균 평점:
+          평균 평점 : 
           <span>⭐</span>
-          {% if item.avg_star|floatformat:"0" >= "2" %}
+          {% if item.avg_star >= 2 %}
           <span>⭐</span>
-          {% endif %} {% if item.avg_star|floatformat:"0" >= "3" %}
+          {% endif %}
+          {% if item.avg_star >= 3 %}
           <span>⭐</span>
-          {% endif %} {% if item.avg_star|floatformat:"0" >= "4" %}
+          {% endif %}
+          {% if item.avg_star >= 4 %}
           <span>⭐</span>
-          {% endif %} {% if item.avg_star|floatformat:"0" == "5" %}
+          {% endif %}
+          {% if item.avg_star == 5 %}
           <span>⭐</span>
-          {% endif %} {{ item.avg_star }}
+          {% endif %}
+          <span class="ml-1">
+          ({{ item.avg_star|floatformat:"1" }}점)
+          </span>
         </span>
       </p>
       <p>
@@ -74,6 +80,9 @@
         {% endif %}
       </p>
       <p>
+        {{ item.author }} | {{ item.pub_year }} | {{ item.publisher }}
+      </p>
+      <p>
         {% for keyword in keywords %}
         <span class="mr-2"
           >#
@@ -82,9 +91,6 @@
           ></span
         >
         {% endfor %}
-      </p>
-      <p>
-        {{ item.author }} | {{ item.pub_year }} | {{ item.publisher }}
       </p>
 
       <form

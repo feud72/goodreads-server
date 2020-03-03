@@ -1,3 +1,4 @@
+from django.db.models import Avg
 from django.core.files.base import ContentFile
 
 from rest_framework import serializers
@@ -18,8 +19,6 @@ class BookSerializer(serializers.ModelSerializer):
     keywords = KeywordSerializer(
         many=True, read_only=True, required=False, source="keyword_set"
     )
-    like_count = serializers.IntegerField(required=False)
-    review_count = serializers.IntegerField(required=False)
     avg_star = serializers.FloatField(required=False)
 
     class Meta:
@@ -52,6 +51,16 @@ class BookSerializer(serializers.ModelSerializer):
             "review_count",
             "avg_star",
         )
+
+    def get_avg_star(self, obj):
+        avg = (
+            Book.objects.filter(isbn=obj.isbn)
+            .aggregate(Avg("review__star"))
+            .get("review__star__avg")
+        )
+        if avg is None:
+            return 0
+        return avg
 
     def validate_isbn(self, value):
         if len(value) != 13:

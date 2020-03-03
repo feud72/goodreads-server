@@ -80,17 +80,14 @@ def homeView(request):
     )
 
 
-def popularView(request, page=1, sort="like"):
+def popularView(request, page=1, sort="star"):
     login = loginStatus(request)
     sort_dic = {
         "recent": "-created_at",
-        "like": "-like_count",
         "star": "-avg_star",
         "hit": "-num_views",
     }
-    endpoint = (
-        f"/api/v1/books/?page={page}&ordering={sort_dic.get(sort, '-like_count')}"
-    )
+    endpoint = f"/api/v1/books/?page={page}&ordering={sort_dic.get(sort, '-avg_star')}"
     raw, status = getAPI(API_URL, endpoint)
     page_dic = getPagination(raw, page)
     if status in (200, 201):
@@ -126,7 +123,6 @@ def detailView(request, isbn):
     if status in (200, 201):
         keywords = book_detail["keywords"]
         recommend, _ = getAPI(API_URL, endpoint, isbn, "/recommend/")
-        print(keywords)
         return render(
             request,
             "front/detail.html",

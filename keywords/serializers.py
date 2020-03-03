@@ -30,12 +30,10 @@ class KeywordSerializer(serializers.ModelSerializer):
     class Meta:
         model = Keyword
         fields = (
-            "book",
             "word",
             "weight",
         )
         read_only_fields = (
-            "book",
             "word",
             "weight",
         )

@@ -1,8 +1,34 @@
 from rest_framework import serializers
 from .models import User
 
-from shelves.serializers import MyBookSerializer
+from books.models import Book
+from shelves.models import MyBook
 from reviews.serializers import ReviewSerializer
+
+
+class BookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = (
+            "isbn",
+            "title",
+            "author",
+            "pub_year",
+            "description",
+            "num_views",
+            "bookImage",
+            "like_count",
+            "review_count",
+        )
+
+
+class MyBookSerializer(serializers.ModelSerializer):
+
+    book = BookSerializer(read_only=True,)
+
+    class Meta:
+        model = MyBook
+        fields = ("id", "created_at", "book")
 
 
 class UserSerializer(serializers.ModelSerializer):
