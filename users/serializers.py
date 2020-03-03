@@ -20,6 +20,7 @@ class BookSerializer(serializers.ModelSerializer):
             "like_count",
             "review_count",
         )
+        ref_name = "user_book_serializer"
 
 
 class MyBookSerializer(serializers.ModelSerializer):

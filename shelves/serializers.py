@@ -26,6 +26,7 @@ class BookSerializer(serializers.ModelSerializer):
             "review_count",
             "avg_star",
         )
+        ref_name = "shelf_book_serializer"
 
     def get_avg_star(self, obj):
         avg = (
@@ -60,6 +61,7 @@ class MyBookSerializer(serializers.ModelSerializer):
         )
         read_only_fields = ("id", "created_at", "owner", "book", "review")
         depth = 1
+        ref_name = "shelf_mybook_serializer"
 
     def validate_isbn(self, value):
         request = self.context.get("request", None)
