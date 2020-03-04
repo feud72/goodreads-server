@@ -23,7 +23,7 @@ schema_view_v1 = get_schema_view(
 
 ---
 
-### [Github Link](https://github.com/feud72/goodreads-server/blob/master/api.md)
+### [API Link](https://github.com/feud72/goodreads-server/blob/master/api.md)
 
 """,
     ),

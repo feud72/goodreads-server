@@ -77,7 +77,7 @@ isbn으로 국립중앙도서관 API에서 서지 정보를 불러와 내부 DB�
 | ---- | ---- | -------- | ----------- |
 | isbn | string | Required | ISBN 13자리를 입력한다.|
         """
-        isbn = self.kwargs["isbn"]
+        isbn = request.data.get("isbn")
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)

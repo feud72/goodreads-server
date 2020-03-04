@@ -19,7 +19,7 @@ class BookSerializer(serializers.ModelSerializer):
     keywords = KeywordSerializer(
         many=True, read_only=True, required=False, source="keyword_set"
     )
-    avg_star = serializers.FloatField(required=False)
+    avg_star = serializers.FloatField(required=False, read_only=True)
 
     class Meta:
         model = Book

@@ -1,32 +1,32 @@
-## 사용자 
+## 사용자
 
-### 회원 가입 
+### 회원 가입
 
-#### 요청 
+#### 요청
 
-``` 
-POST {{API_URL}}/api/v1/accounts/signup/ 
-``` 
+```
+POST {{API_URL}}/api/v1/accounts/signup/
+```
 
-| 파라미터 | 파라미터 유형 | 데이터 타입 | 필수 여부 | 설명 | 
-| ---------- | ------------- | ----------- | --------- | -------- | 
-| `email` | `body` | `string` | ✅ | 이메일 | 
-| `password1` | `body` | `string` | ✅ | 비밀번호 | 
-| `password2` | `body` | `string` | ✅ | 비밀번호 확인 | 
+| 파라미터    | 파라미터 유형 | 데이터 타입 | 필수 여부 | 설명          |
+| ----------- | ------------- | ----------- | --------- | ------------- |
+| `email`     | `body`        | `string`    | required  | 이메일        |
+| `password1` | `body`        | `string`    | required  | 비밀번호      |
+| `password2` | `body`        | `string`    | required  | 비밀번호 확인 |
 
-#### 응답 
+#### 응답
 
-| 키 | 데이터 타입 | 설명 | 
-| -------------- | ----------- | ------------- | 
-| `message` | `string` | 성공시 success | 
-| `email` | `string` | 유저의 email | 
-| `token` | `string` | 인증 토큰 |
+| 키        | 데이터 타입 | 설명           |
+| --------- | ----------- | -------------- |
+| `message` | `string`    | 성공시 success |
+| `email`   | `string`    | 유저의 email   |
+| `token`   | `string`    | 인증 토큰      |
 
 ```json
 {
-"message" : "success",
-"email" : "YOUR EMAIL",
-"token" : "YOUR ACCESS TOKEN"
+  "message": "success",
+  "email": "YOUR EMAIL",
+  "token": "YOUR ACCESS TOKEN"
 }
 ```
 
@@ -38,22 +38,177 @@ POST {{API_URL}}/api/v1/accounts/signup/
 POST {{API_URL}}/api/v1/accounts/login/
 ```
 
-| 파라미터 | 파라미터 유형 | 데이터 타입 | 필수 여부 | 설명 |
+| 파라미터   | 파라미터 유형 | 데이터 타입 | 필수 여부 | 설명     |
 | ---------- | ------------- | ----------- | --------- | -------- |
-| `email` | `body` | `string` | ✅ | 이메일 |
-| `password` | `body` | `string` | ✅ | 비밀번호 |
+| `email`    | `body`        | `string`    | required  | 이메일   |
+| `password` | `body`        | `string`    | required  | 비밀번호 |
 
 #### 응답
 
-| 키 | 데이터 타입 | 설명 |
-| -------------- | ----------- | ------------- |
-| `message` | `string` | 성공시 success |
-| `token` | `string` | 인증 토큰 |
-```
+| 키        | 데이터 타입 | 설명           |
+| --------- | ----------- | -------------- |
+| `message` | `string`    | 성공시 success |
+| `token`   | `string`    | 인증 토큰      |
 
 ```json
 {
-"message" : "success",
-"token" : "YOUR ACCESS TOKEN"
+  "message": "success",
+  "token": "YOUR ACCESS TOKEN"
+}
+```
+
+## 책
+
+### 책 목록
+
+#### 요청
+
+```
+GET {{API_URL}}/api/v1/books/?ordering={ordering}&page={page}
+```
+
+| 파라미터   | 파라미터 유형 | 데이터 타입 | 필수 여부                    | 설명        |
+| ---------- | ------------- | ----------- | ---------------------------- | ----------- |
+| `ordering` | `query`       | `string`    | optional, (기본값) -avg_star | 정렬        |
+| `page`     | `query`       | `string`    | optional, (기본값) 1         | 페이지 번호 |
+
+#### 응답
+
+| 키         | 데이터 타입            | 설명              |
+| ---------- | ---------------------- | ----------------- |
+| `count`    | `number`               | 책의 총 권수      |
+| `next`     | `URL`                  | 다음 페이지의 URL |
+| `previous` | `URL`                  | 이전 페이지의 URL |
+| `results`  | `array of Book object` | 결과              |
+
+```json
+{
+  "count": 143,
+  "next": "http://127.0.0.1:8000/api/v1/books/?page=2",
+  "previous": null,
+  "results": [
+    {
+      "title": "TITLE",
+      "author": "AUTHOR",
+      "publisher": "PUBLISHER",
+      "pub_year": "PUB_YEAR",
+      "isbn": "ISBN, unique key",
+      "description": "DESCRIPTION",
+      "bookImage": "BOOKIMAGE",
+      "review": [
+        ...
+      ]
+      "keywords": [
+        ...
+      ],
+      "num_views": 8,
+      "like_count": 1,
+      "review_count": 4,
+      "avg_star": 5
+    },
+    {
+    ...
+
+    }
+}
+```
+
+### 책 검색
+
+#### 요청
+
+```
+GET {{API_URL}}/api/v1/books/?search={search}&ordering={ordering}&page={page}
+```
+
+| 파라미터   | 파라미터 유형 | 데이터 타입 | 필수 여부                    | 설명        |
+| ---------- | ------------- | ----------- | ---------------------------- | ----------- |
+| `search`   | `query`       | `string`    | required                     | 검색        |
+| `ordering` | `query`       | `string`    | optional, (기본값) -avg_star | 정렬        |
+| `page`     | `query`       | `string`    | optional, (기본값) 1         | 페이지 번호 |
+
+#### 응답
+
+| 키         | 데이터 타입            | 설명              |
+| ---------- | ---------------------- | ----------------- |
+| `count`    | `number`               | 책의 총 권수      |
+| `next`     | `URL`                  | 다음 페이지의 URL |
+| `previous` | `URL`                  | 이전 페이지의 URL |
+| `results`  | `array of Book object` | 결과              |
+
+```json
+{
+  "count": 143,
+  "next": "http://127.0.0.1:8000/api/v1/books/?page=2",
+  "previous": null,
+  "results": [
+    {
+      "title": "TITLE",
+      "author": "AUTHOR",
+      "publisher": "PUBLISHER",
+      "pub_year": "PUB_YEAR",
+      "isbn": "ISBN, unique key",
+      "description": "DESCRIPTION",
+      "bookImage": "BOOKIMAGE",
+      "review": [
+        ...
+      ]
+      "keywords": [
+        ...
+      ],
+      "num_views": 8,
+      "like_count": 1,
+      "review_count": 4,
+      "avg_star": 5
+    },
+    {
+    ...
+
+    }
+}
+```
+
+### 책 생성
+
+#### 요청
+
+```
+POST {{API_URL}}/api/v1/books/
+```
+
+| 파라미터 | 파라미터 유형 | 데이터 타입 | 필수 여부 | 설명                             |
+| -------- | ------------- | ----------- | --------- | -------------------------------- |
+| `isbn`   | `body`        | `string`    | required  | 13자리 숫자로 이루어진 ISBN 번호 |
+
+#### 응답
+
+| 키             | 데이터 타입 | 설명                     |
+| -------------- | ----------- | ------------------------ |
+| `title`        | `string`    | 책 제목                  |
+| `author`       | `string`    | 저자                     |
+| `publisher`    | `string`    | 출판사                   |
+| `pub_year`     | `string`    | 출판년도                 |
+| `isbn`         | `string`    | 13자리 ISBN              |
+| `description`  | `string`    | 책의 요약 내용           |
+| `review`       | `array`     | 리뷰의 배열              |
+| `keywords`     | `array`     | 관련 키워드의 배열       |
+| `num_views`    | `number`    | 조회수                   |
+| `like_count`   | `number`    | 구독(또는 좋아요)의 개수 |
+| `review_count` | `number`    | 리뷰의 개수              |
+
+```json
+{
+  "title": "TITLE",
+  "author": "AUTHOR",
+  "publisher": "PUBLISHER",
+  "pub_year": "PUB_YEAR",
+  "isbn": "ISBN, unique key",
+  "description": "DESCRIPTION",
+  "bookImage": "BOOKIMAGE",
+  "review": [],
+  "keywords": [],
+  "num_views": 0,
+  "like_count": 0,
+  "review_count": 0
 }
 ```
