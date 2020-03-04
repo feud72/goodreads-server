@@ -83,7 +83,6 @@ class SignupView(GenericAPIView):
     | ---- | ---- | -------- | ----------- |
     | message | string | | 성공시 success |
     | email | string | | 유저의 email |
-    | current_bookshelf | object | | 회원 가입시 책장이 자동으로 생성됩니다. |
 
     | 실패 (400 Bad Request) |
     | ---- |
@@ -98,14 +97,6 @@ class SignupView(GenericAPIView):
     {
     "message": "success",
     "email": "user@example.com",
-    "current_bookshelf": {
-        "id": 21,
-        "created_at": "2020-02-06",
-        "name": "내 책장",
-        "gender": "N",
-        "age": null,
-        "owner": 17
-        }
     }
     ```
 
@@ -129,6 +120,10 @@ class SignupView(GenericAPIView):
             user = serializer.save()
             message["message"] = "success"
             message["email"] = user.email
+            user = get_user_model().objects.get(email=user.email)
+            token = encode_jwt("pk", user.pk)
+            message["token"] = token
+
             return Response(status=status.HTTP_201_CREATED, data=message)
         else:
             return Response(

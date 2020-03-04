@@ -33,6 +33,8 @@ urlpatterns = [
     path("django-rq/", include("django_rq.urls")),
 ]
 
+app_name = "config"
+
 urlpatterns += [
     re_path(
         r"^api/v1/swagger(?P<format>\.json|\.yaml)/$",

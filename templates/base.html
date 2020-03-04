@@ -25,10 +25,10 @@
     <!-- jQuery 3.4.1 -->
     <script src="{% static 'jquery-3.4.1.min.js' %}"></script>
   </head>
-  <body style="overflow-y:scroll; background-color: #F3969A11;">
+  <body style="overflow-y:scroll; background-color: #F3969A11;" class="m-0 p-0">
     {% autoescape off %}
     <!-- prettier-ignore -->
-    <div class="container pl-0 pr-0">
+    <div class="container">
     {% include "partials/nav.html" %}
     <!-- prettier-ignore -->
 		{% if messages %}
@@ -39,9 +39,9 @@
       <!-- prettier-ignore -->
       {% endblock content%}
       </section>
-    </div>
     <!-- prettier-ignore -->
     {% include "partials/footer.html" %} {% endautoescape %}
+    </div>
     <script src="{% static 'bootstrap.min.js' %}"></script>
     <!-- AOS 2.3.4 jQuery plugin JS (Animations) -->
     <script src="{% static 'aos.js' %}"></script>
