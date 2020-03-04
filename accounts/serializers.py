@@ -23,7 +23,7 @@ class LoginSerializer(serializers.ModelSerializer):
         email = value
         user = get_user_model().objects.filter(email=email).exists()
         if not user:
-            raise serializers.ValidationError("This email is not registered.")
+            raise serializers.ValidationError("등록되지 않은 이메일입니다.")
         return BaseUserManager.normalize_email(value)
 
     def validate_password(self, value):
@@ -31,7 +31,7 @@ class LoginSerializer(serializers.ModelSerializer):
         password = self.initial_data["password"]
         user = authenticate(username=username, password=password)
         if user is None:
-            raise serializers.ValidationError("Invalid Password.")
+            raise serializers.ValidationError("잘못된 비밀번호입니다.")
         else:
             return value
 
@@ -54,7 +54,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         email = value
         user = get_user_model().objects.filter(email=email)
         if user:
-            raise serializers.ValidationError("Email is already taken.")
+            raise serializers.ValidationError("이미 등록된 이메일입니다.")
         return BaseUserManager.normalize_email(value)
 
     def validate_password1(self, value):
@@ -63,7 +63,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     def validate_password2(self, value):
         if value != self.initial_data["password1"]:
-            raise serializers.ValidationError("Passwords must match.")
+            raise serializers.ValidationError("두 패스워드는 서로 일치해야 합니다.")
         return value
 
     def create(self, validated_data):

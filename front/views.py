@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.conf import settings
+from django.contrib import messages
 
 import requests
 
@@ -186,8 +187,12 @@ def subscribeView(request):
             endpoint = "/api/v1/shelves/"
             url = API_URL + endpoint
             headers = {"Authorization": f"Token {token}"}
-            requests.post(url, data={"isbn": isbn}, headers=headers)
-            return redirect(reverse("front:shelf"))
+            raw = requests.post(url, data={"isbn": isbn}, headers=headers)
+            item = raw.json()
+            if raw.status_code == 201:
+                return render(request, "front/shelfDetail.html", {**item, **login},)
+            else:
+                return redirect(reverse("front:detail", kwargs={"isbn": isbn}))
 
 
 def reviewView(request):
@@ -203,9 +208,11 @@ def reviewView(request):
             endpoint = f"/api/v1/reviews/"
             url = API_URL + endpoint
             headers = {"Authorization": f"Token {token}"}
-            requests.post(url, data=data, headers=headers)
+            raw = requests.post(url, data=data, headers=headers)
+            if raw.status_code == 201:
+                messages.info(request, "리뷰를 작성하였습니다.")
         else:
-            print(form.errors)
+            messages.warning(request, form.errors)
         return redirect(reverse("front:detail", args=[book]))
 
 
@@ -251,12 +258,16 @@ def loginView(request):
                     response.set_cookie(
                         key="token", value=token, domain=settings.COOKIE_DOMAIN
                     )
+                    messages.success(request, "로그인 성공! 좋은 하루 보내세요.")
                     return response
             else:
                 errors = res
+                messages.warning(request, "입력된 정보에 오류가 있습니다.")
                 return render(
                     request, "front/login.html", {"form": form, "errors": errors}
                 )
+        else:
+            messages.warning(request, "입력된 정보에 오류가 있습니다.")
     return redirect(reverse("front:login"))
 
 
@@ -285,19 +296,24 @@ def signupView(request):
                         response.set_cookie(
                             key="token", value=token, domain=settings.COOKIE_DOMAIN
                         )
+                        messages.success(request, "회원 가입을 축하합니다. :)")
                         return response
             else:
                 res = req.json()
                 errors = res.get("detail")
+                messages.warning(request, "입력된 정보에 오류가 있습니다.")
                 return render(
                     request, "front/signup.html", {"errors": errors, "form": form}
                 )
+        else:
+            messages.warning(request, "입력된 정보에 오류가 있습니다.")
     return redirect(reverse("front:signup"))
 
 
 def logoutView(request):
     response = HttpResponseRedirect(reverse("front:home"))
     response.delete_cookie("token", domain=settings.COOKIE_DOMAIN)
+    messages.success(request, "로그아웃 되었습니다.")
     return response
 
 
@@ -358,6 +374,7 @@ def kakaoCallbackView(request):
                 response.set_cookie(
                     key="token", value=token, domain=settings.COOKIE_DOMAIN
                 )
+                messages.success(request, "로그인 성공! 좋은 하루 보내세요.")
                 return response
             else:
                 return redirect(reverse("front:home"))

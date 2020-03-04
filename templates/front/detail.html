@@ -43,27 +43,9 @@
       <p>
         {{ item.description }}
       </p>
-      <p>
-        <span class="mr-3">
-          평균 평점 : 
-          <span>⭐</span>
-          {% if item.avg_star >= 2 %}
-          <span>⭐</span>
-          {% endif %}
-          {% if item.avg_star >= 3 %}
-          <span>⭐</span>
-          {% endif %}
-          {% if item.avg_star >= 4 %}
-          <span>⭐</span>
-          {% endif %}
-          {% if item.avg_star == 5 %}
-          <span>⭐</span>
-          {% endif %}
-          <span class="ml-1">
-          ({{ item.avg_star|floatformat:"1" }}점)
-          </span>
-        </span>
-      </p>
+      {% if item.avg_star > 0 %}
+			{% include "partials/star_rating.html" with star=item.avg_star %}
+        {% endif %}
       <p>
         {% if item.num_views %}
         <span class="mr-3">
@@ -120,9 +102,15 @@
     <p class="lead">리뷰</p>
     {% for review in item.review %}
     <div class="card p-3 mb-3">
-      <p>작성자 : {{ review.user }}</p>
-      <p>평점 : {{ review.star }} / 5</p>
-      <p>내용 : {{ review.description }}</p>
+			<div class="card-header justify-content-between">
+      <p>{{ review.user }}</p>
+      {% if review.star %}
+			{% include "partials/star_rating.html" with star=review.star %}
+      {% endif %}
+			</div>
+			<div class="card-body" readability="37">
+      {{ review.description }}
+			</div>
     </div>
     {% endfor %}
     <hr class="my-4" />
@@ -166,6 +154,7 @@
 </div>
 {% endif %}
 
+{% if recommend %}
 <h3 class="mt-5">연관 도서</h3>
 <hr class="my-4" />
 
@@ -188,4 +177,5 @@
     {% endfor %}
   </div>
 </div>
+{% endif %}
 {% endif %} {% endblock content %}

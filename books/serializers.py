@@ -64,13 +64,13 @@ class BookSerializer(serializers.ModelSerializer):
 
     def validate_isbn(self, value):
         if len(value) != 13:
-            raise serializers.ValidationError("ISBN must be 13 length.")
+            raise serializers.ValidationError("ISBN은 13글자 숫자로 이루어진 문자열이어야 합니다.")
         if Book.objects.filter(isbn=value).exists():
-            raise serializers.ValidationError("Already exists.")
+            raise serializers.ValidationError("이미 존재하는 ISBN입니다.")
         try:
             int(value)
         except ValueError:
-            raise serializers.ValidationError("Not an integer.")
+            raise serializers.ValidationError("ISBN은 13글자 숫자로 이루어진 문자열이어야 합니다.")
 
     def create(self, validate_data):
         isbn = self.initial_data["isbn"]

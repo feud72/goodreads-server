@@ -190,3 +190,6 @@ STATICFILES_DIRS = [
 STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 DEFAULT_FILE_STORAGE = "config.asset_storage.MediaStorage"
+
+# MESSAGE SETTING
+MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"

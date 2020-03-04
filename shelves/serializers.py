@@ -67,15 +67,15 @@ class MyBookSerializer(serializers.ModelSerializer):
         request = self.context.get("request", None)
         owner = request.user
         if len(value) != 13:
-            raise serializers.ValidationError("ISBN must be 13 length.")
+            raise serializers.ValidationError("ISBN은 13글자 숫자로 이루어진 문자열이어야 합니다.")
         if MyBook.objects.filter(book__pk=value, owner__username=owner).exists():
             raise serializers.ValidationError("책장에 이미 존재하는 책입니다.")
         if not Book.objects.filter(isbn=value).exists():
-            raise serializers.ValidationError("Invalid ISBN number.")
+            raise serializers.ValidationError("잘못된 ISBN입니다.")
         try:
             int(value)
         except ValueError:
-            raise serializers.ValidationError("Not an integer.")
+            raise serializers.ValidationError("ISBN은 13글자 숫자로 이루어진 문자열이어야 합니다.")
 
     def create(self, validate_data):
         request = self.context.get("request", None)
