@@ -5,7 +5,7 @@
 #### 요청 
 
 ``` 
-POST {{API_URL}}/api/v1/accounts/signup 
+POST {{API_URL}}/api/v1/accounts/signup/ 
 ``` 
 
 | 파라미터 | 파라미터 유형 | 데이터 타입 | 필수 여부 | 설명 | 
@@ -26,6 +26,34 @@ POST {{API_URL}}/api/v1/accounts/signup
 {
 "message" : "success",
 "email" : "YOUR EMAIL",
+"token" : "YOUR ACCESS TOKEN"
+}
+```
+
+### 로그인
+
+#### 요청
+
+```
+POST {{API_URL}}/api/v1/accounts/login/
+```
+
+| 파라미터 | 파라미터 유형 | 데이터 타입 | 필수 여부 | 설명 |
+| ---------- | ------------- | ----------- | --------- | -------- |
+| `email` | `body` | `string` | ✅ | 이메일 |
+| `password` | `body` | `string` | ✅ | 비밀번호 |
+
+#### 응답
+
+| 키 | 데이터 타입 | 설명 |
+| -------------- | ----------- | ------------- |
+| `message` | `string` | 성공시 success |
+| `token` | `string` | 인증 토큰 |
+```
+
+```json
+{
+"message" : "success",
 "token" : "YOUR ACCESS TOKEN"
 }
 ```

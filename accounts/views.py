@@ -40,7 +40,7 @@ class LoginView(GenericAPIView):
                 token = encode_jwt("pk", user.pk)
                 return Response(
                     status=status.HTTP_200_OK,
-                    data={"message": "success", "token": token, "id": user.pk},
+                    data={"message": "success", "token": token},
                 )
             else:
                 return Response(
@@ -123,7 +123,6 @@ class SignupView(GenericAPIView):
             user = get_user_model().objects.get(email=user.email)
             token = encode_jwt("pk", user.pk)
             message["token"] = token
-
             return Response(status=status.HTTP_201_CREATED, data=message)
         else:
             return Response(
