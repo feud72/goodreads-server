@@ -23,9 +23,6 @@ from keywords.models import Keyword
 
 
 class BookViewSet(ModelViewSet):
-    """
-    책
-    """
 
     queryset = Book.objects.all()
     serializer_class = BookSerializer
@@ -44,39 +41,9 @@ class BookViewSet(ModelViewSet):
         return Book.objects.annotate(avg_star=Coalesce(Avg("review__star"), Value(0)),)
 
     def list(self, request, *args, **kwargs):
-        """
-책의 전체 리스트
-
----
-search 쿼리를 옵션 인자로 갖는다.
-search 쿼리로 부분적인 검색 결과를 얻을 수 있다.
-
-## Specification
-- **Method** :  GET
-- **URL** : /api/v1/books/
-- **Content-Type** : application/json; charset=utf-8
-- **Parameters**
-
-| 필드명 | 타입 | 필수여부 | 설명 |
-| ---- | ---- | -------- | ----------- |
-| search | string | Option | 책의 이름, 출판년도, 저자를 입력한다.|
-        """
         return super().list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
-        """
-책을 생성한다. isbn을 필수 인자로 갖는다.
-
----
-isbn으로 국립중앙도서관 API에서 서지 정보를 불러와 내부 DB에 저장한다.
-
-## Specification
-- **Parameters**
-
-| 필드명 | 타입 | 필수여부 | 설명 |
-| ---- | ---- | -------- | ----------- |
-| isbn | string | Required | ISBN 13자리를 입력한다.|
-        """
         isbn = request.data.get("isbn")
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -90,22 +57,6 @@ isbn으로 국립중앙도서관 API에서 서지 정보를 불러와 내부 DB�
         )
 
     def retrieve(self, request, *args, **kwargs):
-        """
-책의 상세 정보를 출력한다.
-
----
-isbn을 path의 인자로 가진다.
-
-## Specification
-- **Method** :  GET
-- **URL** : /api/v1/books/{isbn}/
-- **Content-Type** : application/json; charset=utf-8
-- **Parameters**
-
-| 필드명 | 타입 | 필수여부 | 설명 |
-| ---- | ---- | -------- | ----------- |
-| isbn | string | Required | (path) isbn 13자리를 입력합니다. |
-        """
         isbn = self.kwargs["isbn"]
         if not Book.objects.filter(isbn=isbn).exists():
             data = getDetail(isbn)

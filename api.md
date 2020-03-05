@@ -22,7 +22,7 @@ POST {{API_URL}}/api/v1/accounts/signup/
 | `email`   | `string`    | 유저의 email   |
 | `token`   | `string`    | 인증 토큰      |
 
-```json
+```json5
 {
   "message": "success",
   "email": "YOUR EMAIL",
@@ -50,7 +50,7 @@ POST {{API_URL}}/api/v1/accounts/login/
 | `message` | `string`    | 성공시 success |
 | `token`   | `string`    | 인증 토큰      |
 
-```json
+```json5
 {
   "message": "success",
   "token": "YOUR ACCESS TOKEN"
@@ -81,7 +81,7 @@ GET {{API_URL}}/api/v1/books/?ordering={ordering}&page={page}
 | `previous` | `URL`                  | 이전 페이지의 URL |
 | `results`  | `array of Book object` | 결과              |
 
-```json
+```json5
 {
   "count": 143,
   "next": "http://127.0.0.1:8000/api/v1/books/?page=2",
@@ -136,7 +136,7 @@ GET {{API_URL}}/api/v1/books/?search={search}&ordering={ordering}&page={page}
 | `previous` | `URL`                  | 이전 페이지의 URL |
 | `results`  | `array of Book object` | 결과              |
 
-```json
+```json5
 {
   "count": 143,
   "next": "http://127.0.0.1:8000/api/v1/books/?page=2",
@@ -152,7 +152,7 @@ GET {{API_URL}}/api/v1/books/?search={search}&ordering={ordering}&page={page}
       "bookImage": "BOOKIMAGE",
       "review": [
         ...
-      ]
+      ],
       "keywords": [
         ...
       ],
@@ -196,7 +196,53 @@ POST {{API_URL}}/api/v1/books/
 | `like_count`   | `number`    | 구독(또는 좋아요)의 개수 |
 | `review_count` | `number`    | 리뷰의 개수              |
 
-```json
+```json5
+{
+  "title": "TITLE",
+  "author": "AUTHOR",
+  "publisher": "PUBLISHER",
+  "pub_year": "PUB_YEAR",
+  "isbn": "ISBN, unique key",
+  "description": "DESCRIPTION",
+  "bookImage": "BOOKIMAGE",
+  "review": [],
+  "keywords": [],
+  "num_views": 0,
+  "like_count": 0,
+  "review_count": 0
+}
+```
+
+### 책 상세 정보
+
+
+#### 요청
+
+```
+GET {API_URL} /api/v1/books/{isbn}/
+```
+
+| 파라미터 | 파라미터 유형 | 데이터 타입 | 필수 여부 | 설명                             |
+| -------- | ------------- | ----------- | --------- | -------------------------------- |
+| `isbn`   | `url`        | `string`    | required  | 13자리 숫자로 이루어진 ISBN 번호 |
+
+#### 응답
+
+| 키             | 데이터 타입 | 설명                     |
+| -------------- | ----------- | ------------------------ |
+| `title`        | `string`    | 책 제목                  |
+| `author`       | `string`    | 저자                     |
+| `publisher`    | `string`    | 출판사                   |
+| `pub_year`     | `string`    | 출판년도                 |
+| `isbn`         | `string`    | 13자리 ISBN              |
+| `description`  | `string`    | 책의 요약 내용           |
+| `review`       | `array`     | 리뷰의 배열              |
+| `keywords`     | `array`     | 관련 키워드의 배열       |
+| `num_views`    | `number`    | 조회수                   |
+| `like_count`   | `number`    | 구독(또는 좋아요)의 개수 |
+| `review_count` | `number`    | 리뷰의 개수              |
+
+```json5
 {
   "title": "TITLE",
   "author": "AUTHOR",

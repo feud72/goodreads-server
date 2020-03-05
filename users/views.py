@@ -36,19 +36,6 @@ class UsersViewSet(ModelViewSet):
     )
     @permission_classes([IsSelf])
     def me(self, request, *args, **kwargs):
-        """
-Get User's information
-
----
-
-## Specification
-- **Method** :  GET
-- **URL** : /api/v1/users/me/
-- **Content-Type** : application/json; charset=utf-8
-- **Parameters**
-
-Not required.
-        """
         try:
             instance = get_user_model().objects.get(username=request.user)
             serializer = self.get_serializer(instance)
