@@ -190,8 +190,10 @@ def subscribeView(request):
             raw = requests.post(url, data={"isbn": isbn}, headers=headers)
             item = raw.json()
             if raw.status_code == 201:
+                messages.info(request, f"{item['book']['title']} 책을 책장에 넣었습니다.")
                 return render(request, "front/shelfDetail.html", {**item, **login},)
             else:
+                messages.warning(request, f"이미 책장에 있는 책입니다.")
                 return redirect(reverse("front:detail", kwargs={"isbn": isbn}))
 
 
