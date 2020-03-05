@@ -95,6 +95,3 @@ secrets.json
 *.swp
 uploads/
 *.zip
-
-config/settings.py
-config/aws.py
