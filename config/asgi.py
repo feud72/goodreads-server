@@ -14,7 +14,7 @@ import dotenv
 from django.core.asgi import get_asgi_application
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-dotenv.read_dotenv(os.path.join(BASE_DIR, ".env.old"))
+dotenv.read_dotenv(os.path.join(BASE_DIR, ".env"))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
 application = get_asgi_application()

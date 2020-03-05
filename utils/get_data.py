@@ -1,6 +1,4 @@
 import os
-
-# import datetime
 import random
 
 import requests
@@ -22,35 +20,6 @@ KAKAO_BOOK_URL = "https://dapi.kakao.com/v3/search/book"
 def getDetail(isbn=None):
     data = kakaoSearch(isbn)[0]
     return data
-
-
-def processingData(data):
-    if isinstance(data, dict):
-        if "book" in data:
-            data = data["book"]
-        elif "doc" in data:
-            data = data["doc"]
-        title = data["bookname"]
-        isbn = data["isbn13"]
-        author = data["authors"]
-        publisher = data["publisher"]
-        pub_year = data["publication_year"]
-        description = data["description"] if "description" in data else ""
-        if len(description) > 200:
-            description = description + " ..."
-        bookImageURL = data["bookImageURL"] if "bookImageURL" in data else ""
-        dic = {
-            "title": title,
-            "isbn": isbn,
-            "author": author,
-            "publisher": publisher,
-            "pub_year": pub_year,
-            "description": description,
-            "bookImageURL": bookImageURL,
-        }
-        return dic
-    else:
-        return dict()
 
 
 def getRecommendByISBN(isbn=None):
@@ -107,15 +76,6 @@ def getKeywordList(isbn=None):
 
 
 def kakaoSearch(query, page=1):
-    """
-    argument
-      query : string
-    return
-      result : list [ dict{
-      "isbn": string,
-      "title": string,
-      } ]
-    """
     url = KAKAO_BOOK_URL
     params = {"target": "title", "query": query, "page": page}
     headers = {"Authorization": f"KakaoAK {KAKAO_KEY}"}
@@ -132,7 +92,7 @@ def kakaoSearch(query, page=1):
         description = data["contents"] if data["contents"] else ""
         if len(description) > 200:
             description = description + " ..."
-        bookImageURL = data["thumbnail"] if data["thumbnail"] else ""
+        bookImage = data["thumbnail"] if data["thumbnail"] else ""
         item = {
             "isbn": isbn,
             "title": title,
@@ -140,7 +100,7 @@ def kakaoSearch(query, page=1):
             "publisher": publisher,
             "pub_year": pub_year,
             "description": description,
-            "bookImageURL": bookImageURL,
+            "bookImage": bookImage,
         }
         result.append(item)
     return result

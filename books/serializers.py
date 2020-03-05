@@ -75,7 +75,7 @@ class BookSerializer(serializers.ModelSerializer):
     def create(self, validate_data):
         isbn = self.initial_data["isbn"]
         data = getDetail(isbn)
-        bookImageURL = data.pop("bookImageURL")
+        bookImageURL = data.pop("bookImage")
         book = Book.objects.create(**data)
         if bookImageURL:
             bookImage_raw = requests.get(bookImageURL)

@@ -19,13 +19,14 @@ schema_view_v1 = get_schema_view(
         description="""노마드코더 Goodreads 클론 해커톤 프로젝트, 톰리들 & SH Kim
 
 아래 기술은 API 명세에 대한 간략한 설명(인자, 쿼리 파라미터, 응답 등)을 제공합니다.
-실제 기능은 하단의 swagger의 Try it out을 작동시켜 확인할 수 있습니다.
 
 ---
 
 ### [API Link](https://github.com/feud72/goodreads-server/blob/master/api.md)
 
-""",
+---
+
+하단의 swagger의 Try it out을 작동시켜 기능을 확인할 수 있습니다.""",
     ),
     validators=["flex"],
     public=True,

@@ -20,13 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
-
-# SECURITY WARNING: don't run with debug turned on in production!
-
-# ALLOWED_HOSTS = ["localhost", "127.0.0.1", "114.207.77.134", "feud72.hopto.org", "gx993ce0b8.execute-api.ap-northeast-2.amazonaws.com"]
-ALLOWED_HOSTS = ["*"]
-
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # Application definition
 
@@ -93,12 +87,12 @@ ASGI_APPLICATION = "config.asgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ["DJANGO_WEBSERVER_DB_NAME"],
-        "USER": os.environ["DJANGO_WEBSERVER_DB_USER"],
-        "PASSWORD": os.environ["DJANGO_WEBSERVER_DB_PASSWORD"],
-        "HOST": os.environ["DJANGO_WEBSERVER_DB_HOST"],
-        "PORT": os.environ["DJANGO_WEBSERVER_DB_PORT"],
+        "ENGINE": os.environ.get("DJANGO_WEBSERVER_DB_ENGINE"),
+        "NAME": os.environ.get("DJANGO_WEBSERVER_DB_NAME"),
+        "USER": os.environ.get("DJANGO_WEBSERVER_DB_USER"),
+        "PASSWORD": os.environ.get("DJANGO_WEBSERVER_DB_PASSWORD"),
+        "HOST": os.environ.get("DJANGO_WEBSERVER_DB_HOST"),
+        "PORT": os.environ.get("DJANGO_WEBSERVER_DB_PORT"),
     }
 }
 
@@ -125,25 +119,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
-
-# STATIC_URL = "/static/"
-# STATIC_DIR = os.path.join(BASE_DIR, "static")
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, "bootstrap")]
-# STATIC_ROOT = os.path.join(BASE_DIR, "static")
-
-# MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
-# MEDIA_URL = "/media/"
-
-
 # Auth
-
 AUTH_USER_MODEL = "users.User"
 
 # Django Rest Framework
-
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
@@ -154,22 +133,16 @@ REST_FRAMEWORK = {
 }
 
 # CORS_HEADERS
-
 CORS_ALLOW_CREDENTIALS = True
-
 CORS_ORIGIN_ALLOW_ALL = True
-
 CORS_ORIGIN_WHITELIST = ["http://*", "https://*"]
-
-# DEFAULT_FROM_EMAIL = "feud72@gmail.com"
 ACCOUNT_EMAIL_VERIFICATION = "none"
 
-
 # AWS
-AWS_REGION = os.environ["AWS_REGION"]
-AWS_STORAGE_BUCKET_NAME = os.environ["AWS_STORAGE_BUCKET_NAME"]
-AWS_ACCESS_KEY_ID = os.environ["AWS_ACCESS_KEY_ID"]
-AWS_SECRET_ACCESS_KEY = os.environ["AWS_SECRET_ACCESS_KEY"]
+AWS_REGION = os.environ.get("AWS_REGION")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 AWS_DEFAULT_ACL = "public-read"
 
 # AWS S3
@@ -181,6 +154,8 @@ AWS_S3_OBJECT_PARAMETERS = {
     "CacheControl": "max-age=86400",
 }
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/3.0/howto/static-files/
 # STATIC SETTING
 STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/"
 STATICFILES_DIRS = [
@@ -188,7 +163,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "bootstrap"),
 ]
 STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-
 DEFAULT_FILE_STORAGE = "config.asset_storage.MediaStorage"
 
 # MESSAGE SETTING
