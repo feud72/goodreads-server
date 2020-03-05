@@ -1,3 +1,7 @@
+## API Documentation
+
+### [API Link](https://github.com/feud72/goodreads-server/blob/master/api.md)
+
 ## Prerequisite
 
 ### Kakao Developer
@@ -38,13 +42,6 @@ https://www.data4library.kr/apiUtilization
 Save it on .env > LIB_KEY
 ```
 
-## Setting
-
-```bash
-pipenv shell
-python manage.py migrate
-```
-
 ### .env
 
 **Caution** : docker-compose 환경의 .env 파일은 쌍따옴표(")가 들어가면 안됩니다.
@@ -72,7 +69,7 @@ AWS_SECRET_ACCESS_KEY=YOUR AWS SECRET ACCESS KEY // NEVER POST THIS IN PUBLIC
 ### Amazon Web Service (AWS)
 
 ```
-AWS 계정과 CLI 환경의crediential이 필요합니다. S3 bucket을 생성하고 public 설정을 해 주어야 합니다.
+AWS 계정과 CLI 환경의 crediential이 필요합니다. S3 bucket을 생성하고 public 설정을 해 주어야 합니다.
 
 다른 환경에서 운영하기 위해서는, config/base.py 파일을 수정하기 바랍니다.
 ```
@@ -84,9 +81,9 @@ https://docs.docker.com/compose/install/
 ```
 
 
-### Prerequisite
+### config/settings.py
 
-개발 환경에 따라 config.settings.py을 다음과 같이 수정합니다.
+개발 환경에 따라 config/settings.py을 다음과 같이 수정합니다.
 
 - Dev environment
 
@@ -149,7 +146,3 @@ sudo docker-compose up --build -d
 ```bash
 sudo docker-compose down
 ```
-
-## API
-
-### [API Link](https://github.com/feud72/goodreads-server/blob/master/api.md)
