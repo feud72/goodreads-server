@@ -6,13 +6,13 @@
     <title>개미는 뚠뚠: Hackathon</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Bootstrap 4.4.1 CSS -->
-    <link rel="stylesheet" href="{% static 'bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
     <!-- Slick -->
-    <link rel="stylesheet" type="text/css" href="{% static 'slick.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/slick.css' %}" />
     <link
       rel="stylesheet"
       type="text/css"
-      href="{% static 'slick-theme.css' %}"
+      href="{% static 'css/slick-theme.css' %}"
     />
     <style>
       .slick-prev:before,
@@ -21,9 +21,9 @@
       }
     </style>
     <!-- Animations -->
-    <link rel="stylesheet" href="{% static 'aos.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/aos.css' %}" />
     <!-- jQuery 3.4.1 -->
-    <script src="{% static 'jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
   </head>
   <body style="overflow-y:scroll; background-color: #F3969A11;" class="m-0 p-0">
     {% autoescape off %}
@@ -42,10 +42,10 @@
     <!-- prettier-ignore -->
     {% include "partials/footer.html" %} {% endautoescape %}
     </div>
-    <script src="{% static 'bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <!-- AOS 2.3.4 jQuery plugin JS (Animations) -->
-    <script src="{% static 'aos.js' %}"></script>
-    <script type="text/javascript" src="{% static 'slick.min.js' %}"></script>
+    <script src="{% static 'js/aos.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/slick.min.js' %}"></script>
     <script type="text/javascript">
       $(document).ready(function() {
         $('.responsive').slick({
