@@ -6,6 +6,10 @@ from django.urls import reverse
 from django.conf import settings
 from django.contrib import messages
 
+# import asyncio
+# import aiohttp
+
+
 import requests
 
 from .forms import (
@@ -56,8 +60,56 @@ def getPagination(raw, page):
     return result
 
 
+# def homeView(request):
+#     login = loginStatus(request)
+#     raw, status = getAPI(API_URL, "/api/v1/books/")
+#     if status in (200, 201):
+#         popular = raw["results"]
+#     else:
+#         popular = list()
+#     raw, status = getAPI(API_URL, "/api/v1/books/?ordering=-created_at")
+#     if status in (200, 201):
+#         recent = raw["results"]
+#     else:
+#         recent = list()
+#     token = login["token"]
+#     raw, status = getAPI(API_URL, "/api/v1/shelves/", token=token)
+#     if status in (200, 201):
+#         shelf = [item["book"] for item in raw["results"]]
+#     else:
+#         shelf = list()
+#     return render(
+#         request,
+#         "front/home.html",
+#         {"popular": popular, "recent": recent, "shelf": shelf, **login},
+#     )
+
+
+# async def getAsyncAPI(*args, token=None, params=None, **kwargs):
+#     url = "".join(args)
+#     headers = ""
+#     if token is not None:
+#         headers = {"Authorization": f"Token {token}"}
+#     async with aiohttp.ClientSession() as session:
+#         async with session.get(url, headers=headers, params=params) as resp:
+#             return await resp.read()
+
+
 def homeView(request):
     login = loginStatus(request)
+    token = login["token"]
+    #    endpoint_list = [
+    #        "/api/v1/books/",
+    #        "/api/v1/books/?ordering=-created_at",
+    #        "/api/v1/shelves/",
+    #    ]
+    #    url_list = [API_URL + endpoint for endpoint in endpoint_list]
+    #    loop = asyncio.get_event_loop()
+    #    tasks = list()
+    #    for url in url_list:
+    #        task = asyncio.ensure_future(getAsyncAPI(url))
+    #        tasks.append(task)
+    #    loop.run_until_complete(asyncio.wait(tasks))
     raw, status = getAPI(API_URL, "/api/v1/books/")
     if status in (200, 201):
         popular = raw["results"]
@@ -68,7 +120,6 @@ def homeView(request):
         recent = raw["results"]
     else:
         recent = list()
-    token = login["token"]
     raw, status = getAPI(API_URL, "/api/v1/shelves/", token=token)
     if status in (200, 201):
         shelf = [item["book"] for item in raw["results"]]
@@ -153,6 +204,7 @@ def shelfView(request, page=1):
         page_dic = getPagination(raw, page)
         if status in (200, 201):
             items = raw["results"]
+            print(raw)
             book_list = [item["book"] for item in items]
             return render(
                 request,

@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block content %}
-<h3 class="mt-3">{{ nickname }} 님의 책장</h3>
-<hr class="my-4" />
+<h4 class="mt-3">{{ nickname }} 님의 책장</h4>
+<<hr class="my-4" />
 {% if book_list %} {% for item in book_list %}
 <!-- preetier-ignore -->
 {% include 'partials/book.html' %} {% endfor %} {% else %}
@@ -8,4 +8,5 @@
 <a class="btn btn-secondary" href="{% url 'front:popular' %}">구경하러 가기</a>
 
 {% endif %} 
-{% include 'partials/shelf_page.html' %} {% endblock content %}
+{% include 'partials/page.html' with link='front:shelf' %}
+{% endblock content %}

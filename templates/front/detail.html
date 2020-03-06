@@ -1,12 +1,12 @@
 {% extends "base.html" %} {% block content %} {% load static %}
-<h3 class="mt-3">
+<h4 class="mt-3">
 	{{ item.title }}
-</h3>
+</h4>
 <hr class="my-4" />
 {% if error %}
 <div class="card border-primary mb-3">
   <div class="card-body justify-content-center">
-    <h3>{{ error }}</h3>
+    <h4>{{ error }}</h4>
   </div>
 </div>
 {% else %}
@@ -99,10 +99,12 @@
     {% if item.review %}
     {% for review in item.review %}
     <div class="card p-3 mb-3">
-			<div class="card-header justify-content-between">
-      <p>{{ review.user }}</p>
+			<div class="card-header row justify-content-between">
+      <p class="col-auto">{{ review.user }}</p>
       {% if review.star %}
+			<div class="col-auto">
 			{% include "partials/star_rating.html" with star=review.star %}
+			</div>
       {% endif %}
 			</div>
 			<div class="card-body" readability="37">
@@ -166,7 +168,7 @@
 {% endif %}
 
 {% if recommend %}
-<h3 class="mt-5">연관 도서</h3>
+<h4 class="mt-5">연관 도서</h4>
 <hr class="my-4" />
 
 <div

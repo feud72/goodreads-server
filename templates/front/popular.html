@@ -1,9 +1,9 @@
 {% extends "base.html" %} {% block content %}
-<div class="mt-3 d-flex justify-content-between align-items-center">
-<h3 class="m-0">
+<div class="mt-3 row no-gutters justify-content-between align-items-center">
+<h4 class="m-0 col-auto">
   도서 리스트
-</h3>
-<ul class="nav nav-pills">
+</h4>
+<ul class="nav nav-pills col-auto">
 	<li class="nav-item dropdown m-0 p-0 "> 
 		<a class="nav-link dropdown-toggle" data-toggle="collapse" data-target="#drop01" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 			정렬 방식
@@ -26,5 +26,5 @@
 <hr class="my-4" />
 {% for item in book_list %} {% include 'partials/book.html' %} {% endfor %}
 <!-- prettier-ignore -->
-{% include 'partials/page.html' %}
+{% include 'partials/page.html' with link='front:popular' %}
 {% endblock content %}

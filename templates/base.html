@@ -23,11 +23,11 @@
     <!-- Animations -->
     <link rel="stylesheet" href="{% static 'css/aos.css' %}" />
   </head>
-  <body style="overflow-y:scroll; background-color: #F3969A11;" class="m-0 p-0">
+  <body class="container" style="overflow-y:scroll; background-color: #F3969A11; padding-right:0; padding-left:0;">
     {% autoescape off %}
     <!-- prettier-ignore -->
-    <div class="container">
     {% include "partials/nav.html" %}
+    <div class="container">
     <!-- prettier-ignore -->
 		{% if messages %}
     {% include "partials/messages.html" %}
@@ -38,8 +38,8 @@
       {% endblock content%}
       </section>
     <!-- prettier-ignore -->
-    {% include "partials/footer.html" %} {% endautoescape %}
     </div>
+    {% include "partials/footer.html" %} {% endautoescape %}
     <!-- jQuery 3.4.1 -->
     <script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
