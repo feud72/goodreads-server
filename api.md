@@ -134,7 +134,7 @@ GET {{API_URL}}/api/v1/books/?search={search}&ordering={ordering}&page={page}
 | `count`    | `number`               | 책의 총 권수      |
 | `next`     | `URL`                  | 다음 페이지의 URL |
 | `previous` | `URL`                  | 이전 페이지의 URL |
-| `results`  | `array of Book object` | 결과              |
+| `results`  | `array` | 결과              |
 
 ```json5
 {
@@ -224,7 +224,7 @@ GET {API_URL} /api/v1/books/{isbn}/
 
 | 파라미터 | 파라미터 유형 | 데이터 타입 | 필수 여부 | 설명                             |
 | -------- | ------------- | ----------- | --------- | -------------------------------- |
-| `isbn`   | `url`        | `string`    | required  | 13자리 숫자로 이루어진 ISBN 번호 |
+| `isbn`   | `path`        | `string`    | required  | 13자리 숫자로 이루어진 ISBN 번호 |
 
 #### 응답
 
@@ -257,4 +257,74 @@ GET {API_URL} /api/v1/books/{isbn}/
   "like_count": 0,
   "review_count": 0
 }
+```
+
+### 책 연관 키워드
+
+
+#### 요청
+
+```
+GET {API_URL} /api/v1/books/{isbn}/keywords/
+```
+
+| 파라미터 | 파라미터 유형 | 데이터 타입 | 필수 여부 | 설명                             |
+| -------- | ------------- | ----------- | --------- | -------------------------------- |
+| `isbn`   | `path`        | `string`    | required  | 13자리 숫자로 이루어진 ISBN 번호 |
+
+#### 응답
+
+| 키             | 데이터 타입 | 설명                     |
+| -------------- | ----------- | ------------------------ |
+| `word`        | `string`    | 키워드            |
+| `weight`       | `string`    | 가중치                    |
+
+```json5
+[
+	{
+		"word": "WORD",
+		"weight": "WEIGHT",
+	},
+	{
+		...
+
+	}
+]
+```
+
+### 연관 도서 추천
+
+
+#### 요청
+
+```
+GET {API_URL} /api/v1/books/{isbn}/recommend/
+```
+
+| 파라미터 | 파라미터 유형 | 데이터 타입 | 필수 여부 | 설명                             |
+| -------- | ------------- | ----------- | --------- | -------------------------------- |
+| `isbn`   | `path`        | `string`    | required  | 13자리 숫자로 이루어진 ISBN 번호 |
+
+#### 응답
+
+| 키             | 데이터 타입 | 설명                     |
+| -------------- | ----------- | ------------------------ |
+| `isbn`        | `string`    | 키워드            |
+| `title`       | `string`    | 제목 |
+| `author`       | `string`   | 저자 |
+| `pub_year`       | `string`    | 출판년도 |
+
+```json5
+[
+	{
+		"isbn": "ISBN", 
+		"title": "TITLE",
+		"author": "AUTHOR",
+		"pub_year": "PUB_YEAR""
+	},
+	{
+		...
+
+	}
+]
 ```

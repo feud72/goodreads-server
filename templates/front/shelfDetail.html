@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block content %} {% load static %}
 <h3 class="mt-3">
-  상세 정보
+	{{ book.title }}
 </h3>
 <hr class="my-4" />
 <div class="card border-primary mb-3">
@@ -13,11 +13,6 @@
       />
     </div>
     <div class="col-xl-9 col-lg-9 col-md-9 col-sm-11 m-2">
-      <p
-        class="lead text-dark text-sm-center text-md-left text-lg-left text-xl-left"
-      >
-        {{ book.title }}
-      </p>
       <p>
         {{ book.description }}
       </p>

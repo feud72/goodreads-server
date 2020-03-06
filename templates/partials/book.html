@@ -25,11 +25,11 @@
       data-aos-delay="0"
     >
       <a class="text-body" href="{% url 'front:detail' item.isbn %}">
-        <p
-          class="lead text-dark text-sm-center text-md-left text-lg-left text-xl-left "
+        <h4
+          class="text-sm-center text-md-left text-lg-left text-xl-left "
         >
           {{ item.title }}
-        </p>
+        </h4>
         <p>{{ item.description }}</p>
       </a>
       {% if item.avg_star > 0 %}

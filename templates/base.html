@@ -22,8 +22,6 @@
     </style>
     <!-- Animations -->
     <link rel="stylesheet" href="{% static 'css/aos.css' %}" />
-    <!-- jQuery 3.4.1 -->
-    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
   </head>
   <body style="overflow-y:scroll; background-color: #F3969A11;" class="m-0 p-0">
     {% autoescape off %}
@@ -42,13 +40,14 @@
     <!-- prettier-ignore -->
     {% include "partials/footer.html" %} {% endautoescape %}
     </div>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- jQuery 3.4.1 -->
+    <script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
     <!-- AOS 2.3.4 jQuery plugin JS (Animations) -->
-    <script src="{% static 'js/aos.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/aos.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/slick.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/slick-responsive.js' %}">
+		<script type="text/javascript" src="{% static 'js/slick-responsive.js' %}">
     </script>
-
     <script>
       AOS.init();
     </script>
