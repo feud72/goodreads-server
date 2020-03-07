@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block content %}
 <h4 class="mt-3">{{ nickname }} 님의 책장</h4>
-<<hr class="my-4" />
+<hr class="my-4" />
 {% if book_list %} {% for item in book_list %}
 <!-- preetier-ignore -->
 {% include 'partials/book.html' %} {% endfor %} {% else %}
