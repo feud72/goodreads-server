@@ -24,7 +24,6 @@ pillow = "*"
 daphne = "*"
 rq = "*"
 django-rq = "*"
-aiohttp = "*"
 
 [requires]
 python_version = "3.8"

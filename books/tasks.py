@@ -1,5 +1,3 @@
-import time
-
 from .models import Book
 
 from keywords.models import Keyword
@@ -22,6 +20,5 @@ def create_keywords(isbn):
             weight = keyword["weight"]
             print(word, weight)
             Keyword.objects.create(book=instance, word=word, weight=weight)
-            time.sleep(0.1)
     else:
         print("Nooooo")
