@@ -3,33 +3,10 @@
   {% if status %}
   <p class="lead text-center">{{ nickname }}님, 좋은 하루 보내세요. :)</p>
   {% endif %}
-  <h2 class="display-4 text-center">
+  <h3 class="display-4 text-center">
     Good Reads Clone
-  </h2>
-	<div class="title-slick">
-  <p class="lead p-1 text-center">
-개미는 (뚠🐜뚠🐜) 오늘도 (뚠🐜뚠🐜)
-<br />
-열심히 일을 하네 (뚠🐜뚠🐜)
-	</p>
-  <p class="lead p-1 text-center">
-개미는 (뚠🐜뚠🐜) 언제나 (뚠🐜뚠🐜)
-<br />
-열심히 일을 하네 (뚠🐜뚠🐜)
-  </p>
-	<p class="lead p-1 text-center"> 
-	개미는 아무 말도 하지 않지만 (띵가🎸띵가🎸)
-<br />
-땀을 뻘뻘 흘리면서 (띵가🎸띵가🎸)
-	</p>
-	<p class="lead p-1 text-center"> 
-매일 매일을 살기 위해서
-<br />
-열심히 일하네 (띵가🎸띵가🎸)
-  </p>
+  </h3>
 	</div>
-	</div>
-
   {% url 'front:popular' as link %}
   {% include 'partials/slide.html' with title="인기 있는 책" link=link items=popular %}
   {% url 'front:popular' sort="recent" as link %}
