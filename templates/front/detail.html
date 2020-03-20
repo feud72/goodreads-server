@@ -99,15 +99,16 @@
     {% if item.review %}
     {% for review in item.review %}
     <div class="card p-3 mb-3">
-			<div class="card-header row justify-content-between">
-      <p class="col-auto">{{ review.user }}</p>
+			<div class="row justify-content-between">
+      <div class="col-auto mb-2">{{ review.user }}</div>
       {% if review.star %}
-			<div class="col-auto">
+      <div class="col-auto mb-2">
 			{% include "partials/star_rating.html" with star=review.star %}
-			</div>
+</div>
       {% endif %}
-			</div>
-			<div class="card-body" readability="37">
+			</div> 
+			<hr class="my-2">
+			<div class="mt-2 mb-2" >
       {{ review.description }}
 			</div>
     </div>

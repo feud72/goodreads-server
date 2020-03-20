@@ -5,27 +5,6 @@ from .models import Keyword
 from books.models import Book
 
 
-class SmallBookSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Book
-        fields = (
-            "isbn",
-            "title",
-            "bookImage",
-            "description",
-            "author",
-            "pub_year",
-        )
-
-
-class RelatedBookSerializer(serializers.ModelSerializer):
-    book = SmallBookSerializer(read_only=True)
-
-    class Meta:
-        model = Keyword
-        fields = ("book", "weight")
-
-
 class KeywordSerializer(serializers.ModelSerializer):
     class Meta:
         model = Keyword
@@ -37,3 +16,27 @@ class KeywordSerializer(serializers.ModelSerializer):
             "word",
             "weight",
         )
+
+
+class SmallBookSerializer(serializers.ModelSerializer):
+    keywords = KeywordSerializer(source="keyword_set", many=True)
+
+    class Meta:
+        model = Book
+        fields = (
+            "isbn",
+            "title",
+            "bookImage",
+            "description",
+            "author",
+            "pub_year",
+            "keywords",
+        )
+
+
+class RelatedBookSerializer(serializers.ModelSerializer):
+    book = SmallBookSerializer(read_only=True)
+
+    class Meta:
+        model = Keyword
+        fields = ("book", "weight")
